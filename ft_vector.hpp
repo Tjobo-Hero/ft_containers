@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/23 17:35:16 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/24 13:45:46 by tvan-cit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <memory>
 #include <vector>
+#include <stdexcept>
 
 namespace ft
 {
@@ -33,7 +34,7 @@ namespace ft
 		
 		public:
 		 
-		/* Member Functions */
+		/* ------------Member Functions------------ */
 		 
 		// Constructor--> Construct Vector
 		explicit vector (const Alloc& alloc = Alloc()) : 
@@ -66,9 +67,15 @@ namespace ft
 				this->_data[i] = x._data[i];
 		}
 		// Destructor--> Vector Destructor
+		~vector()
+		{
+			std::cout << "Vector destructed" << std::endl;
+			_allocator.deallocate(_data, _capacity);
+			return;
+		}
 		// Assignation operator function --> Assign content
 		
-		/* Iterators */
+		/* ------------ITERATORS------------ */
 		// begin--> Return Iterator to beginning
 		// end--> Return iterator to end
 		// rbegin--> Return reverse iterator to reverse beginning
@@ -78,25 +85,63 @@ namespace ft
 		// crbegin --> Return const_reverse_iterator to reverse beginning
 		// crend--> Return const_reverse_iterator to reverse end
 		
-		/* Capacity */
-		// size--> Return Size
+		/* ------------CAPACITY------------ */
+		
+		/* SIZE--> Return Size */
 		size_t size() const
 		{
 			return this->_size;	
 		}
-		// max_size--> Return maximum size
-		// resize--> Change size
-		// capacity--> Return size of allocated storage capacity
-		// empty--> Test whether vector is empty
-		// reserve--> Request a change in capacity
+		/* MAX_SIZE--> Return maximum size */
+		size_t max_size() const
+		{
+			return _allocator.max_size();
+		}
+		/* RESIZE--> Change size */
+		// void resize (size_t n, T val = value_type())
+		// {
+			
+		// }
+		/* CAPACITY--> Return size of allocated storage capacity */
+		size_t capacity() const
+		{
+			return this->_capacity;
+		}
 		
-		/* Element access */
-		// operator[]--> Access element
+		/* EMPTY--> Test whether vector is empty */
+		bool empty() const
+		{
+			if (this->_size == 0)
+				return true;
+			else
+				return false;
+			
+		}
+		/* RESERVE--> Request a change in capacity */
+		
+		/* ------------Element access------------ */
+		
+		/*OPERATOR[]--> Access element */
 		T& operator[] (size_t n)
 		{
 			return this->_data[n];
 		}
-		// at--> Access element
+		/* AT--> Access element */
+		T& at (size_t n)
+		{
+			if (n <= _size)
+				return this->_data[n];
+			else
+				throw out_of_range();
+			
+		}
+		const T& at (size_t n) const
+		{
+			if (n <= _size)
+				return this->_data[n];
+			else
+				throw out_of_range();
+		}
 		// front--> Access first element
 		// back--> Acces last element
 		
@@ -109,6 +154,15 @@ namespace ft
 		// swap--> Swap content
 		// clear--> Clear content 
 		
+		/*Exceptions */
+
+		class out_of_range : public std::exception
+		{
+			virtual const char*	what() const throw() 
+			{
+				return "vector";
+			}
+		};
 	};
 }
 

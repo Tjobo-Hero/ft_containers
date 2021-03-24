@@ -34,5 +34,5 @@
 # Apple
 .DS_Store
 .vscode
-
+.zshrc
 
