@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/24 16:32:05 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/03/24 17:01:36 by tvan-cit      ########   odam.nl         */
+/*   Updated: 2021/03/24 17:03:22 by tvan-cit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main ()
 		std::cout << "real: " << i << ":  " << real[i] << std::endl;
 	std::cout << "\n";
 	real.resize(8, 100);
-    rea.resize()
+    real.resize(12);
 	// real.resize(12);
 	// std::cout <<"Size: " << real.size() << std::endl;
 	for (size_t i = 0; i < real.size() ; i++)

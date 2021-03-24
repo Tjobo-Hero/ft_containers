@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:16 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/24 17:01:46 by tvan-cit      ########   odam.nl         */
+/*   Updated: 2021/03/24 17:03:47 by tvan-cit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int main(void)
 		std::cout << "Own: " << i << ":  " << own[i] << std::endl;
 	std::cout << "\n";
 	own.resize(8, 100);
+	own.resize(12);
 	// own.resize(12);
 	// std::cout <<"Size: " << own.size() << std::endl;
 	for (size_t i = 0; i < own.size() ; i++)
