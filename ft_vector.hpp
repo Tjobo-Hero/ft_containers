@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/23 16:43:40 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/23 17:35:16 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,43 @@ namespace ft
 
 			T*		_data;
 			size_t	_capacity;
-			size_t	_current_size;
-			Alloc	_allocate;
+			size_t	_size;
+			Alloc	_allocator;
 		
 		public:
-		 /* Member Functions */
+		 
+		/* Member Functions */
 		 
 		// Constructor--> Construct Vector
-		explicit vector (const allocator_type& alloc = allocator_type());
+		explicit vector (const Alloc& alloc = Alloc()) : 
+			_data(NULL), 
+			_capacity(0),
+			_size(0), 
+			_allocator(alloc) {}
 		
-		explicit vector (size_type n, const value_type& val = value_type(),
-                 const allocator_type& alloc = allocator_type());
+		explicit vector (size_t n, const T& val = T(), const Alloc& alloc = Alloc()) : 
+			_capacity(n), 
+			_size(n), 
+			_allocator(alloc)
+		{
+			_data = _allocator.allocate(n);
+			for (size_t i = 0; i < n ; i++)
+				_data[i] = val;
+		} 
 				 
-		template <class InputIterator>
-        vector (InputIterator first, InputIterator last,
-                 const allocator_type& alloc = allocator_type());
+		// template <class InputIterator>
+        // vector (InputIterator first, InputIterator last,
+        //          const Alloc& alloc = Alloc());
 				 
-		vector (const vector& x);
+		vector (const vector& x) : 
+			_capacity(x._capacity), 
+			_size(x._size), 
+			_allocator(x._allocator) 
+		{
+			this->_data = _allocator.allocate(x._capacity);
+			for (size_t i = 0; i < x._size; i++)
+				this->_data[i] = x._data[i];
+		}
 		// Destructor--> Vector Destructor
 		// Assignation operator function --> Assign content
 		
@@ -60,6 +80,10 @@ namespace ft
 		
 		/* Capacity */
 		// size--> Return Size
+		size_t size() const
+		{
+			return this->_size;	
+		}
 		// max_size--> Return maximum size
 		// resize--> Change size
 		// capacity--> Return size of allocated storage capacity
@@ -68,6 +92,10 @@ namespace ft
 		
 		/* Element access */
 		// operator[]--> Access element
+		T& operator[] (size_t n)
+		{
+			return this->_data[n];
+		}
 		// at--> Access element
 		// front--> Access first element
 		// back--> Acces last element
