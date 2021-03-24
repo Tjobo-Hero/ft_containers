@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/24 13:45:46 by tvan-cit      ########   odam.nl         */
+/*   Updated: 2021/03/24 16:59:47 by tvan-cit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <stdlib.h>
 #include <memory>
 #include <vector>
-#include <stdexcept>
 
 namespace ft
 {
@@ -37,13 +36,13 @@ namespace ft
 		/* ------------Member Functions------------ */
 		 
 		// Constructor--> Construct Vector
-		explicit vector (const Alloc& alloc = Alloc()) : 
+		explicit vector(const Alloc& alloc = Alloc()) : 
 			_data(NULL), 
 			_capacity(0),
 			_size(0), 
 			_allocator(alloc) {}
 		
-		explicit vector (size_t n, const T& val = T(), const Alloc& alloc = Alloc()) : 
+		explicit vector(size_t n, const T& val = T(), const Alloc& alloc = Alloc()) : 
 			_capacity(n), 
 			_size(n), 
 			_allocator(alloc)
@@ -57,7 +56,7 @@ namespace ft
         // vector (InputIterator first, InputIterator last,
         //          const Alloc& alloc = Alloc());
 				 
-		vector (const vector& x) : 
+		vector(const vector& x) : 
 			_capacity(x._capacity), 
 			_size(x._size), 
 			_allocator(x._allocator) 
@@ -98,10 +97,21 @@ namespace ft
 			return _allocator.max_size();
 		}
 		/* RESIZE--> Change size */
-		// void resize (size_t n, T val = value_type())
-		// {
-			
-		// }
+		void resize (size_t n, T val = T ())
+		{
+			if (n < this->_size)
+			{
+				for(; n < this->_size; this->_size--)
+					_allocator.destroy(&_data[_size]);
+
+			}
+			else if (n > this->_size)
+			{
+				reserve(n);
+				for (; n > this->_size; _size++)
+						_data[_size] = val;
+			}
+		}
 		/* CAPACITY--> Return size of allocated storage capacity */
 		size_t capacity() const
 		{
@@ -118,26 +128,48 @@ namespace ft
 			
 		}
 		/* RESERVE--> Request a change in capacity */
+		void reserve(size_t n)
+		{
+			if (n > max_size())
+				throw length_error();
+			else if (n > this->_capacity)
+			{
+				T* tmp;
+				
+				tmp = _allocator.allocate(n + 1);
+				if (_size > 0)
+				{
+					for (size_t i = 0; i < this->_size; i++)
+						tmp[i]  = _data[i];
+					tmp[n] = T ();
+					_allocator.deallocate(_data, _capacity);
+				}
+				_data = tmp;
+				_capacity = n;
+			}
+			else
+				return;
+		}
 		
 		/* ------------Element access------------ */
 		
 		/*OPERATOR[]--> Access element */
-		T& operator[] (size_t n)
+		T& operator[](size_t n)
 		{
 			return this->_data[n];
 		}
 		/* AT--> Access element */
-		T& at (size_t n)
+		T& at(size_t n)
 		{
-			if (n <= _size)
+			if (n < _size)
 				return this->_data[n];
 			else
 				throw out_of_range();
 			
 		}
-		const T& at (size_t n) const
+		const T& at(size_t n) const
 		{
-			if (n <= _size)
+			if (n < _size)
 				return this->_data[n];
 			else
 				throw out_of_range();
@@ -161,6 +193,13 @@ namespace ft
 			virtual const char*	what() const throw() 
 			{
 				return "vector";
+			}
+		};
+		class length_error : public std::exception
+		{
+			virtual const char*	what() const throw() 
+			{
+				return "'n' exceeds maximum supported size";
 			}
 		};
 	};
