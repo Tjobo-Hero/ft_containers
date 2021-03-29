@@ -6,7 +6,7 @@
 #    By: timvancitters <timvancitters@student.co      +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/03/26 16:27:02 by timvancitte   #+#    #+#                  #
-#    Updated: 2021/03/29 13:57:21 by timvancitte   ########   odam.nl          #
+#    Updated: 2021/03/29 15:00:01 by timvancitte   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ $(NAME): $(OBJECTS)
 
 %.o: %.c
 	@echo "$(GREY)Compiling...				$(WHITE)$<"
-	$(COMPILE) $(INCLUDES) $(UTILS) $(UNIT_TEST) $(FLAGS) -c -o $@ $<
+	$(COMPILE) $(INCLUDES) $(UNIT_TEST) $(FLAGS) -c -o $@ $<
 
 clean:
 	@echo "$(RED)----------------------------------------------------"

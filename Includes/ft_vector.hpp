@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/29 13:43:57 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/29 15:56:09 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ namespace ft
 			{
 				this->clear();
 				this->_allocator = obj._allocator;
-				this->assign(obj.begin(), obj.end());
+				// this->assign(obj.begin(), obj.end());
 			}
 			return *this;
 		}
@@ -95,14 +95,14 @@ namespace ft
 		
 		/* BEGIN--> Return Iterator to beginning of array */ 
 		iterator begin() { return iterator(_data); }
-		// const_iterator begin() const { return const_iterator(_data); }
+		const_iterator begin() const { return const_iterator(_data); }
 		
 		// /* END--> Return Iterator to end */
 		iterator end() { return iterator(&_data[_size]); }
-		// const_iterator end() const { return const_iterator(_data[_size]); }
+		const_iterator end() const { return const_iterator(_data[_size]); }
 		
 		// /* RBEGIN--> rbegin points to the element right before the one that would be pointed to by member end. */
-		// reverse_iterator rbegin() { return reverse_iterator(_data[_size - 1]); }										// Checken of het geen reference moet zijn
+		reverse_iterator rbegin() { return reverse_iterator(&_data[_size]); }										// Checken of het geen reference moet zijn
 		// const_reverse_iterator rbegin() const {return const_reverse_iterator(_data[_size - 1]); }						// Checken of het geen reference moet zijn
 		
 		// /* REND--> Returns a reverse iterator pointing to the theoretical element preceding the first element in the vector */ 

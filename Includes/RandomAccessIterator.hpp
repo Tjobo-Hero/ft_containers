@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/25 12:11:16 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/26 15:12:57 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/29 15:48:49 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,13 @@ namespace ft
 		random_access_iterator(const random_access_iterator& src) { *this = src; return; }
 		
 		/* DESTRUCTOR--> Vector Destructor */ 
-		~random_access_iterator() { std::cout << "iterator destructed\n"; return; }
+		~random_access_iterator() { return; }
 		
 		/* OPERATOR= FUNCTION --> Assign content */ 
 		random_access_iterator&		operator=(const random_access_iterator &obj)
 		{
 			if (this != &obj)
-			{
 				this->_ptr = obj._ptr;
-			}
 			return *this;
 		}
 		
@@ -106,7 +104,7 @@ namespace ft
 		friend bool		operator==(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return (lhs._ptr == rhs._ptr); }
 		
 		/*GETTER*/
-		const T* &get_ptr() const { return (_ptr); };
+		T* get_ptr() const { return _ptr; };
 	};
 	
 	template<typename T >
@@ -126,15 +124,13 @@ namespace ft
 		const_random_access_iterator(const random_access_iterator<T> &it) { _ptr = it.get_ptr(); }
 		
 		/* DESTRUCTOR--> Vector Destructor */ 
-		~const_random_access_iterator() { std::cout << "iterator destructed\n"; return; }
+		~const_random_access_iterator() { return; }
 		
 		/* OPERATOR= FUNCTION --> Assign content */ 
 		const_random_access_iterator&		operator=(const const_random_access_iterator &obj)
 		{
 			if (this != &obj)
-			{
 				this->_ptr = obj._ptr;
-			}
 			return *this;
 		}
 		
@@ -200,7 +196,7 @@ namespace ft
 		template<typename T2>
 		friend bool		operator==(const const_random_access_iterator<T2> &lhs, const const_random_access_iterator<T2>  &rhs) { return (lhs._ptr == rhs._ptr); }
 		/*GETTER*/
-		const T* &get_ptr() const { return (_ptr); };
+		const T& get_ptr() const { return _ptr; };
 	};
 
 	template< typename T >
@@ -225,9 +221,7 @@ namespace ft
 		reverse_random_access_iterator&		operator=(const reverse_random_access_iterator &obj)
 		{
 			if (this != &obj)
-			{
 				this->_ptr = obj._ptr;
-			}
 			return *this;
 		}
 		
