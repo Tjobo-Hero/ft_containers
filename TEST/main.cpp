@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.cpp                                           :+:    :+:            */
+/*   0_main.cpp                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:16 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/26 16:17:50 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/29 13:29:28 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
+// #include "catch.hpp"
 // #include <iostream>
 // #include <vector>
 // #include "ft_vector.hpp"
@@ -33,28 +33,28 @@
 // 	// for (size_t i = 0; i < real.size() ; i++)
 // 	// 	std::cout << "Real: " << i << ":  " << real[i] << std::endl;
 	
-// 	std::cout << "\n*********************** ITERATORS ***********************\n" << std::endl;
-// 	ft::vector<int> tim(10);
+// 	// std::cout << "\n*********************** ITERATORS ***********************\n" << std::endl;
+// 	// ft::vector<int> tim(10);
 
-// 	for (int i = 0; i < 10; i++)
-// 		tim[i] = rand() % 20;
+// 	// for (int i = 0; i < 10; i++)
+// 	// 	tim[i] = rand() % 20;
 		
-// 	ft::vector<int>::iterator it = tim.begin();
-// 	ft::vector<int>::iterator ite = tim.end();
+// 	// ft::vector<int>::iterator it = tim.begin();
+// 	// ft::vector<int>::iterator ite = tim.end();
 
-// 	ite--;
-// 	std::cout << std::boolalpha;
-// 	std::cout << *it << " " << *ite << std::endl;
-// 	bool result = it < ite;
-// 	std::cout << result << std::endl;
-// 	// std::cout << "\n***********************CAPACITY***********************\n" << std::endl;
-// 	// std::cout << "-----------------\nSIZE" << std::endl;
-// 	// std::cout << "Own: " << own.size() << std::endl;
-// 	// std::cout << "Real: " << real.size() << std::endl;
+// 	// ite--;
+// 	// std::cout << std::boolalpha;
+// 	// std::cout << *it << " " << *ite << std::endl;
+// 	// bool result = it < ite;
+// 	// std::cout << result << std::endl;
+// 	// // std::cout << "\n***********************CAPACITY***********************\n" << std::endl;
+// 	// // std::cout << "-----------------\nSIZE" << std::endl;
+// 	// // std::cout << "Own: " << own.size() << std::endl;
+// 	// // std::cout << "Real: " << real.size() << std::endl;
 	
-// 	// std::cout << "-----------------\nMAX_SIZE" << std::endl;
-// 	// std::cout << "Own: " << own.max_size() << std::endl;
-// 	// std::cout << "Real: " << real.max_size() << std::endl;
+// 	// // std::cout << "-----------------\nMAX_SIZE" << std::endl;
+// 	// // std::cout << "Own: " << own.max_size() << std::endl;
+// 	// // std::cout << "Real: " << real.max_size() << std::endl;
 
 // 	// std::cout << "-----------------\nRESIZE" << std::endl;
 // 	// for (size_t i = 0; i < real.size() ; i++)
@@ -135,7 +135,7 @@
 // 	// std::cout << "-----------------\nBACK" << std::endl;
 // 	// std::cout << "Own: " << own.back() << std::endl;
 // 	// std::cout << "Real: " << real.back() << std::endl;
-// 	std::cout << "\n*********************** MODIFIERS ***********************\n" << std::endl;
+// 	// std::cout << "\n*********************** MODIFIERS ***********************\n" << std::endl;
 // 	// for (size_t i = 0; i < real.size() ; i++)
 // 	// 	std::cout << "Real: " << i << ":  " << real[i] << std::endl;
 // 	// std::cout << "Capacity: "<< real.capacity() << std::endl;
@@ -160,6 +160,6 @@
 // 	// for (size_t i = 0; i < own.size() ; i++)
 // 	// 	std::cout << "own: " << i << ":  " << own[i] << std::endl;
 	
-// 	std::cout << "\n_____DESTRUCTOR_____" << std::endl;
+// 	// std::cout << "\n_____DESTRUCTOR_____" << std::endl;
 // 	return (0);
 // }

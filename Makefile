@@ -6,28 +6,27 @@
 #    By: timvancitters <timvancitters@student.co      +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/03/26 16:27:02 by timvancitte   #+#    #+#                  #
-#    Updated: 2021/03/26 16:45:11 by timvancitte   ########   odam.nl          #
+#    Updated: 2021/03/29 13:57:21 by timvancitte   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	ft_containers
 
-SOURCES			= 	TEST/0_main.cpp \
-					TEST/4_vector_test.cpp \
+SOURCES			= 	TEST/main.cpp \
+					TEST/vector_test.cpp \
+					TEST/catch.cpp \
 					# UNIT_TEST/1_Bidirectionaliterator_test.cpp \
 					# UNIT_TEST/2_RandomAccessIterator_test.cpp \
 					UNIT_TEST/3_list_test.cpp \
 					# UNIT_TEST/5_queue_test.cpp \
 					# UNIT_TEST/6_stack_test.cpp \
 					# UNIT_TEST/7_map_test.cpp \
-					UNIT_TEST/catch.cpp \
 
 OBJECTS 		=	${SOURCES:%.c=%.o}
 
 FLAGS 			=	-Wall -Wextra -Werror
-INCLUDES 		=	-Includes/
-UTILS			=	-IHEADER_FILES/UTILS/
-TEST			=	TEST/
+INCLUDES 		=	-IINCLUDES/
+TEST			=	-ITEST/
 COMPILE			=	clang++ -std=c++14
 
 GREEN 			= 	\033[38;5;46m
@@ -40,7 +39,7 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	@echo "$(GREEN)----------------------------------------------------"
-	$(COMPILE) $(INCLUDES) $(UTILS) $(UNIT_TEST) $(FLAGS) -o $(NAME) $(OBJECTS)
+	$(COMPILE) $(INCLUDES) $(TEST) $(FLAGS) -o $(NAME) $(OBJECTS)
 	@echo "Executable				./ft_containers"
 	@echo "$(GREEN)----------------------------------------------------"
 

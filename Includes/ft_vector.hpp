@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/26 15:17:44 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/29 13:43:57 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ namespace ft
 		/* DESTRUCTOR--> Vector Destructor */ 
 		~vector()
 		{
-			std::cout << "Vector destructed" << std::endl;
 			_allocator.deallocate(_data, _capacity);
 			return;
 		}
@@ -88,7 +87,7 @@ namespace ft
 			{
 				this->clear();
 				this->_allocator = obj._allocator;
-				// this->assign(obj.begin(), obj.end());
+				this->assign(obj.begin(), obj.end());
 			}
 			return *this;
 		}
