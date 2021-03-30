@@ -6,12 +6,14 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/25 12:11:16 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/29 15:48:49 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/30 17:36:29 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RANDOMACCESSITERATOR_HPP
 # define RANDOMACCESSITERATOR_HPP
+
+#include "type_traits.hpp"
 
 namespace ft
 {
@@ -215,7 +217,7 @@ namespace ft
 		reverse_random_access_iterator(const reverse_random_access_iterator& src) { *this = src; return; }
 		
 		/* DESTRUCTOR--> Vector Destructor */ 
-		~reverse_random_access_iterator() { std::cout << "iterator destructed\n"; return; }
+		~reverse_random_access_iterator() { return; }
 		
 		/* OPERATOR= FUNCTION --> Assign content */ 
 		reverse_random_access_iterator&		operator=(const reverse_random_access_iterator &obj)
@@ -288,7 +290,7 @@ namespace ft
 		friend bool		operator==(const reverse_random_access_iterator<T2> &lhs, const reverse_random_access_iterator<T2>  &rhs) { return (lhs._ptr == rhs._ptr); }
 		
 		/*GETTER*/
-		const T* &get_ptr() const { return (_ptr); };
+		T* get_ptr() const { return (_ptr); };
 	};
 
 	template< typename T >
@@ -308,7 +310,7 @@ namespace ft
 		const_reverse_random_access_iterator(const reverse_random_access_iterator<T> &it) { _ptr = it.get_ptr();  return; }
 		
 		/* DESTRUCTOR--> Vector Destructor */ 
-		~const_reverse_random_access_iterator() { std::cout << "iterator destructed\n"; return; }
+		~const_reverse_random_access_iterator() { return; }
 		
 		/* OPERATOR= FUNCTION --> Assign content */ 
 		const_reverse_random_access_iterator&		operator=(const const_reverse_random_access_iterator &obj)

@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/29 15:56:09 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/30 17:47:16 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <memory>
 #include <vector>
 #include "RandomAccessIterator.hpp"
+#include "type_traits.hpp"
 
 namespace ft
 {
@@ -38,7 +39,28 @@ namespace ft
 			size_t	_capacity;
 			size_t	_size;
 			Alloc	_allocator;
-		
+			
+			void	reallocate(size_t NewCapacity)
+			{
+				if (NewCapacity == 0)
+					NewCapacity = 1;
+				T*	new_data = this->_allocator.allocate(NewCapacity);
+				for (size_t i = 0; i < this->size(); ++i)
+				{
+					this->_allocator.construct(new_data + i, this->_data[i]);
+					this->_allocator.destroy(this->_data + i);
+				}
+				this->_allocator.deallocate(this->_data, this->capacity());
+				this->_data = new_data;
+				this->_capacity = NewCapacity;
+			}
+			size_t	distance(iterator first, iterator second)
+			{
+				size_t i = 0;
+				for (iterator it = first; it != second; ++it)
+					i++;
+				return i;
+			}
 		public:
 		 
 		/* ------------ Member Functions ------------ */
@@ -60,10 +82,20 @@ namespace ft
 				_data[i] = val;
 		} 
 				 
-		// template <class InputIterator>
-        // vector (InputIterator first, InputIterator last,
-        //          const Alloc& alloc = Alloc());
-				 
+		template <class InputIterator>
+        vector (typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last, const Alloc& alloc = Alloc()) : _data(NULL), _allocator(alloc)
+		{
+			this->_size = this->distance(first, last);
+			this->_capacity= this->distance(first, last);
+			this->_data = this->_allocator.allocate(this->_capacity);
+			for (size_t i = 0; i < this->size(); ++i)
+			{
+				this->_allocator.allocate(this->_data + i, *first);
+				++first;
+			}
+				
+		}
+		
 		vector(const vector& x) : 
 			_capacity(x._capacity), 
 			_size(x._size), 
@@ -97,17 +129,17 @@ namespace ft
 		iterator begin() { return iterator(_data); }
 		const_iterator begin() const { return const_iterator(_data); }
 		
-		// /* END--> Return Iterator to end */
+		/* END--> Return Iterator to end */
 		iterator end() { return iterator(&_data[_size]); }
-		const_iterator end() const { return const_iterator(_data[_size]); }
+		const_iterator end() const { return const_iterator(&_data[_size]); }
 		
-		// /* RBEGIN--> rbegin points to the element right before the one that would be pointed to by member end. */
-		reverse_iterator rbegin() { return reverse_iterator(&_data[_size]); }										// Checken of het geen reference moet zijn
-		// const_reverse_iterator rbegin() const {return const_reverse_iterator(_data[_size - 1]); }						// Checken of het geen reference moet zijn
+		/* RBEGIN--> rbegin points to the element right before the one that would be pointed to by member end. */
+		reverse_iterator rbegin() { return reverse_iterator(&_data[_size - 1]); }										// Checken of het geen reference moet zijn
+		const_reverse_iterator rbegin() const {return const_reverse_iterator(&_data[_size - 1]); }						// Checken of het geen reference moet zijn
 		
-		// /* REND--> Returns a reverse iterator pointing to the theoretical element preceding the first element in the vector */ 
-		// reverse_iterator rend() { return reverse_iterator(&_data - 1); } 												// Checken of dit goed is 
-		// const_reverse_iterator rend() const { return const_reverse_iterator(&_data - 1); }								// Checken of dit goed is 
+		/* REND--> Returns a reverse iterator pointing to the theoretical element preceding the first element in the vector */ 
+		reverse_iterator rend() { return reverse_iterator(_data - 1); } 												// Checken of dit goed is 
+		const_reverse_iterator rend() const { return const_reverse_iterator(_data - 1); }								// Checken of dit goed is 
 		
 		/* ------------ CAPACITY ------------ */
 		
@@ -214,9 +246,54 @@ namespace ft
 				this->_data[i] = val;
 		}
 		
-		// push_back--> Add element at the end
-		// pop_back--> Delete last element
-		// insert--> Insert elements
+		/* PUSH_BACK--> Add element at the end */ 
+		void push_back (const T& val)
+		{
+			if (this->size() >= this->capacity())
+				this->reallocate(this->capacity() * 2);
+			this->_allocator.construct(this->_data + this->size(), val);
+			this->_size += 1;
+		}
+		
+		/* POP_BACK--> Delete last element */ 
+		void pop_back()
+		{
+			this->_size -= 1;
+			this->_allocator.destroy(this->_data + this->_size);
+		}
+		/* INSERT--> Insert elements */ 
+		iterator insert (iterator position, const T& val)
+		{
+			size_t i = disctance(begin(), position);
+			instert(position, 1, val);
+			return iterator(&this->_data[i]);
+		}
+
+    	void insert (iterator position, size_t n, const T& val)
+		{
+			vector tmp(position, this->end());
+			while (position != this->end())
+				this->pop_back();
+			for (size_t i = 0; i < n; ++i)
+				this->push_back(val);
+			for (iterator it = tmp.begin(); it != tmp.end(); ++it)
+				this->push_back(*it);
+		}
+
+		template <class InputIterator>
+    	void insert (iterator position, typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last)
+		{
+			vector tmp(position, this->end());
+			while(position != this->end())
+				this->pop_back();
+			while (first != last)
+			{
+				this->push_back(*first);
+				++first;
+			}
+			for (iterator it = tmp.begin(); it != tmp.end(); ++it)
+				this->push_back(*it);
+		}
 		// erase--> Erase elements
 		// swap--> Swap content
 		/*CLEAR--> Clear content */
@@ -260,7 +337,7 @@ namespace ft
 		{
 			virtual const char*	what() const throw() 
 			{
-				return "'n' exceeds maximum supported size";
+				return "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size";
 			}
 		};
 	};
