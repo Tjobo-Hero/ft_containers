@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/24 16:32:05 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/03/30 17:03:29 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/31 11:55:10 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,28 @@
 
 int main ()
 {
-	int sum = 0;
-	std::vector<int> tim(10);
+	// 	ft::vector<int>		own1(5, 100);
+	// ft::vector<int>		own2;
+	std::vector<int>	real1(5, 100);
+	std::vector<int>	real2;
 
-	for (int i = 0; i < 10; i++)
-	{
-		tim[i] = sum;
-		sum += 1;
-	}		
-	std::vector<int>::iterator it = tim.begin();
-	// std::vector<int>::iterator ite = tim.end();
-	for (size_t i = 0; i < tim.size(); ++i)
-		std::cout << ' ' << tim[i];
-	std::cout << "\nSIZE: " << tim.size() << std::endl;
-	std::cout << "Position: " << *it << std::endl;
-	++it;
-	++it;
-	std::cout << "Position: " << *it << std::endl;
+	// ft::vector<int>::iterator own_it = own1.begin();
+	// ft::vector<int>::iterator own_ite = own1.end();
+	std::vector<int>::iterator real_it = real1.begin();
+	std::vector<int>::iterator real_ite = real1.end() -1;
 
-	std::vector<int>::iterator it2 = tim.insert(it, 5, 2);
-	std::cout << *it2 << std::endl;
-	// ++it2; ++it2; ++it2; ++it2; ++it2; ++it2;
-	--it2;
-	std::cout << *it2 << std::endl;
+	// own2.assign(own_it, own_ite);
+	real2.assign(real_it, real_ite);
 
-	std::cout << "AFTER INSERT" << std::endl;
-	for (size_t i = 0; i < tim.size(); ++i)
-		std::cout << ' ' << tim[i];
-	std::cout << '\n';
-	std::cout << "SIZE: " << tim.size() << std::endl;
+	for(size_t i = 0; i < real2.size(); i++)
+		std::cout << " " << real2[i];
+	std::cout << "\n";
 
+	// REQUIRE(own2.capacity() == real2.capacity());
+	// REQUIRE(own2.size() == real2.size());
+	// REQUIRE(own2[0] == real2[0]);
+	// REQUIRE(own2[1] == real2[1]);
+	// REQUIRE(own2[2] == real2[2]);
 
   return 0;
 }

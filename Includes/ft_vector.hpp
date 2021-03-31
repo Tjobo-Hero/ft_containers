@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/30 17:47:16 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/31 12:44:50 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ namespace ft
 	class vector
 	{
 		public:
-
+			
 			typedef random_access_iterator<T>				iterator;
 			typedef const_random_access_iterator<T>			const_iterator;
 			typedef reverse_random_access_iterator<T>		reverse_iterator;
@@ -54,13 +54,16 @@ namespace ft
 				this->_data = new_data;
 				this->_capacity = NewCapacity;
 			}
-			size_t	distance(iterator first, iterator second)
+			
+			template <class InputIterator>
+			size_t	distance(InputIterator first, InputIterator second)
 			{
 				size_t i = 0;
-				for (iterator it = first; it != second; ++it)
+				for (InputIterator it = first; it != second; ++it)
 					i++;
 				return i;
 			}
+			
 		public:
 		 
 		/* ------------ Member Functions ------------ */
@@ -112,6 +115,7 @@ namespace ft
 			_allocator.deallocate(_data, _capacity);
 			return;
 		}
+		
 		/* OPERATOR= FUNCTION --> Assign content */ 
 		vector& operator= (const vector& obj)
 		{
@@ -119,10 +123,11 @@ namespace ft
 			{
 				this->clear();
 				this->_allocator = obj._allocator;
-				// this->assign(obj.begin(), obj.end());
+				this->assign(obj.begin(), obj.end());
 			}
 			return *this;
 		}
+		
 		/* ------------ ITERATORS ------------ */
 		
 		/* BEGIN--> Return Iterator to beginning of array */ 
@@ -165,6 +170,7 @@ namespace ft
 						_data[_size] = val;
 			}
 		}
+		
 		/* CAPACITY--> Return size of allocated storage capacity */
 		size_t capacity() const { return this->_capacity; }
 		
@@ -177,6 +183,7 @@ namespace ft
 				return false;
 			
 		}
+		
 		/* RESERVE--> Request a change in capacity */
 		void reserve(size_t n)
 		{
@@ -216,6 +223,7 @@ namespace ft
 				throw out_of_range();
 			
 		}
+
 		const T& at(size_t n) const
 		{
 			if (n < _size)
@@ -223,6 +231,7 @@ namespace ft
 			else
 				throw out_of_range();
 		}
+		
 		/* FRONT--> Access first element*/
 		T& front() { return _data[0]; }
 		const T& front() const { return _data[0]; }
@@ -234,8 +243,18 @@ namespace ft
 		/* ------------ MODIFIERS ------------ */
 		
 		/* ASSIGN--> Assign vector content */ 
-		// template <class InputIterator>
-  		// void assign (InputIterator first, InputIterator last);
+		template <class InputIterator>
+  		void assign (typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last)
+		{
+			size_t i = distance(first, last);
+			this->clear();
+			this->reserve(i);
+			while (first != last)
+			{
+				this->push_back(*first);
+				++first;
+			}
+		}
 
 		void assign (size_t n, const T& val)
 		{
@@ -291,10 +310,23 @@ namespace ft
 				this->push_back(*first);
 				++first;
 			}
-			for (iterator it = tmp.begin(); it != tmp.end(); ++it)
+			for (InputIterator it = tmp.begin(); it != tmp.end(); ++it)
 				this->push_back(*it);
 		}
-		// erase--> Erase elements
+		/* ERASE--> Erase elements */
+		iterator erase (iterator position)
+		{
+			this->erase(position, position + 1);
+			return position;
+		}
+		
+		iterator erase (iterator first, iterator last)
+		{
+			size_t i = distance(first, last);
+			vector tmp(last, this->end());
+			
+			
+		}
 		// swap--> Swap content
 		/*CLEAR--> Clear content */
 		void clear()

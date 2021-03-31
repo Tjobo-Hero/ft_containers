@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/29 13:05:30 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/30 17:31:45 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/03/31 12:31:51 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,21 @@ TEST_CASE("vector-copy constructor", "[vector]")
 	REQUIRE(own2[2] == real2[2]);
 }
 
-// TEST_CASE("operator= function", "[vector]")
-// {
-// 	ft::vector<int> 	own1(5, 5);
-// 	std::vector<int> 	real1(5, 5);
+TEST_CASE("operator= function", "[vector]")
+{
+	ft::vector<int> 	own1(5, 5);
+	std::vector<int> 	real1(5, 5);
+	
+	ft::vector<int> own2;
+	std::vector<int> real2;
 
-// 	ft::vector<int> own2;
-// 	std::vector<int> real2;
+	own2 = own1;
+	real2 = real1;
 
-// 	own2 = own1;
-// 	real2 = real1;
-
-// 	REQUIRE(own2.size() == real2.size());
-// 	REQUIRE(own2[2] == real2[2]);
-// }
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own2[2] == real2[2]);
+	REQUIRE(own2.capacity() == real2.capacity());
+}
 
 
 /*-----------------ITERATORS-----------------*/
@@ -403,12 +404,29 @@ TEST_CASE("vector-back function", "[vector]")
 
 /*-----------------Modifiers-----------------*/
 
-// TEST_CASE("vector-assign with itarators", "[vector]")
-// {
-	
-// }
+TEST_CASE("vector-assign fucntion with itarators", "[vector]")
+{
+	ft::vector<int>		own1(5, 100);
+	ft::vector<int>		own2;
+	std::vector<int>	real1(5, 100);
+	std::vector<int>	real2;
 
-TEST_CASE("vector-assing with n and val", "[vector]")
+	ft::vector<int>::iterator own_it = own1.begin();
+	ft::vector<int>::iterator own_ite = own1.begin() + 3;
+	std::vector<int>::iterator real_it = real1.begin();
+	std::vector<int>::iterator real_ite = real1.begin() + 3;
+
+	own2.assign(own_it, own_ite);
+	real2.assign(real_it, real_ite);
+
+	REQUIRE(own2.capacity() == real2.capacity());
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own2[0] == real2[0]);
+	REQUIRE(own2[1] == real2[1]);
+	REQUIRE(own2[2] == real2[2]);
+}
+
+TEST_CASE("vector-assign function with n and val", "[vector]")
 {
 	ft::vector<int>		own;
 	std::vector<int>	real;
