@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/31 12:44:50 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/08 14:53:52 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <memory>
 #include <vector>
+#include <algorithm>
 #include "RandomAccessIterator.hpp"
 #include "type_traits.hpp"
 
@@ -93,7 +94,7 @@ namespace ft
 			this->_data = this->_allocator.allocate(this->_capacity);
 			for (size_t i = 0; i < this->size(); ++i)
 			{
-				this->_allocator.allocate(this->_data + i, *first);
+				this->_allocator.construct(this->_data + i, *first);
 				++first;
 			}
 				
@@ -280,11 +281,12 @@ namespace ft
 			this->_size -= 1;
 			this->_allocator.destroy(this->_data + this->_size);
 		}
+		
 		/* INSERT--> Insert elements */ 
 		iterator insert (iterator position, const T& val)
 		{
-			size_t i = disctance(begin(), position);
-			instert(position, 1, val);
+			size_t i = distance(begin(), position);
+			insert(position, 1, val);
 			return iterator(&this->_data[i]);
 		}
 
@@ -322,41 +324,32 @@ namespace ft
 		
 		iterator erase (iterator first, iterator last)
 		{
-			size_t i = distance(first, last);
 			vector tmp(last, this->end());
-			
-			
+			while (first != this->end())
+				this->pop_back();
+			for (iterator it = tmp.begin(); it != tmp.end(); ++it)
+				this->push_back(*it);
+			return first;
+				
 		}
-		// swap--> Swap content
-		/*CLEAR--> Clear content */
+		/* SWAP--> Swap content */
+		void swap (vector& x)
+		{
+			vector<T> tmp(*this);
+
+			*this = x;
+			x = tmp;
+			// ft::swap(this->_data, x._data);
+		}
+		/* CLEAR--> Clear content */
 		void clear()
 		{
 			for (size_t i = 0; i < this->size(); i++)
 				_allocator.destroy(&this->_data[i]);
 			this->_size = 0;
 		}
-
-		/* ------------ RELATIONAL OPERATORS ------------ */
-		// template <class T, class Alloc>
-		// bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-
-		// template <class T, class Alloc>
-		// bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-
-		// template <class T, class Alloc>
-		// bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-
-		// template <class T, class Alloc>
-		// bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-
-		// template <class T, class Alloc>
-		// bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-
-		// template <class T, class Alloc>
-		// bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 		
 		/*Exceptions */
-
 		class out_of_range : public std::exception
 		{
 			virtual const char*	what() const throw() 
@@ -372,7 +365,59 @@ namespace ft
 				return "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size";
 			}
 		};
-	};
-}
+	}; // end of vector class
+	
+	/* ------------ RELATIONAL OPERATORS ------------ */
+	template <typename T>
+    void swap(vector<T> &x, vector<T> &y)
+    {
+        vector<T> temp(y);
+        y = x;
+        x = temp;
+    }
+	
+	template <class T, class Alloc>
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		typename ft::vector<T>::const_iterator it_lhs = lhs.begin();
+        typename ft::vector<T>::const_iterator it_rhs = rhs.begin();
+		
+		if (lhs.size() != rhs.size())
+			return false;
+		while (*it_lhs != *lhs.end())
+		{
+			if (*it_lhs != *it_rhs)
+				return false;
+			++it_lhs;
+			++it_rhs;
+		}
+		return true;
+			
+	}
+	template <class T, class Alloc>
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return !(lhs == rhs);
+	}
+		
+	template <class T, class Alloc>
+	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+	// template <class T, class Alloc>
+	// bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	// template <class T, class Alloc>
+	// bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	// template <class T, class Alloc>
+	// bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	// template< class T, class Alloc >
+	// void swap (vector<T,Alloc> &x, vector<T,Alloc> &y)
+	// {
+	// 	x.swap(y);
+	// 	return;
+	// }
+	
+} // end of namespace ft
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/29 13:05:30 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/03/31 12:31:51 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/08 14:53:07 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +316,7 @@ TEST_CASE("vector-reserve function", "[vector]")
 
 
 /*-----------------Element Access-----------------*/
-TEST_CASE("vector-operator[] function")
+TEST_CASE("vector-operator[] function", "[vector]")
 {
 	int sum = 0;
 	ft::vector<int>		own(5);
@@ -479,10 +479,103 @@ TEST_CASE("vector-pop_back function", "[vector]")
 
 TEST_CASE("vector-insert function", "[vector]")
 {
+	ft::vector<int>		own(6, 100);
+	std::vector<int>	real(6, 100);
+	
+	ft::vector<int>::iterator	it_own = own.begin();
+	std::vector<int>::iterator	it_real = real.begin();
+
+	it_own = own.insert(it_own, 200);
+	it_real = real.insert(it_real, 200);
+	//  200 100 100 100 100 100 100
+	//  ^
+	REQUIRE(*it_own == *it_real);
+	
+	own.insert(it_own, 2, 300);
+	real.insert(it_real, 2, 300);
+	// 300 300 200 100 100 100 100 100 100
+	// ^   ^
+	
+	REQUIRE(own[0] == real[0]);
+	REQUIRE(own[1] == real[1]);
+
+	ft::vector<int> 	own1(2, 400);
+	std::vector<int>	real2(2, 400);
+
+	it_own = own.begin();
+	it_real = real.begin();
+
+	own.insert(it_own + 2, own1.begin(), own1.end());
+	real.insert(it_real + 2, real2.begin(), real2.end());
+	// 300 300 400 400 200 100 100 100 100 100 100
+	//         ^   ^
+	REQUIRE(own[2] == real[2]);
+	REQUIRE(own[3] == real[3]);
+	
+	int myarray[] = {101, 102, 103};
+
+	it_own = ft::vector<int>::iterator(myarray);
+
+	own.insert(own.begin(), it_own, it_own + 3);
+	real.insert(real.begin(), myarray, myarray + 3);
+	// 101 102 103 300 300 400 400 200 100 100 100 100 100 100
+	// ^   ^   ^
+	
+	REQUIRE(own[0] == real[0]);
+	REQUIRE(own[1] == real[1]);
+	REQUIRE(own[2] == real[2]);
+	REQUIRE(own.size() == real.size());
 	
 }
-// TEST_CASE("vector-erase function", "[vector]")
-// TEST_CASE("vector-swap function", "[vector]")
+TEST_CASE("vector-erase function", "[vector]")
+{
+	ft::vector<int>		own;
+	std::vector<int>	real;
+	int sum = 0;
+	
+	ft::vector<int>::iterator	it_own;
+	std::vector<int>::iterator	it_real;
+	for (int i = 0; i < 10; ++i)
+	{
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 1;
+	}
+	//  0 1 2 3 4 5 6 7 8 9
+	
+	it_own = own.erase(own.begin() + 4);
+	it_real = real.erase(real.begin() + 4);
+	// 0 1 2 3 5 6 7 8 9
+	//         ^
+	
+	REQUIRE(own[4] == real[4]);
+	REQUIRE(*it_own == *it_real);
+	
+	it_own = own.erase(own.begin(), own.end() - 4);
+	it_real = real.erase(real.begin(), real.end() - 4);
+	// 6 7 8 9
+	// ^
+	
+	REQUIRE(own[0] == real[0]);
+	REQUIRE(*it_own == *it_real);
+	
+}
+TEST_CASE("vector-swap function", "[vector]")
+{
+	ft::vector<int> 	own(4, 100);
+	ft::vector<int> 	own2(5, 300);
+	std::vector<int> 	real(4, 100);
+	std::vector<int>	real2(5, 300);
+	
+	own.swap(own2);
+	real.swap(real2);
+
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.capacity() == real.capacity());
+	REQUIRE(own[0] == real[0]);
+	REQUIRE(own[1] == real[1]);
+	REQUIRE(own[2] == real[2]);
+}
 
 TEST_CASE("vector-clear function", "[vector]")
 {
@@ -498,7 +591,29 @@ TEST_CASE("vector-clear function", "[vector]")
 }
 
 /*-----------------Relational Operators-----------------*/
-// TEST_CASE("vector-operation overloaders", "[vector]")
-// {
+TEST_CASE("vector-operation overloaders", "[vector]")
+{
+	ft::vector<int> 	own(4, 200);
+	ft::vector<int> 	own2(4, 100);
+	ft::vector<int> 	own3(4, 200);
+	std::vector<int>	real(4, 200);
+	std::vector<int>	real2(4, 100);
+	std::vector<int>	real3(4, 200);
+
+
+	REQUIRE((own == own3) == true);
+	REQUIRE((real == real3) == true);
+	REQUIRE((own == own2) == false);
+	REQUIRE((real == real2) == false);
 	
-// }
+	REQUIRE((own != own3) == false);
+	REQUIRE((real != real3) == false);
+	REQUIRE((own != own2) == true);
+	REQUIRE((real != real2) == true);
+	
+	REQUIRE((own < own2) == false);
+	REQUIRE((real < real2) == false);
+	// REQUIRE((own2 < own3) == true);
+	REQUIRE((real2 < real3) == true);
+	
+}
