@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/29 13:05:30 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/08 14:53:07 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/08 17:01:09 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -602,18 +602,32 @@ TEST_CASE("vector-operation overloaders", "[vector]")
 
 
 	REQUIRE((own == own3) == true);
-	REQUIRE((real == real3) == true);
 	REQUIRE((own == own2) == false);
+	REQUIRE((real == real3) == true);
 	REQUIRE((real == real2) == false);
 	
 	REQUIRE((own != own3) == false);
-	REQUIRE((real != real3) == false);
 	REQUIRE((own != own2) == true);
+	REQUIRE((real != real3) == false);
 	REQUIRE((real != real2) == true);
 	
 	REQUIRE((own < own2) == false);
+	REQUIRE((own2 < own3) == true);
 	REQUIRE((real < real2) == false);
-	// REQUIRE((own2 < own3) == true);
 	REQUIRE((real2 < real3) == true);
-	
+
+	REQUIRE((own < own3) == false);
+	REQUIRE((own <= own3) == true);
+	REQUIRE((real < real3) == false);
+	REQUIRE((real <= real3) == true);
+
+	REQUIRE((own > own2) == true);
+	REQUIRE((own2 > own3) == false);
+	REQUIRE((real > real2) == true);
+	REQUIRE((real2 > real3) == false);
+
+	REQUIRE((own > own3) == false);
+	REQUIRE((own >= own3) == true);
+	REQUIRE((real > real3) == false);
+	REQUIRE((real >= real3) == true);
 }

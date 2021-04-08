@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/08 14:53:52 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/08 16:53:22 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,6 +368,21 @@ namespace ft
 	}; // end of vector class
 	
 	/* ------------ RELATIONAL OPERATORS ------------ */
+	template <class InputIterator1, class InputIterator2>
+  	bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
+                                InputIterator2 first2, InputIterator2 last2)
+	{
+  		while (first1 != last1)
+  		{
+    		if (first2 == last2 || *first2 < *first1) 
+				return false;
+    		else if (*first1 < *first2) 
+				return true;
+   			++first1; ++first2;
+  		}
+  		return (first2 != last2);
+	}
+	
 	template <typename T>
     void swap(vector<T> &x, vector<T> &y)
     {
@@ -376,6 +391,10 @@ namespace ft
         x = temp;
     }
 	
+	/* The equality comparison (operator==) is performed by first 
+	comparing sizes, and if they match, the elements are compared 
+	sequentially using operator==, stopping at the first mismatch 
+	(as if using algorithm equal). */
 	template <class T, class Alloc>
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
@@ -394,29 +413,44 @@ namespace ft
 		return true;
 			
 	}
+	
+	// a != b <<>>  !(a == b)
 	template <class T, class Alloc>
-	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	bool operator!= (const vector<T,Alloc>& a, const vector<T,Alloc>& b)
 	{
-		return !(lhs == rhs);
+		return !(a == b);
 	}
-		
+	
+	/* The less-than comparison (operator<) behaves as if using algorithm 
+	lexicographical_compare, which compares the elements sequentially 
+	using operator< in a reciprocal manner (i.e., checking both a < b 
+	and b < a) and stopping at the first occurrence. */
 	template <class T, class Alloc>
-	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	bool operator<  (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
-		return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
-	// template <class T, class Alloc>
-	// bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-	// template <class T, class Alloc>
-	// bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-	// template <class T, class Alloc>
-	// bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-	// template< class T, class Alloc >
-	// void swap (vector<T,Alloc> &x, vector<T,Alloc> &y)
-	// {
-	// 	x.swap(y);
-	// 	return;
-	// }
+	
+	// a <= b <<>>  !(b < a)
+	template <class T, class Alloc>
+	bool operator<= (const vector<T,Alloc>& a, const vector<T,Alloc>& b)
+	{
+		return !(b < a);
+	}
+
+	// a > b <<>>  b < a
+	template <class T, class Alloc>
+	bool operator>  (const vector<T,Alloc>& a, const vector<T,Alloc>& b)
+	{
+		return (b < a);
+	}
+
+	// a >= b <<>>  !(a < b)
+	template <class T, class Alloc>
+	bool operator>= (const vector<T,Alloc>& a, const vector<T,Alloc>& b)
+	{
+		return !(a < b);
+	}
 	
 } // end of namespace ft
 
