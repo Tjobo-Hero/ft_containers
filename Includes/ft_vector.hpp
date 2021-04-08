@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/08 16:53:22 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/08 17:02:48 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ namespace ft
 				return true;
 			else
 				return false;
-			
 		}
 		
 		/* RESERVE--> Request a change in capacity */
@@ -222,7 +221,6 @@ namespace ft
 				return this->_data[n];
 			else
 				throw out_of_range();
-			
 		}
 
 		const T& at(size_t n) const
@@ -315,6 +313,7 @@ namespace ft
 			for (InputIterator it = tmp.begin(); it != tmp.end(); ++it)
 				this->push_back(*it);
 		}
+		
 		/* ERASE--> Erase elements */
 		iterator erase (iterator position)
 		{
@@ -329,9 +328,9 @@ namespace ft
 				this->pop_back();
 			for (iterator it = tmp.begin(); it != tmp.end(); ++it)
 				this->push_back(*it);
-			return first;
-				
+			return first;	
 		}
+		
 		/* SWAP--> Swap content */
 		void swap (vector& x)
 		{
@@ -341,6 +340,7 @@ namespace ft
 			x = tmp;
 			// ft::swap(this->_data, x._data);
 		}
+		
 		/* CLEAR--> Clear content */
 		void clear()
 		{
