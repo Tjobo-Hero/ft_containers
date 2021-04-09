@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/29 13:05:30 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/08 17:01:09 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/09 13:31:46 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,37 @@ TEST_CASE("vector-size and value constructor", "[vector]")
 	REQUIRE(own[2] == real[2]);
 }
 
-// TEST_CASE("vector-iterator instanciation", "[vector]")
-// {
+TEST_CASE("vector-iterator instanciation", "[vector]")
+{
+	ft::vector<int>		own(6, 100);
+	std::vector<int>	real(6, 100);
+
+	ft::vector<int>		own2(own.begin(), own.end());
+	std::vector<int>	real2(real.begin(), real.end());
 	
-// }
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own2.capacity() == real2.capacity());
+	REQUIRE(own2[0] ==  real2[0]);
+	REQUIRE(own2[1] == real2[1]);
+
+	own.clear();
+	real.clear();
+	int sum = 0;
+	for (int i = 0; i < 5; ++i)
+	{
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 1;
+	}
+	own.pop_back();
+	real.pop_back();
+	ft::vector<int> 	own3(own.begin() + 1, own.end());
+	std::vector<int>	real3(real.begin() + 1, real.end());
+	REQUIRE(own3.size() == real3.size());
+	REQUIRE(own3.capacity() == real3.capacity());
+	REQUIRE(own3[0] == real3[0]);
+	REQUIRE(own3[1] == real3[1]);
+}
 
 TEST_CASE("vector-copy constructor", "[vector]")
 {
@@ -588,6 +615,69 @@ TEST_CASE("vector-clear function", "[vector]")
 	REQUIRE(own.empty() == real.empty());
 	REQUIRE(own.size() == real.size());
 	REQUIRE(own.capacity() == real.capacity());
+}
+
+TEST_CASE("vector-get_allocator function", "[vector]")
+{
+	ft::vector<int>		own;
+	std::vector<int>	real;
+
+	int *p_own;
+	int *p_real;
+	bool own_return = false;
+	bool real_return = false;
+	unsigned int i_own;
+	unsigned int i_real;
+
+	
+
+	// allocate an array with space for 5 elements using vector's allocator:
+  	p_own = own.get_allocator().allocate(5);
+  	p_real = real.get_allocator().allocate(5);
+
+	if (!p_own)
+		own_return = false;
+	else
+		own_return = true;
+
+	if (!p_real)
+		real_return = false;
+	else
+		real_return = true;
+		
+	REQUIRE(own_return == real_return);
+
+  	// construct values in-place on the array:
+  	for (i_own = 0; i_own < 5; i_own++) own.get_allocator().construct(&p_own[i_own],i_own);
+  	for (i_real = 0; i_real < 5; i_real++) real.get_allocator().construct(&p_real[i_real],i_real);
+
+	REQUIRE(p_own[0] == p_real[0]);
+	REQUIRE(p_own[1] == p_real[1]);
+	REQUIRE(p_own[2] == p_real[2]);
+	REQUIRE(p_own[3] == p_real[3]);
+
+
+  	// destroy and deallocate:
+	for (i_own = 0; i_own < 3; i_own++) own.get_allocator().destroy(&p_own[i_own]);
+	for (i_real = 0; i_real < 3; i_real++) own.get_allocator().destroy(&p_own[i_real]);
+	
+	REQUIRE(p_own[0] == p_real[0]);
+	REQUIRE(p_own[1] == p_real[1]);
+	
+	own.get_allocator().deallocate(p_own,5);
+	real.get_allocator().deallocate(p_real,5);
+	
+	if (!p_own)
+		own_return = false;
+	else
+		own_return = true;
+
+	if (!p_real)
+		real_return = false;
+	else
+		real_return = true;
+		
+	REQUIRE(own_return == real_return);
 }
 
 /*-----------------Relational Operators-----------------*/

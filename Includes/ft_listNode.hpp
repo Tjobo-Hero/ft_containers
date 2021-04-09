@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 10:48:34 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/09 11:01:35 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/09 14:03:14 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ namespace ft
 			return;
 		}
 		
-		listNode&	listNode=(const listNode &obj)
+		listNode&	operator=(const listNode &obj)
 		{
 			if (this != obj)
 			{

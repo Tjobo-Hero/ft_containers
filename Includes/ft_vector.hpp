@@ -6,21 +6,20 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/08 17:02:48 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/09 13:53:54 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_VECTOR_HPP
 # define FT_VECTOR_HPP
 
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-#include <memory>
-#include <vector>
-#include <algorithm>
-#include "RandomAccessIterator.hpp"
-#include "type_traits.hpp"
+# include <iostream>
+# include <string>
+# include <stdlib.h>
+# include <memory>
+# include <algorithm>
+# include "ft_RandomAccessIterator.hpp"
+# include "type_traits.hpp"
 
 namespace ft
 {
@@ -33,6 +32,14 @@ namespace ft
 			typedef const_random_access_iterator<T>			const_iterator;
 			typedef reverse_random_access_iterator<T>		reverse_iterator;
 			typedef const_reverse_random_access_iterator<T>	const_reverse_iterator;
+        	typedef std::ptrdiff_t                      	difference_type;
+        	typedef size_t                              	size_type;
+        	typedef Alloc                               	allocator_type;
+			typedef T                                   	value_type;
+        	typedef T&                                  	reference;
+        	typedef const T&                            	const_reference;
+        	typedef T*                                  	pointer;
+        	typedef const T*                            	const_pointer;
 			
 		private:
 
@@ -67,15 +74,18 @@ namespace ft
 			
 		public:
 		 
-		/* ------------ Member Functions ------------ */
+		/* ------------ MEMBER FUNCTIONS ------------ */
 		 
-		/* Constructor--> Construct Vector */
+		/* EMPTY CONTAINER CONSTRUCTOR--> Constructs an empty 
+		container, with no elements. */
 		explicit vector(const Alloc& alloc = Alloc()) : 
 			_data(NULL), 
 			_capacity(0),
 			_size(0), 
 			_allocator(alloc) {}
-		
+			
+		/* FILL CONSTRUCTOR--> Constructs a container 
+		with n elements. Each element is a copy of val. */
 		explicit vector(size_t n, const T& val = T(), const Alloc& alloc = Alloc()) : 
 			_capacity(n), 
 			_size(n), 
@@ -85,7 +95,11 @@ namespace ft
 			for (size_t i = 0; i < n ; i++)
 				_data[i] = val;
 		} 
-				 
+		
+		/* RANGE CONSTRUCTOR--> Constructs a container with 
+		as many elements as the range [first,last), with each 
+		element constructed from its corresponding element in that 
+		range, in the same order.*/
 		template <class InputIterator>
         vector (typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last, const Alloc& alloc = Alloc()) : _data(NULL), _allocator(alloc)
 		{
@@ -97,9 +111,10 @@ namespace ft
 				this->_allocator.construct(this->_data + i, *first);
 				++first;
 			}
-				
 		}
 		
+		/* COPY CONSTRUCTOR--> Constructs a container with a 
+		copy of each of the elements in x, in the same order. */
 		vector(const vector& x) : 
 			_capacity(x._capacity), 
 			_size(x._size), 
@@ -338,7 +353,6 @@ namespace ft
 
 			*this = x;
 			x = tmp;
-			// ft::swap(this->_data, x._data);
 		}
 		
 		/* CLEAR--> Clear content */
@@ -348,8 +362,16 @@ namespace ft
 				_allocator.destroy(&this->_data[i]);
 			this->_size = 0;
 		}
+
+		/* ------------ OBSERVERS ------------ */
+
+		/* GET_ALLOCATOR--> Returns a copy of the 
+		allocator object associated with the vector. */
+		allocator_type get_allocator() const { return this->_allocator; }
 		
-		/*Exceptions */
+
+		
+		/* ------------ EXCEPTIONS ------------ */
 		class out_of_range : public std::exception
 		{
 			virtual const char*	what() const throw() 
@@ -368,21 +390,6 @@ namespace ft
 	}; // end of vector class
 	
 	/* ------------ RELATIONAL OPERATORS ------------ */
-	template <class InputIterator1, class InputIterator2>
-  	bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
-                                InputIterator2 first2, InputIterator2 last2)
-	{
-  		while (first1 != last1)
-  		{
-    		if (first2 == last2 || *first2 < *first1) 
-				return false;
-    		else if (*first1 < *first2) 
-				return true;
-   			++first1; ++first2;
-  		}
-  		return (first2 != last2);
-	}
-	
 	template <typename T>
     void swap(vector<T> &x, vector<T> &y)
     {
@@ -428,7 +435,7 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator<  (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 	{
-		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 	
 	// a <= b <<>>  !(b < a)
