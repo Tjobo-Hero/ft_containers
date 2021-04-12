@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 12:07:51 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/12 13:00:23 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,36 @@ namespace ft
 		  
 		/* COPY CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */
-		list (const list& x)
-		{
-			_head = new listNode<T>();
-			_tail = new listNode<T>();
-			this->_head->next = this->_tail;
-			this->_tail->prev = this->_head;
-			assign(x.begin(), x.end());
-		}
+		// list (const list& x)
+		// {
+		// 	_head = new listNode<T>();
+		// 	_tail = new listNode<T>();
+		// 	this->_head->next = this->_tail;
+		// 	this->_tail->prev = this->_head;
+		// 	assign(x.begin(), x.end());
+		// }
 		
 		/* LIST DESTRUCTOR--> Destroys the container object. */
-		~list(){ return; }
+		~list()
+		{
+			this->clear();
+			delete this->_tail;
+			delete this->_head;
+			return; 
+		}
 
 		/* ASSIGN content--> Assigns new contents to the 
 		container, replacing its current contents, 
 		and modifying its size accordingly. */
-		// list&		operator=(const list &x)
+		list&		operator=(const list &x)
+		{
+			if (this != x)
+			{
+				this->_allocator = x.get_allocator();
+				assign(x.begin(), x.end());
+			}
+			return(*this);
+		}
 
 		/* ------------ ITERATORS ------------ */
 		
@@ -136,7 +150,7 @@ namespace ft
 		
 		/* MAX_SIZE--> Returns the number of elements in 
 		the list container. */
-		size_type max_size() const { return this->_allcator.max_size(); }
+		size_type max_size() const { return((std::numeric_limits<size_t>::max() / sizeof(listNode<T>))); };
 
 		/* ------------ ELEMENT ACCESS ------------ */
 		
@@ -173,7 +187,16 @@ namespace ft
 		The content of val is copied (or moved) to the inserted element.
 		
 		This effectively increases the container size by one. */
-		// void push_front (const value_type& val);
+		void push_front (const value_type& val)
+		{
+			node*		new_node = new listNode<T>(val);
+
+			new_node->prev = _head;
+			this->_head->next->prev = new_node;
+			new_node->next = this->_head->next;
+			this->_head->next = new_node;
+			this->_size += 1;
+		}
 
 		/* PUSH_BACK--> Adds a new element at the end of the 
 		list container, after its current last element. 

@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 10:41:01 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/12 13:00:18 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ namespace ft
 		size_t size() const { return this->_size; }
 		
 		/* MAX_SIZE--> Return maximum size */
-		size_t max_size() const { return _allocator.max_size(); }
+		size_t max_size() const { return((std::numeric_limits<size_t>::max() / sizeof(T))); };
 
 		/* RESIZE--> Change size */
 		void resize (size_t n, T val = T ())
