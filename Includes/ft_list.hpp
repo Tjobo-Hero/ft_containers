@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/09 14:06:49 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/12 12:07:51 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,21 @@ namespace ft
 	class list
 	{
 		public:
-			typedef T                       value_type;
-        	typedef Alloc                   allocator_type;
-        	typedef T&                      reference;
-        	typedef const T&                const_reference;
-        	typedef T*                      pointer;
-        	typedef const T*                const_pointer;
-			typedef std::ptrdiff_t          difference_type;
-			typedef size_t                  size_type;
-			typedef listNode<T>*			node_pointer;
+			typedef T						value_type;
+			typedef Alloc					allocator_type;
+			typedef T&						reference;
+			typedef const T&				const_reference;
+			typedef T*						pointer;
+			typedef const T*				const_pointer;
+			typedef std::ptrdiff_t			difference_type;
+			typedef size_t					size_type;
 			typedef listNode<T>			 	node;
 			
 		private:
-			node_pointer	_head;
-			node_pointer	_tail;
-			Alloc			_allocator;
-			size_t			_size;
+			node*		_head;
+			node*		_tail;
+			Alloc		_allocator;
+			size_t		_size;
 			
 		public:
 			
@@ -58,11 +57,15 @@ namespace ft
 		}
 		/* FILL CONSTRUCTOR--> Constructs a container 
 		with n elements. Each element is a copy of val. */
-		// explicit list (size_type n, const value_type& val = value_type(),
-        //         const allocator_type& alloc = allocator_type()) : _allocator(alloc), _size(n)
-		// {
-		// 	assign(n, val);
-		// }
+		explicit list (size_type n, const value_type& val = value_type(),
+                const allocator_type& alloc = allocator_type()) : _allocator(alloc), _size(0)
+		{
+			_head = new listNode<T>();
+			_tail = new listNode<T>();
+			this->_head->next = this->_tail;
+			this->_tail->prev = this->_head;
+			assign(n, val);
+		}
 		
 		/* RANGE CONSTRUCTOR--> Constructs a container with 
 		as many elements as the range [first,last), with each 
@@ -73,7 +76,14 @@ namespace ft
 		  
 		/* COPY CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */
-		list (const list& x);
+		list (const list& x)
+		{
+			_head = new listNode<T>();
+			_tail = new listNode<T>();
+			this->_head->next = this->_tail;
+			this->_tail->prev = this->_head;
+			assign(x.begin(), x.end());
+		}
 		
 		/* LIST DESTRUCTOR--> Destroys the container object. */
 		~list(){ return; }
@@ -132,13 +142,13 @@ namespace ft
 		
 		/* FRONT--> Returns a reference to the first 
 		element in the list container. */
-		// reference front();
-		// const_reference front() const;
+		T& front() { return this->_head->next->data; }
+		const T& front() const { return this->_head->next->data; }
 
 		/* BACK--> Returns a reference to 
 		the last element in the list container. */
-		// reference back();
-		// const_reference back() const;
+		reference back() { return this->_tail->prev->data; }
+		const_reference back() const { return this->_tail->prev->data; }
 		
 		/* ------------ MODIFIERS ------------ */
 
@@ -148,7 +158,15 @@ namespace ft
 		// template <class InputIterator>
   		// void assign (InputIterator first, InputIterator last);
 	
-		// void assign (size_type n, const value_type& val);
+		void assign (size_type n, const value_type& val)
+		{
+			this->clear();
+			while (n)
+			{
+				this->push_back(val);
+				n--;
+			}
+		}
 		
 		/* PUSH_FRONT--> Inserts a new element at the beginning 
 		of the list, right before its current first element. 
@@ -162,13 +180,34 @@ namespace ft
 		The content of val is copied (or moved) to the new element.
 		
 		This effectively increases the container size by one. */
-		// void push_back (const value_type& val);
+		void push_back (const T& val)
+		{
+			node*	new_node = new listNode<T>(val);
+			
+			new_node->next = _tail;
+			this->_tail->prev->next = new_node;
+			new_node->prev = this->_tail->prev;
+			this->_tail->prev = new_node;
+			this->_size += 1;			
+		}
+		
 
 		/* POP_BACK--> Removes the last element in the list container, 
 		effectively reducing the container size by one.
 		
 		This destroys the removed element. */
-		// void pop_back();
+		void pop_back()
+		{
+			if (this->_size)
+			{
+				node*	back_node = this->_tail->prev;
+				
+				this->_tail->prev->prev->next = this->_tail;
+				this->_tail->prev = this->_tail->prev->prev;
+				this->_size -= 1;
+				delete back_node;
+			}	
+		}
 
 		/* INSERT--> The container is extended by 
 		inserting new elements before the element at 
@@ -218,7 +257,12 @@ namespace ft
 		/* CLEAR--> Removes all elements from the list container 
 		(which are destroyed), and leaving the container with a 
 		size of 0. */
-		// void clear();
+		void clear()
+		{
+			while (this->_size)
+				pop_back();
+			return;
+		}
 
 		/* ------------ OPERATIONS ------------ */
 		
