@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 13:00:23 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/12 15:01:01 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,15 @@ namespace ft
 		/* ASSIGN content--> Assigns new contents to the 
 		container, replacing its current contents, 
 		and modifying its size accordingly. */
-		list&		operator=(const list &x)
-		{
-			if (this != x)
-			{
-				this->_allocator = x.get_allocator();
-				assign(x.begin(), x.end());
-			}
-			return(*this);
-		}
+		// list&		operator=(const list &x)
+		// {
+		// 	if (this != x)
+		// 	{
+		// 		this->_allocator = x.get_allocator();
+		// 		assign(x.begin(), x.end());
+		// 	}
+		// 	return(*this);
+		// }
 
 		/* ------------ ITERATORS ------------ */
 		
@@ -161,8 +161,8 @@ namespace ft
 
 		/* BACK--> Returns a reference to 
 		the last element in the list container. */
-		reference back() { return this->_tail->prev->data; }
-		const_reference back() const { return this->_tail->prev->data; }
+		T& back() { return this->_tail->prev->data; }
+		const T& back() const { return this->_tail->prev->data; }
 		
 		/* ------------ MODIFIERS ------------ */
 
@@ -172,7 +172,7 @@ namespace ft
 		// template <class InputIterator>
   		// void assign (InputIterator first, InputIterator last);
 	
-		void assign (size_type n, const value_type& val)
+		void assign (size_t n, const T& val)
 		{
 			this->clear();
 			while (n)
@@ -187,7 +187,7 @@ namespace ft
 		The content of val is copied (or moved) to the inserted element.
 		
 		This effectively increases the container size by one. */
-		void push_front (const value_type& val)
+		void push_front (const T& val)
 		{
 			node*		new_node = new listNode<T>(val);
 
@@ -261,7 +261,19 @@ namespace ft
 		/* SWAP--> Exchanges the content of the container 
 		by the content of x, which is another list of the 
 		same type. Sizes may differ. */
-		// oid swap (list& x);
+		void swap (list& x)
+		{
+			node*	tmp_head = x._head;
+			node*	tmp_tail = x._tail;
+			size_t	tmp_size = x._size;
+			Alloc	tmp_alloc = x._allocator;
+			
+			x._head ;x._head;
+			x._tail;x._tail;
+			x._size;x._size;
+			x._allocator; x._allocator;
+			
+		}
 
 		/* RESIZE--> Resizes the container so that it 
 		contains n elements.
@@ -275,14 +287,21 @@ namespace ft
 		many elements as needed to reach a size of n. If val 
 		is specified, the new elements are initialized as 
 		copies of val, otherwise, they are value-initialized. */
-		// void resize (size_type n, value_type val = value_type());
+		void resize (size_t n, T val = T())
+		{
+			while (this->_size > n)
+				this->pop_back();
+			while (this->_size < n)
+				this->push_back(val);
+		}
+		
 
 		/* CLEAR--> Removes all elements from the list container 
 		(which are destroyed), and leaving the container with a 
 		size of 0. */
 		void clear()
 		{
-			while (this->_size)
+			while (!this->empty())
 				pop_back();
 			return;
 		}
@@ -421,7 +440,7 @@ namespace ft
 		/* GET_ALLOCATOR--> Returns a copy of the 
 		allocator object associated with the list 
 		container. */
-		allocator_type get_allocator() const { return this->_allocator; }
+		Alloc get_allocator() const { return this->_allocator; }
 		
 	}; // end of list class
 
