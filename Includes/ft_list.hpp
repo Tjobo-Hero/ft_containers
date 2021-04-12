@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 15:01:01 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/12 15:25:43 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,11 +146,11 @@ namespace ft
 		
 		/* SIZE--> Returns the number of elements in 
 		the list container. */
-		size_type size() const { return this->_size; }
+		size_t size() const { return this->_size; }
 		
 		/* MAX_SIZE--> Returns the number of elements in 
 		the list container. */
-		size_type max_size() const { return((std::numeric_limits<size_t>::max() / sizeof(listNode<T>))); };
+		size_t max_size() const { return((std::numeric_limits<size_t>::max() / sizeof(listNode<T>))); };
 
 		/* ------------ ELEMENT ACCESS ------------ */
 		
@@ -268,10 +268,15 @@ namespace ft
 			size_t	tmp_size = x._size;
 			Alloc	tmp_alloc = x._allocator;
 			
-			x._head ;x._head;
-			x._tail;x._tail;
-			x._size;x._size;
-			x._allocator; x._allocator;
+			x._head = this->_head;
+			x._tail = this->_tail;
+			x._size = this->_size;
+			x._allocator = this->_allocator;
+			
+			this->_head = tmp_head;
+			this->_tail = tmp_tail;
+			this->_size = tmp_size;
+			this->_allocator = tmp_alloc;
 			
 		}
 

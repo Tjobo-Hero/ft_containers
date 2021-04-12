@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/29 13:05:30 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 12:48:23 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/12 16:27:46 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -629,8 +629,6 @@ TEST_CASE("vector-get_allocator function", "[vector]")
 	unsigned int i_own;
 	unsigned int i_real;
 
-	
-
 	// allocate an array with space for 5 elements using vector's allocator:
   	p_own = own.get_allocator().allocate(5);
   	p_real = real.get_allocator().allocate(5);
@@ -655,7 +653,6 @@ TEST_CASE("vector-get_allocator function", "[vector]")
 	REQUIRE(p_own[1] == p_real[1]);
 	REQUIRE(p_own[2] == p_real[2]);
 	REQUIRE(p_own[3] == p_real[3]);
-
 
   	// destroy and deallocate:
 	for (i_own = 0; i_own < 3; i_own++) own.get_allocator().destroy(&p_own[i_own]);

@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 14:54:36 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/12 16:28:55 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,126 +339,240 @@ TEST_CASE("list-back function", "[list]")
 	REQUIRE(own.back() == real.back());
 }
 
-	/* ------------ MODIFIERS ------------ */
-
-	// TEST_CASE("list-assign with iterators", "[list]")
-	// {
-		
-	// }
-
-	TEST_CASE("list-assign size n and type val")
+/* ------------ MODIFIERS ------------ */
+// TEST_CASE("list-assign with iterators", "[list]")
+// {
+	
+// }
+TEST_CASE("list-assign size n and type val")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+	own.assign(6, 100);
+	real.assign(6, 100);
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+}
+TEST_CASE("list-push_front function", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+	int sum = 10;
+	for (int i = 0; i < 10; ++i)
 	{
-		ft::list<int>	own;
-		std::list<int>	real;
-
-		own.assign(6, 100);
-		real.assign(6, 100);
-
-		REQUIRE(own.size() == real.size());
-		REQUIRE(own.empty() == real.empty());
-		REQUIRE(own.front() == real.front());
-		REQUIRE(own.back() == real.back());
+		own.push_front(sum);
+		real.push_front(sum);
+		sum += 11;
 	}
-
-	TEST_CASE("list-push_front function", "[list]")
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+}
+TEST_CASE("list-push_back function", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+	int sum = 10;
+	for (int i = 0; i < 10; ++i)
 	{
-		ft::list<int>	own;
-		std::list<int>	real;
-
-		int sum = 10;
-		for (int i = 0; i < 10; ++i)
-		{
-			own.push_front(sum);
-			real.push_front(sum);
-			sum += 11;
-		}
-
-		REQUIRE(own.size() == real.size());
-		REQUIRE(own.empty() == real.empty());
-		REQUIRE(own.front() == real.front());
-		REQUIRE(own.back() == real.back());
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 11;
 	}
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+}
 
-	TEST_CASE("list-push_back function", "[list]")
+TEST_CASE("list-pop_back function", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+	int sum = 10;
+	for (int i = 0; i < 10; ++i)
 	{
-		ft::list<int>	own;
-		std::list<int>	real;
-
-		int sum = 10;
-		for (int i = 0; i < 10; ++i)
-		{
-			own.push_back(sum);
-			real.push_back(sum);
-			sum += 11;
-		}
-
-		REQUIRE(own.size() == real.size());
-		REQUIRE(own.empty() == real.empty());
-		REQUIRE(own.front() == real.front());
-		REQUIRE(own.back() == real.back());
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 11;
 	}
 	
-	TEST_CASE("list-pop_back function", "[list]")
+	for (int i = 0; i < 5; ++i)
 	{
-		ft::list<int>	own;
-		std::list<int>	real;
-
-		int sum = 10;
-		for (int i = 0; i < 10; ++i)
-		{
-			own.push_back(sum);
-			real.push_back(sum);
-			sum += 11;
-		}
-		
-		for (int i = 0; i < 5; ++i)
-		{
-			REQUIRE(own.back() == real.back());
-			REQUIRE(own.size() == real.size());
-
-			own.pop_back();
-			real.pop_back();
-		}
-		
-		own.push_back(2000);
-		real.push_back(2000);
 		REQUIRE(own.back() == real.back());
 		REQUIRE(own.size() == real.size());
-
 		own.pop_back();
 		real.pop_back();
-		
-		REQUIRE(own.back() == real.back());
-		REQUIRE(own.size() == real.size());
-		
 	}
-
-	// TEST_CASE("list-insert single element", "[list]")
-	// {
-		
-	// }
-
-	// TEST_CASE("list-insert fill", "[list]")
-	// {
-		
-	// }
-
-	// TEST_CASE("list-insert range", "[list]")
-	// {
-		
-	// }
-
-	// TEST_CASE("list-erase single element", "[list]")
-	// {
-		
-	// }
-
-	// TEST_CASE("list-erase range element", "[list]")
-	// {
-		
-	// }
-
-	TEST_CASE("list-swap ", "[list]")
+	
+	own.push_back(2000);
+	real.push_back(2000);
+	REQUIRE(own.back() == real.back());
+	REQUIRE(own.size() == real.size());
+	own.pop_back();
+	real.pop_back();
+	
+	REQUIRE(own.back() == real.back());
+	REQUIRE(own.size() == real.size());
+	
+}
+// TEST_CASE("list-insert single element", "[list]")
+// {
+	
+// }
+// TEST_CASE("list-insert fill", "[list]")
+// {
+	
+// }
+// TEST_CASE("list-insert range", "[list]")
+// {
+	
+// }
+// TEST_CASE("list-erase single element", "[list]")
+// {
+	
+// }
+// TEST_CASE("list-erase range element", "[list]")
+// {
+	
+// }
+TEST_CASE("list-swap ", "[list]")
+{
+	ft::list<int>	own;
+	ft::list<int>	own2;
+	std::list<int>	real;
+	std::list<int>	real2;
+	int sum = 10;
+	for (int i = 0; i < 10; ++i)
 	{
-		
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 11;
 	}
+	own2.swap(own);
+	real2.swap(real);
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own2.empty() == real2.empty());
+	REQUIRE(own2.front() == real2.front());
+	REQUIRE(own2.back() == real2.back());
+}
+TEST_CASE("list-resize", "[list]")
+{
+	ft::list<int>	own(5, 100);
+	std::list<int>	real(5, 100);
+	REQUIRE(own.size() == real.size());
+	
+	own.resize(10, 200);
+	real.resize(10, 200);
+	
+	REQUIRE(own.back() == real.back());
+	REQUIRE(own.size() == real.size());
+	
+	own.resize(4, 50);
+	real.resize(4, 50);
+	
+	REQUIRE(own.back() == real.back());
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.front() == real.front());
+}
+TEST_CASE("list-clear", "[list]")
+{
+	ft::list<int>	own(5, 100);
+	std::list<int>	real(5, 100);
+	
+	int sum = 10;
+	for (int i = 0; i < 2; ++i)
+	{
+		REQUIRE(own.size() == real.size());
+		REQUIRE(own.empty() == real.empty());
+		REQUIRE(own.front() == real.front());
+		REQUIRE(own.back() == real.back());
+
+		own.clear();
+		real.clear();
+
+		REQUIRE(own.size() == real.size());
+		REQUIRE(own.empty() == real.empty());
+		REQUIRE(own.front() == real.front());
+		REQUIRE(own.back() == real.back());
+
+		own.assign(5, sum);
+		real.assign(5, sum);
+		sum += 123;
+	}
+}
+/* ------------ OPERATIONS ------------ */
+
+// TEST_CASE("list-splice version 1", "[list]")
+// {
+	
+// }
+// TEST_CASE("list-splice version 2", "[list]")
+// {
+	
+// }
+// TEST_CASE("list-splice version 3", "[list]")
+// {
+	
+// }
+
+// TEST_CASE("list-remove", "[list]")
+// {
+	
+// }
+
+// TEST_CASE("list-remove_if", "[list]")
+// {
+	
+// }
+
+// TEST_CASE("list-unique version 1", "[list]")
+// {
+	
+// }
+
+// TEST_CASE("list-unique version 2", "[list]")
+// {
+	
+// }
+
+// TEST_CASE("list-merge version 1", "[list]")
+// {
+	
+// }
+
+// TEST_CASE("list-merge version 2", "[list]")
+// {
+	
+// }
+
+// TEST_CASE("list-sort version 1", "[list]")
+// {
+	
+// }
+// TEST_CASE("list-sort version 2", "[list]")
+// {
+	
+// }
+
+// TEST_CASE("list-reverse", "[list]")
+// {
+	
+// }
+
+/* ------------ OBSERVERS ------------ */
+
+// TEST_CASE("list-get_allocator", "[list]")
+// {
+	
+// }
+
+/* ------------ RELATIONAL OPERATORS ------------ */
+
+// TEST_CASE("list-operation overloaders", "[list]")
+// {
+	
+// }
