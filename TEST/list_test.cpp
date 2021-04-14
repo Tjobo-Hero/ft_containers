@@ -6,14 +6,14 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 16:28:55 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/14 14:35:58 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "catch.hpp"
 #include <list>
 
-#include "../INCLUDES/ft_list.hpp"
+#include "../INCLUDES/ft_List.hpp"
 
 /*-----------------CONSTRUCTORS-----------------*/
 TEST_CASE("list-Empty container constructor", "[list]")

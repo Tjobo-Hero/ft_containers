@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 15:25:43 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/14 14:36:39 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <string>
 # include <memory>
 # include <algorithm>
-# include "../INCLUDES/ft_listNode.hpp"
+# include "../INCLUDES/ft_ListNode.hpp"
+# include "../INCLUDES/ft_BiDirectionalIterator.hpp"
 
 namespace ft
 {

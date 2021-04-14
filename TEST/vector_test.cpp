@@ -6,14 +6,14 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/29 13:05:30 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 16:27:46 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/14 14:36:03 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "catch.hpp"
 #include <vector>
 
-#include "../INCLUDES/ft_vector.hpp"
+#include "../INCLUDES/ft_Vector.hpp"
 
 /*-----------------CONSTRUCTORS-----------------*/
 TEST_CASE("vector-default constructor", "[vector]")

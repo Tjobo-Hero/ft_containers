@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   RandomAccessIterator.hpp                           :+:    :+:            */
+/*   ft_RandomAccessIterator.hpp                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/25 12:11:16 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/09 10:36:50 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/14 15:49:55 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,19 @@ namespace ft
 	{
 		public:
 
-			typedef std::random_access_iterator_tag     iterator_category;
-        	typedef T                                   value_type;
-        	typedef std::ptrdiff_t                      difference_type;
-        	typedef T                                   *pointer;
-        	typedef T                                   &reference;
-        	typedef const T                             *const_pointer;
-        	typedef const T                             &const_reference;
-			
+			typedef	std::random_access_iterator_tag		iterator_category;
+			typedef	T									value_type;
+			typedef	std::ptrdiff_t						difference_type;
+			typedef	T									*pointer;
+			typedef	T									&reference;
+			typedef	const T								*const_pointer;
+			typedef	const T								&const_reference;
 			
 		private:
 
 			T*		_ptr;
 
 		public:
-		
 		
 		/* ------------MEMBER FUNCTIONS------------ */
 		/* CONSTRUCTOR */
@@ -86,11 +84,11 @@ namespace ft
 		
 		/* OPERATOR+ FUNCTION --> pointer + diff */ 
 		random_access_iterator		operator+(const std::ptrdiff_t& n) { return random_access_iterator<T>(_ptr + n); }
-		std::ptrdiff_t				operator+(const random_access_iterator& obj) { std::cout << "TEST ASDF\n" << std::endl; return _ptr + obj._ptr; }
+		std::ptrdiff_t				operator+(const random_access_iterator& obj) { return _ptr + obj._ptr; }
 	
 		/* OPERATOR- FUNCTION --> pointer - diff */ 
 		random_access_iterator		operator-(const std::ptrdiff_t& n) { return random_access_iterator<T>(_ptr - n); }
-		std::ptrdiff_t				operator-(const random_access_iterator& obj) { std::cout << "TEST ASDF\n" << std::endl; return _ptr - obj._ptr; }
+		std::ptrdiff_t				operator-(const random_access_iterator& obj) { return _ptr - obj._ptr; }
 	
 		/* OPERATOR+= FUNCTION --> Pluses the pointer with n */ 
 		random_access_iterator		operator+=(const std::ptrdiff_t& n) { return _ptr += n; }
@@ -99,22 +97,22 @@ namespace ft
 		random_access_iterator		operator-=(const std::ptrdiff_t& n) { return _ptr -= n; }
 
 		/* ------------ RELATIONAL OPERATORS------------ */
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator<(const random_access_iterator<T2> &lhs, const random_access_iterator<T2> &rhs) { return (lhs._ptr < rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator<=(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return !(lhs._ptr < rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator>(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return (lhs._ptr > rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator>=(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return !(lhs._ptr > rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator!=(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return (lhs._ptr != rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator==(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return (lhs._ptr == rhs._ptr); }
 		
 		/*GETTER*/
@@ -126,13 +124,13 @@ namespace ft
 	{
 		public:
 
-			typedef std::random_access_iterator_tag     iterator_category;
-			typedef T                                   value_type;
-        	typedef std::ptrdiff_t                      difference_type;
-        	typedef T                                   *pointer;
-        	typedef T                                   &reference;
-        	typedef const T                             *const_pointer;
-        	typedef const T                             &const_reference;
+			typedef	std::random_access_iterator_tag		iterator_category;
+			typedef	T									value_type;
+			typedef	std::ptrdiff_t						difference_type;
+			typedef	T									*pointer;
+			typedef	T									&reference;
+			typedef	const T								*const_pointer;
+			typedef	const T								&const_reference;
 			
 		private:
 
@@ -189,11 +187,11 @@ namespace ft
 		
 		/* OPERATOR+ FUNCTION --> pointer + diff */ 
 		const_random_access_iterator		operator+(const std::ptrdiff_t& n) { return const_random_access_iterator<T>(_ptr + n); }
-		std::ptrdiff_t						operator+(const const_random_access_iterator& obj) { std::cout << "TEST ASDF\n" << std::endl; return _ptr + obj._ptr; }
+		std::ptrdiff_t						operator+(const const_random_access_iterator& obj) { return _ptr + obj._ptr; }
 	
 		/* OPERATOR- FUNCTION --> pointer - diff */ 
 		const_random_access_iterator		operator-(const std::ptrdiff_t& n) { return const_random_access_iterator<T>(_ptr - n); }
-		std::ptrdiff_t						operator-(const const_random_access_iterator& obj) { std::cout << "TEST ASDF\n" << std::endl; return _ptr - obj._ptr; }
+		std::ptrdiff_t						operator-(const const_random_access_iterator& obj) { return _ptr - obj._ptr; }
 	
 		/* OPERATOR+= FUNCTION --> Pluses the pointer with n */ 
 		const_random_access_iterator		operator+=(const std::ptrdiff_t& n) { return _ptr += n; }
@@ -202,22 +200,22 @@ namespace ft
 		const_random_access_iterator		operator-=(const std::ptrdiff_t& n) { return _ptr -= n; }
 
 		/* ------------ RELATIONAL OPERATORS------------ */
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator<(const const_random_access_iterator<T2> &lhs, const const_random_access_iterator<T2> &rhs) { return (lhs._ptr < rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator<=(const const_random_access_iterator<T2> &lhs, const const_random_access_iterator<T2>  &rhs) { return !(lhs._ptr < rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator>(const const_random_access_iterator<T2> &lhs, const const_random_access_iterator<T2>  &rhs) { return (lhs._ptr > rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator>=(const const_random_access_iterator<T2> &lhs, const const_random_access_iterator<T2>  &rhs) { return !(lhs._ptr > rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator!=(const const_random_access_iterator<T2> &lhs, const const_random_access_iterator<T2>  &rhs) { return (lhs._ptr != rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator==(const const_random_access_iterator<T2> &lhs, const const_random_access_iterator<T2>  &rhs) { return (lhs._ptr == rhs._ptr); }
 		/*GETTER*/
 		const T& get_ptr() const { return _ptr; };
@@ -228,14 +226,14 @@ namespace ft
 	{
 		public:
 
-			typedef std::random_access_iterator_tag     iterator_category;
-			typedef T                                   value_type;
-        	typedef std::ptrdiff_t                      difference_type;
-        	typedef T                                   *pointer;
-        	typedef T                                   &reference;
-        	typedef const T                             *const_pointer;
-        	typedef const T                             &const_reference;
-		
+			typedef	std::random_access_iterator_tag		iterator_category;
+			typedef	T									value_type;
+			typedef	std::ptrdiff_t						difference_type;
+			typedef	T									*pointer;
+			typedef	T									&reference;
+			typedef	const T								*const_pointer;
+			typedef	const T								&const_reference;
+			
 		private:
 
 			T*		_ptr;
@@ -290,11 +288,11 @@ namespace ft
 		
 		/* OPERATOR+ FUNCTION --> pointer + diff */ 
 		reverse_random_access_iterator		operator+(const std::ptrdiff_t& n) { return reverse_random_access_iterator<T>(_ptr - n); }
-		std::ptrdiff_t						operator+(const reverse_random_access_iterator& obj) { std::cout << "TEST ASDF\n" << std::endl; return _ptr - obj._ptr; }
+		std::ptrdiff_t						operator+(const reverse_random_access_iterator& obj) { return _ptr - obj._ptr; }
 	
 		/* OPERATOR- FUNCTION --> pointer - diff */ 
 		reverse_random_access_iterator		operator-(const std::ptrdiff_t& n) { return reverse_random_access_iterator<T>(_ptr + n); }
-		std::ptrdiff_t						operator-(const reverse_random_access_iterator& obj) { std::cout << "TEST ASDF\n" << std::endl; return _ptr + obj._ptr; }
+		std::ptrdiff_t						operator-(const reverse_random_access_iterator& obj) { return _ptr + obj._ptr; }
 	
 		/* OPERATOR+= FUNCTION --> Pluses the pointer with n */ 
 		reverse_random_access_iterator		operator+=(const std::ptrdiff_t& n) { return _ptr -= n; }
@@ -303,22 +301,22 @@ namespace ft
 		reverse_random_access_iterator		operator-=(const std::ptrdiff_t& n) { return _ptr += n; }
 
 		/* ------------ RELATIONAL OPERATORS------------ */
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator<(const reverse_random_access_iterator<T2> &lhs, const reverse_random_access_iterator<T2> &rhs) { return (lhs._ptr < rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator<=(const reverse_random_access_iterator<T2> &lhs, const reverse_random_access_iterator<T2>  &rhs) { return !(lhs._ptr < rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator>(const reverse_random_access_iterator<T2> &lhs, const reverse_random_access_iterator<T2>  &rhs) { return (lhs._ptr > rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator>=(const reverse_random_access_iterator<T2> &lhs, const reverse_random_access_iterator<T2>  &rhs) { return !(lhs._ptr > rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator!=(const reverse_random_access_iterator<T2> &lhs, const reverse_random_access_iterator<T2>  &rhs) { return (lhs._ptr != rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator==(const reverse_random_access_iterator<T2> &lhs, const reverse_random_access_iterator<T2>  &rhs) { return (lhs._ptr == rhs._ptr); }
 		
 		/*GETTER*/
@@ -330,13 +328,13 @@ namespace ft
 	{
 		public:
 
-			typedef std::random_access_iterator_tag     iterator_category;
-			typedef T                                   value_type;
-        	typedef std::ptrdiff_t                      difference_type;
-        	typedef T                                   *pointer;
-        	typedef T                                   &reference;
-        	typedef const T                             *const_pointer;
-        	typedef const T                             &const_reference;
+			typedef	std::random_access_iterator_tag		iterator_category;
+			typedef	T									value_type;
+			typedef	std::ptrdiff_t						difference_type;
+			typedef	T									*pointer;
+			typedef	T									&reference;
+			typedef	const T								*const_pointer;
+			typedef	const T								&const_reference;
 		
 		private:
 
@@ -395,11 +393,11 @@ namespace ft
 		
 		/* OPERATOR+ FUNCTION --> pointer + diff */ 
 		const_reverse_random_access_iterator	operator+(const std::ptrdiff_t& n) { return const_reverse_random_access_iterator<T>(_ptr - n); }
-		std::ptrdiff_t							operator+(const const_reverse_random_access_iterator& obj) { std::cout << "TEST ASDF\n" << std::endl; return _ptr - obj._ptr; }
+		std::ptrdiff_t							operator+(const const_reverse_random_access_iterator& obj) { return _ptr - obj._ptr; }
 	
 		/* OPERATOR- FUNCTION --> pointer - diff */ 
 		const_reverse_random_access_iterator	operator-(const std::ptrdiff_t& n) { return const_reverse_random_access_iterator<T>(_ptr + n); }
-		std::ptrdiff_t							operator-(const const_reverse_random_access_iterator& obj) { std::cout << "TEST ASDF\n" << std::endl; return _ptr + obj._ptr; }
+		std::ptrdiff_t							operator-(const const_reverse_random_access_iterator& obj) { return _ptr + obj._ptr; }
 	
 		/* OPERATOR+= FUNCTION --> Pluses the pointer with n */ 
 		const_reverse_random_access_iterator	operator+=(const std::ptrdiff_t& n) { return _ptr -= n; }
@@ -408,22 +406,22 @@ namespace ft
 		const_reverse_random_access_iterator	operator-=(const std::ptrdiff_t& n) { return _ptr += n; }
 
 		/* ------------ RELATIONAL OPERATORS------------ */
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator<(const random_access_iterator<T2> &lhs, const random_access_iterator<T2> &rhs) { return (lhs._ptr < rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator<=(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return !(lhs._ptr < rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator>(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return (lhs._ptr > rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator>=(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return !(lhs._ptr > rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator!=(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return (lhs._ptr != rhs._ptr); }
 		
-		template<typename T2>
+		template< typename T2>
 		friend bool		operator==(const random_access_iterator<T2> &lhs, const random_access_iterator<T2>  &rhs) { return (lhs._ptr == rhs._ptr); }
 		/*GETTER*/
 		const T* &get_ptr() const { return (_ptr); };
