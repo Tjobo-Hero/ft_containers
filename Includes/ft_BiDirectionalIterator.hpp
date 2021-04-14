@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/14 11:50:10 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/14 15:55:24 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/14 15:59:20 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,39 @@ namespace ft
 		
 		template< typename T2, typename Node2 >
 		friend bool		operator!=(const bidirectional_iterator< T2, Node2 > &lhs, bidirectional_iterator< T2, Node2 > &rhs) { return !(lhs == rhs); }
+		
+		T* get_ptr() const { return (_ptr); };
+	
+	template< typename T, typename Node >
+	class const_bidirectional_iterator
+	{
+		public:
 			
+			typedef	std::bidirectional_iterator_tag		iterator_category;
+			typedef	T									value_type;
+			typedef	std::ptrdiff_t						difference_type;
+			typedef	T									*pointer;
+			typedef	T									&reference;
+			typedef Node								*iterator_type;
+			typedef	const T								*const_pointer;
+			typedef	const T								&const_reference;
+			
+		private:
+			
+			Node*		_ptr;
+			
+		public:
+
+		/* ------------MEMBER FUNCTIONS------------ */
+		/* CONSTRUCTOR */
+		const_bidirectional_iterator() : _ptr(NULL) { return; }
+		explicit const_bidirectional_iterator(Node* it) : _ptr(it) { return; }
+		const_bidirectional_iterator(const bidirectional_iterator &src) { *this = src; return; }
+		const_bidirectional_iterator(const bidirectional_iterator< T, Node > &it) { _ptr = it.get_ptr(); return; }
+		
+		/* DESTRUCTOR--> Vector Destructor */ 
+		~const_bidirectional_iterator() { return; }
+		
 	}; // end of bidirectional_iterator class
 
 } // end ft namespace
