@@ -6,7 +6,7 @@
 #    By: timvancitters <timvancitters@student.co      +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/03/26 16:27:02 by timvancitte   #+#    #+#                  #
-#    Updated: 2021/04/15 11:02:31 by timvancitte   ########   odam.nl          #
+#    Updated: 2021/04/15 14:09:03 by timvancitte   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,11 @@ SOURCES			= 	TEST/main.cpp \
 					TEST/Vector_test.cpp \
 					TEST/List_test.cpp \
 					TEST/catch.cpp \
-					# UNIT_TEST/1_Bidirectionaliterator_test.cpp \
-					# UNIT_TEST/2_RandomAccessIterator_test.cpp \
-					UNIT_TEST/3_list_test.cpp \
-					# UNIT_TEST/5_queue_test.cpp \
-					# UNIT_TEST/6_stack_test.cpp \
-					# UNIT_TEST/7_map_test.cpp \
+					# TEST/1_Bidirectionaliterator_test.cpp \
+					# TEST/2_RandomAccessIterator_test.cpp \
+					# TEST/5_queue_test.cpp \
+					# TEST/6_stack_test.cpp \
+					# TEST/7_map_test.cpp \
 
 OBJECTS 		=	${SOURCES:%.c=%.o}
 
@@ -49,6 +48,12 @@ $(NAME): $(OBJECTS)
 	$(COMPILE) $(INCLUDES) $(UNIT_TEST) $(FLAGS) -c -o $@ $<
 
 clean:
+	@echo "$(RED)----------------------------------------------------"
+	@echo "$(WHITE)DELETE ./ft_containers"
+	@echo "$(RED)----------------------------------------------------"
+	@/bin/rm -f $(NAME)
+
+fclean:	clean
 	@echo "$(RED)----------------------------------------------------"
 	@echo "$(WHITE)DELETE ./ft_containers"
 	@echo "$(RED)----------------------------------------------------"
