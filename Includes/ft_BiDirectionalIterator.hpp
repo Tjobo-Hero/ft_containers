@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/14 11:50:10 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/15 11:01:55 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/15 12:34:55 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ namespace ft
 
 		/* ------------ RELATIONAL OPERATORS------------ */
 		template< typename T2, typename Node2 >
-		friend bool		operator==(const bidirectional_iterator< T2, Node2 > &lhs, bidirectional_iterator< T2, Node2 > &rhs) { return (lhs._ptr == rhs.ptr); }
+		friend bool		operator==(const bidirectional_iterator< T2, Node2 > &lhs, const bidirectional_iterator< T2, Node2 > &rhs) { return (lhs._ptr == rhs._ptr); }
 		
 		template< typename T2, typename Node2 >
-		friend bool		operator!=(const bidirectional_iterator< T2, Node2 > &lhs, bidirectional_iterator< T2, Node2 > &rhs) { return !(lhs == rhs); }
+		friend bool		operator!=(const bidirectional_iterator< T2, Node2 > &lhs, const bidirectional_iterator< T2, Node2 > &rhs) { return !(lhs == rhs); }
 		
 		Node* get_ptr() const { return (this->_ptr); };
 	};
@@ -148,10 +148,10 @@ namespace ft
 
 		/* ------------ RELATIONAL OPERATORS------------ */
 		template< typename T2, typename Node2 >
-		friend bool		operator==(const const_bidirectional_iterator< T2, Node2 > &lhs, const_bidirectional_iterator< T2, Node2 > &rhs) { return (lhs._ptr == rhs._ptr); }
+		friend bool		operator==(const const_bidirectional_iterator< T2, Node2 > &lhs, const const_bidirectional_iterator< T2, Node2 > &rhs) { return (lhs._ptr == rhs._ptr); }
 		
 		template< typename T2, typename Node2 >
-		friend bool		operator!=(const const_bidirectional_iterator< T2, Node2 > &lhs, const_bidirectional_iterator< T2, Node2 > &rhs) { return !(lhs == rhs); }
+		friend bool		operator!=(const const_bidirectional_iterator< T2, Node2 > &lhs, const const_bidirectional_iterator< T2, Node2 > &rhs) { return !(lhs == rhs); }
 		
 		const Node* get_ptr() const { return (this->_ptr); };
 	};
@@ -217,10 +217,10 @@ namespace ft
 
 		/* ------------ RELATIONAL OPERATORS------------ */
 		template< typename T2, typename Node2 >
-		friend bool		operator==(const reverse_bidirectional_iterator< T2, Node2 > &lhs, reverse_bidirectional_iterator< T2, Node2 > &rhs) { return (lhs._ptr == rhs._ptr); }
+		friend bool		operator==(const reverse_bidirectional_iterator< T2, Node2 > &lhs, const reverse_bidirectional_iterator< T2, Node2 > &rhs) { return (lhs._ptr == rhs._ptr); }
 		
 		template< typename T2, typename Node2 >
-		friend bool		operator!=(const reverse_bidirectional_iterator< T2, Node2 > &lhs, reverse_bidirectional_iterator< T2, Node2 > &rhs) { return !(lhs == rhs); }
+		friend bool		operator!=(const reverse_bidirectional_iterator< T2, Node2 > &lhs, const reverse_bidirectional_iterator< T2, Node2 > &rhs) { return !(lhs == rhs); }
 		
 		Node* get_ptr() const { return (this->_ptr); };
 	};
@@ -289,10 +289,10 @@ namespace ft
 
 		/* ------------ RELATIONAL OPERATORS------------ */
 		template< typename T2, typename Node2 >
-		friend bool		operator==(const const_reverse_bidirectional_iterator< T2, Node2 > &lhs, const_reverse_bidirectional_iterator< T2, Node2 > &rhs) { return (lhs._ptr == rhs._ptr); }
+		friend bool		operator==(const const_reverse_bidirectional_iterator< T2, Node2 > &lhs, const const_reverse_bidirectional_iterator< T2, Node2 > &rhs) { return (lhs._ptr == rhs._ptr); }
 		
 		template< typename T2, typename Node2 >
-		friend bool		operator!=(const const_reverse_bidirectional_iterator< T2, Node2 > &lhs, const_reverse_bidirectional_iterator< T2, Node2 > &rhs) { return !(lhs == rhs); }
+		friend bool		operator!=(const const_reverse_bidirectional_iterator< T2, Node2 > &lhs, const const_reverse_bidirectional_iterator< T2, Node2 > &rhs) { return !(lhs == rhs); }
 		
 		const Node* get_ptr() const { return (this->_ptr); };
 	

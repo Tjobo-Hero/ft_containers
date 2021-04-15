@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/15 11:04:40 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/15 13:58:35 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,31 @@ TEST_CASE("list-Fill constructor", "[list]")
 	REQUIRE(own.back() == real.back());
 }
 
-// TEST_CASE("list-Range constructor", "[list]")
-// {
+TEST_CASE("list-Range constructor", "[list]")
+{
+	ft::list<int>		own(6, 100);
+	ft::list<int>		own2(own.begin(), own.end());
+	std::list<int>		real(6, 100);
+	std::list<int>		real2(real.begin(), real.end());
+
+	ft::list<int>::iterator		own_it = own.begin();
+	std::list<int>::iterator	real_it = real.begin();
 	
-// }
+	own_it = own2.begin();
+	real_it = real2.begin();
+
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own2.empty() == real2.empty());
+	REQUIRE(own2.front() == real2.front());
+	REQUIRE(own2.back() == real2.back());
+
+	while (own_it != own2.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
 
 TEST_CASE("list-Copy constructor", "[list]")
 {
@@ -337,10 +358,29 @@ TEST_CASE("list-back function", "[list]")
 }
 
 /* ------------ MODIFIERS ------------ */
-// TEST_CASE("list-assign with iterators", "[list]")
-// {
-	
-// }
+TEST_CASE("list-assign with iterators", "[list]")
+{
+	ft::list<int>		own1(5, 100);
+	ft::list<int>		own2;
+	std::list<int>		real1(5, 100);
+	std::list<int>		real2;
+
+
+	own2.assign(own1.begin(), own1.end());
+	real2.assign(real1.begin(), real1.end());
+
+	ft::list<int>::iterator own_it = own2.begin();
+	std::list<int>::iterator real_it = real2.begin();
+
+	REQUIRE(own2.size() == real2.size());
+	while (own_it != own2.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
 TEST_CASE("list-assign size n and type val")
 {
 	ft::list<int>	own;
@@ -352,6 +392,7 @@ TEST_CASE("list-assign size n and type val")
 	REQUIRE(own.front() == real.front());
 	REQUIRE(own.back() == real.back());
 }
+
 TEST_CASE("list-push_front function", "[list]")
 {
 	ft::list<int>	own;
@@ -368,6 +409,7 @@ TEST_CASE("list-push_front function", "[list]")
 	REQUIRE(own.front() == real.front());
 	REQUIRE(own.back() == real.back());
 }
+
 TEST_CASE("list-push_back function", "[list]")
 {
 	ft::list<int>	own;
@@ -407,6 +449,7 @@ TEST_CASE("list-pop_back function", "[list]")
 	
 	own.push_back(2000);
 	real.push_back(2000);
+	
 	REQUIRE(own.back() == real.back());
 	REQUIRE(own.size() == real.size());
 	own.pop_back();
@@ -416,22 +459,167 @@ TEST_CASE("list-pop_back function", "[list]")
 	REQUIRE(own.size() == real.size());
 	
 }
-// TEST_CASE("list-insert single element", "[list]")
-// {
+
+TEST_CASE("list-insert single element", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+
+	int sum = 5;
 	
-// }
-// TEST_CASE("list-insert fill", "[list]")
-// {
+	for (int i = 0; i < 10; ++i)
+	{
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 5;
+	}
+
+	ft::list<int>::iterator		own_it = own.begin();
+	std::list<int>::iterator	real_it = real.begin();
 	
-// }
-// TEST_CASE("list-insert range", "[list]")
-// {
+	++own_it; ++own_it;
+	++real_it; ++real_it;
+
+	own.insert(own_it, 1000);
+	real.insert(real_it, 1000);
 	
-// }
-// TEST_CASE("list-erase single element", "[list]")
-// {
+	own_it = own.begin();
+	real_it = real.begin();
+
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-insert fill", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+
+	int sum = 5;
 	
-// }
+	for (int i = 0; i < 10; ++i)
+	{
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 5;
+	}
+
+	ft::list<int>::iterator		own_it = own.begin();
+	std::list<int>::iterator	real_it = real.begin();
+	
+	++own_it; ++own_it;
+	++real_it; ++real_it;
+
+	own.insert(own_it, 5, 1000);
+	real.insert(real_it, 5, 1000);
+
+	own_it = own.begin();
+	real_it = real.begin();
+
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-insert range", "[list]")
+{
+	ft::list<int>	own;
+	ft::list<int>	own2(4, 2000);
+	std::list<int>	real;
+	std::list<int>	real2(4, 2000);
+
+	int sum = 5;
+	
+	for (int i = 0; i < 10; ++i)
+	{
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 5;
+	}
+
+	ft::list<int>::iterator		own_it = own.begin();
+	std::list<int>::iterator	real_it = real.begin();
+	
+	++own_it; ++own_it;
+	++real_it; ++real_it;
+	
+	own.insert(own_it, own2.begin(), own2.end());
+	real.insert(real_it, real2.begin(), real2.end());
+
+	own_it = own.begin();
+	real_it = real.begin();
+
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-erase single element", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+
+	int sum = 5;
+	
+	for (int i = 0; i < 10; ++i)
+	{
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 5;
+	}
+
+	ft::list<int>::iterator		own_it = own.begin();
+	std::list<int>::iterator	real_it = real.begin();
+	
+	++own_it; ++own_it;
+	++real_it; ++real_it;
+	
+	own.print();
+	own.erase(own_it);
+	real.erase(real_it);
+	own.print();
+
+	own_it = own.begin();
+	real_it = real.begin();
+
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
 // TEST_CASE("list-erase range element", "[list]")
 // {
 	
@@ -456,6 +644,7 @@ TEST_CASE("list-swap ", "[list]")
 	REQUIRE(own2.front() == real2.front());
 	REQUIRE(own2.back() == real2.back());
 }
+
 TEST_CASE("list-resize", "[list]")
 {
 	ft::list<int>	own(5, 100);
@@ -475,6 +664,7 @@ TEST_CASE("list-resize", "[list]")
 	REQUIRE(own.size() == real.size());
 	REQUIRE(own.front() == real.front());
 }
+
 TEST_CASE("list-clear", "[list]")
 {
 	ft::list<int>	own(5, 100);
@@ -501,6 +691,7 @@ TEST_CASE("list-clear", "[list]")
 		sum += 123;
 	}
 }
+
 /* ------------ OPERATIONS ------------ */
 
 // TEST_CASE("list-splice version 1", "[list]")

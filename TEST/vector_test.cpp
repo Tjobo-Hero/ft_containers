@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/29 13:05:30 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/14 14:36:03 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/15 12:31:54 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -438,19 +438,20 @@ TEST_CASE("vector-assign fucntion with itarators", "[vector]")
 	std::vector<int>	real1(5, 100);
 	std::vector<int>	real2;
 
-	ft::vector<int>::iterator own_it = own1.begin();
-	ft::vector<int>::iterator own_ite = own1.begin() + 3;
-	std::vector<int>::iterator real_it = real1.begin();
-	std::vector<int>::iterator real_ite = real1.begin() + 3;
+	own2.assign(own1.begin(), own1.begin() + 3);
+	real2.assign(real1.begin(), real1.begin() + 3);
 
-	own2.assign(own_it, own_ite);
-	real2.assign(real_it, real_ite);
+	ft::vector<int>::iterator own_it = own2.begin();
+	std::vector<int>::iterator real_it = real2.begin();
 
-	REQUIRE(own2.capacity() == real2.capacity());
 	REQUIRE(own2.size() == real2.size());
-	REQUIRE(own2[0] == real2[0]);
-	REQUIRE(own2[1] == real2[1]);
-	REQUIRE(own2[2] == real2[2]);
+	REQUIRE(own2.capacity() == real2.capacity());
+	while (own_it != own2.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
 }
 
 TEST_CASE("vector-assign function with n and val", "[vector]")

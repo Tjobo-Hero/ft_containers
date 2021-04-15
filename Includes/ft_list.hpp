@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/15 11:04:15 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/15 13:59:43 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ namespace ft
 			typedef const_bidirectional_iterator< T, Node >			const_iterator;
 			typedef reverse_bidirectional_iterator< T, Node >		reverse_iterator;
 			typedef const_reverse_bidirectional_iterator< T, Node >	const_reverse_iterator;
-			
+
 		private:
-		
+
 			Node*		_head;
 			Node*		_tail;
 			Alloc		_allocator;
 			size_t		_size;
-			
+
 		public:
-			
+
 		/* ------------ MEMBER FUNCTIONS ------------ */
 
 		/* EMPTY CONTAINER CONSTRUCTOR--> Constructs an empty 
@@ -62,6 +62,7 @@ namespace ft
 			this->_tail->prev = this->_head;
 			return;
 		}
+
 		/* FILL CONSTRUCTOR--> Constructs a container 
 		with n elements. Each element is a copy of val. */
 		explicit list (size_type n, const value_type& val = value_type(),
@@ -71,16 +72,23 @@ namespace ft
 			_tail = new listNode<T>();
 			this->_head->next = this->_tail;
 			this->_tail->prev = this->_head;
-			assign(n, val);
+			this->assign(n, val);
 		}
-		
+
 		/* RANGE CONSTRUCTOR--> Constructs a container with 
 		as many elements as the range [first,last), with each 
 		element constructed from its corresponding element in that 
 		range, in the same order.*/
-		// template <class InputIterator>
-  		// list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-		  
+		template <class InputIterator>
+  		list (typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()) : _allocator(alloc), _size(0)
+		{
+			_head = new listNode<T>();
+			_tail = new listNode<T>();
+			this->_head->next = this->_tail;
+			this->_tail->prev = this->_head;
+			this->assign(first, last);
+		}
+
 		/* COPY CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */
 		list (const list& x) : _size(0)
@@ -89,9 +97,10 @@ namespace ft
 			_tail = new listNode<T>();
 			this->_head->next = this->_tail;
 			this->_tail->prev = this->_head;
-			assign(x.begin(), x.end());
+			this->_allocator = x.get_allocator();
+			this->assign(x.begin(), x.end());
 		}
-		
+
 		/* LIST DESTRUCTOR--> Destroys the container object. */
 		~list()
 		{
@@ -140,7 +149,7 @@ namespace ft
 		const_reverse_iterator rend() const { return const_reverse_iterator(this->_head); }
 
 		/* ------------ CAPACITY ------------ */
-		
+
 		/* EMPTY--> Returns whether the list 
 		container is empty (i.e. whether its size is 0). */
 		bool empty() const
@@ -150,7 +159,7 @@ namespace ft
 			else
 				return false;
 		}
-		
+
 		/* SIZE--> Returns the number of elements in 
 		the list container. */
 		size_t size() const { return this->_size; }
@@ -186,7 +195,7 @@ namespace ft
 				first++;
 			}
 		}
-		
+
 		void assign (size_t n, const T& val)
 		{
 			this->clear();
@@ -196,11 +205,11 @@ namespace ft
 				n--;
 			}
 		}
-		
+
 		/* PUSH_FRONT--> Inserts a new element at the beginning 
 		of the list, right before its current first element. 
 		The content of val is copied (or moved) to the inserted element.
-		
+
 		This effectively increases the container size by one. */
 		void push_front (const T& val)
 		{
@@ -216,7 +225,7 @@ namespace ft
 		/* PUSH_BACK--> Adds a new element at the end of the 
 		list container, after its current last element. 
 		The content of val is copied (or moved) to the new element.
-		
+
 		This effectively increases the container size by one. */
 		void push_back (const T& val)
 		{
@@ -228,11 +237,10 @@ namespace ft
 			this->_tail->prev = new_node;
 			this->_size += 1;			
 		}
-		
 
 		/* POP_BACK--> Removes the last element in the list container, 
 		effectively reducing the container size by one.
-		
+
 		This destroys the removed element. */
 		void pop_back()
 		{
@@ -250,19 +258,43 @@ namespace ft
 		/* INSERT--> The container is extended by 
 		inserting new elements before the element at 
 		the specified position.
-		
+
 		This effectively increases the list size by 
 		the amount of elements inserted. */
 
 		/* Single Element */
-		// iterator insert (iterator position, const value_type& val);
+		iterator insert (iterator position, const value_type& val)
+		{
+			Node*	new_node = new listNode<T>(val);
+			Node*	pos = position.get_ptr();
+
+			new_node->next = pos;
+			pos->prev->next = new_node;
+			new_node->prev = pos->prev;
+			pos->prev = new_node;
+			this->_size += 1;
+			
+			--position;
+			return position;
+		}
 
 		/* Fill */
-		// void insert (iterator position, size_type n, const value_type& val);
+		void insert (iterator position, size_t n, const T& val)
+		{
+			for (size_t i = 0; i < n; ++i)
+				this->insert(position, val);
+		}
 
 		/* Range */
-		// template <class InputIterator>
-    	// void insert (iterator position, InputIterator first, InputIterator last);
+		template <class InputIterator>
+    	void insert (iterator position, typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last)
+		{
+			while (first != last)
+			{
+				this->insert(position, *first);
+				++first;
+			}
+		}
 
 		/* ERASE--> Removes from the list container 
 		either a single element (position) or a range of 
@@ -270,8 +302,25 @@ namespace ft
 
 		This effectively reduces the container size 
 		by the number of elements removed, which are destroyed. */
-		// iterator erase (iterator position);
-		// iterator erase (iterator first, iterator last);
+		iterator erase (iterator position)
+		{
+			Node*	pos = position.get_ptr();
+
+			pos->next->prev = pos->prev;
+			pos->prev->next = pos->next;
+			
+			this->_size -= 1;
+			delete pos;
+			++position;
+			return position;
+		}
+		
+		iterator erase (iterator first, iterator last)
+		{
+			while (first != last)
+				first = erase(first);
+			return first;
+		}
 
 		/* SWAP--> Exchanges the content of the container 
 		by the content of x, which is another list of the 
@@ -292,7 +341,6 @@ namespace ft
 			this->_tail = tmp_tail;
 			this->_size = tmp_size;
 			this->_allocator = tmp_alloc;
-			
 		}
 
 		/* RESIZE--> Resizes the container so that it 
@@ -314,7 +362,6 @@ namespace ft
 			while (this->_size < n)
 				this->push_back(val);
 		}
-		
 
 		/* CLEAR--> Removes all elements from the list container 
 		(which are destroyed), and leaving the container with a 
@@ -461,6 +508,17 @@ namespace ft
 		allocator object associated with the list 
 		container. */
 		Alloc get_allocator() const { return this->_allocator; }
+
+		void print()
+		{
+			iterator first = this->begin();
+			while (first != this->end())
+			{
+				std::cout << " " << *first;
+				++first;
+			}
+			std::cout << std::endl;
+		}
 		
 	}; // end of list class
 

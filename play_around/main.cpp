@@ -6,39 +6,49 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/24 16:32:05 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/15 09:57:43 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/15 13:44:25 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <iostream>       // std::cout
 #include <string>         // std::string
+#include <list>
 
+void	print(std::list<int> hoi)
+{
+	std::list<int>::iterator it = hoi.begin();
+	while (it != hoi.end())
+	{
+		std::cout << " " << *it;
+		++it;
+	}
+	std::cout << std::endl;
+}
 int main ()
 {
-  std::string str ("There are two needles in this haystack with needles.");
-  std::string str2 ("needle");
+	std::list<int>	hoi;
 
-  // different member versions of find in the same order as above:
-  std::size_t found = str.find(str2);
-  if (found != std::string::npos)
-    std::cout << "first 'needle' found at: " << found << '\n';
+	// int sum = 5;
+	
+	for (int i = 0; i < 10; ++i)
+	{
+		hoi.push_back(i);
+		// sum += 5;
+	}
+	
+	print(hoi);
 
-  found = str.find("needles are small",found+1,6);
-  if (found!=std::string::npos)
-    std::cout << "second 'needle' found at: " << found << '\n';
 
-  found=str.find("haystack");
-  if (found!=std::string::npos)
-    std::cout << "'haystack' also found at: " << found << '\n';
+	std::list<int>::iterator it = hoi.begin();
+	++it;
+	++it;
+	
+	it = hoi.erase(it);
 
-  found=str.find('.');
-  if (found!=std::string::npos)
-    std::cout << "Period found at: " << found << '\n';
+	std::cout << "return: " << *it << std::endl;
 
-  // let's replace the first needle:
-  str.replace(str.find(str2),str2.length(),"preposition");
-  std::cout << str << '\n';
-
+	print(hoi);
+  
   return 0;
 }
