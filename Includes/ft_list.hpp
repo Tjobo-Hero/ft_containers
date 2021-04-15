@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/14 14:36:39 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/15 11:04:15 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 # include <string>
 # include <memory>
 # include <algorithm>
-# include "../INCLUDES/ft_ListNode.hpp"
-# include "../INCLUDES/ft_BiDirectionalIterator.hpp"
+# include "ft_ListNode.hpp"
+# include "ft_BiDirectionalIterator.hpp"
+# include "type_traits.hpp"
 
 namespace ft
 {
@@ -26,19 +27,24 @@ namespace ft
 	class list
 	{
 		public:
-			typedef T						value_type;
-			typedef Alloc					allocator_type;
-			typedef T&						reference;
-			typedef const T&				const_reference;
-			typedef T*						pointer;
-			typedef const T*				const_pointer;
-			typedef std::ptrdiff_t			difference_type;
-			typedef size_t					size_type;
-			typedef listNode<T>			 	node;
+			typedef T												value_type;
+			typedef Alloc											allocator_type;
+			typedef T&												reference;
+			typedef const T&										const_reference;
+			typedef T*												pointer;
+			typedef const T*										const_pointer;
+			typedef std::ptrdiff_t									difference_type;
+			typedef size_t											size_type;
+			typedef listNode<T>			 							Node;
+			typedef bidirectional_iterator< T, Node >				iterator;
+			typedef const_bidirectional_iterator< T, Node >			const_iterator;
+			typedef reverse_bidirectional_iterator< T, Node >		reverse_iterator;
+			typedef const_reverse_bidirectional_iterator< T, Node >	const_reverse_iterator;
 			
 		private:
-			node*		_head;
-			node*		_tail;
+		
+			Node*		_head;
+			Node*		_tail;
 			Alloc		_allocator;
 			size_t		_size;
 			
@@ -77,14 +83,14 @@ namespace ft
 		  
 		/* COPY CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */
-		// list (const list& x)
-		// {
-		// 	_head = new listNode<T>();
-		// 	_tail = new listNode<T>();
-		// 	this->_head->next = this->_tail;
-		// 	this->_tail->prev = this->_head;
-		// 	assign(x.begin(), x.end());
-		// }
+		list (const list& x) : _size(0)
+		{
+			_head = new listNode<T>();
+			_tail = new listNode<T>();
+			this->_head->next = this->_tail;
+			this->_tail->prev = this->_head;
+			assign(x.begin(), x.end());
+		}
 		
 		/* LIST DESTRUCTOR--> Destroys the container object. */
 		~list()
@@ -98,40 +104,40 @@ namespace ft
 		/* ASSIGN content--> Assigns new contents to the 
 		container, replacing its current contents, 
 		and modifying its size accordingly. */
-		// list&		operator=(const list &x)
-		// {
-		// 	if (this != x)
-		// 	{
-		// 		this->_allocator = x.get_allocator();
-		// 		assign(x.begin(), x.end());
-		// 	}
-		// 	return(*this);
-		// }
+		list&		operator=(const list &obj)
+		{
+			if (this != &obj)
+			{
+				this->_allocator = obj.get_allocator();
+				assign(obj.begin(), obj.end());
+			}
+			return(*this);
+		}
 
 		/* ------------ ITERATORS ------------ */
 		
 		/* BEGIN--> Returns an iterator pointing 
 		to the first element in the list container. */
-		// iterator begin();
-		// const_iterator begin() const;
+		iterator begin() { return iterator(this->_head->next); }
+		const_iterator begin() const { return const_iterator(this->_head->next); }
 
 		/* END--> Returns an iterator referring 
 		to the past-the-end element in the list container. */
-		// iterator end();
-		// const_iterator end() const;
+		iterator end() { return iterator(this->_tail); }
+		const_iterator end() const { return const_iterator(this->_tail); }
 
 		/* RBEGIN--> Returns a reverse iterator pointing 
 		to the last element in the container (i.e., its 
 		reverse beginning). */
-		// reverse_iterator rbegin();
-		// const_reverse_iterator rbegin() const;
+		reverse_iterator rbegin() { return reverse_iterator(this->_tail->prev); }
+		const_reverse_iterator rbegin() const { return const_reverse_iterator(this->_tail->prev); }
 
 		/* REND--> Returns a reverse iterator pointing 
 		to the theoretical element preceding the first 
 		element in the list container (which is considered 
 		its reverse end). */
-		// reverse_iterator rend();
-		// const_reverse_iterator rend() const;
+		reverse_iterator rend() { return reverse_iterator(this->_head); }
+		const_reverse_iterator rend() const { return const_reverse_iterator(this->_head); }
 
 		/* ------------ CAPACITY ------------ */
 		
@@ -170,9 +176,17 @@ namespace ft
 		/* ASSIGN--> Assigns new contents to the 
 		list container, replacing its current contents, 
 		and modifying its size accordingly. */
-		// template <class InputIterator>
-  		// void assign (InputIterator first, InputIterator last);
-	
+		template < class InputIterator >
+  		void assign (typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last)
+		{
+			this->clear();
+			while (first != last)
+			{
+				push_back(*first);
+				first++;
+			}
+		}
+		
 		void assign (size_t n, const T& val)
 		{
 			this->clear();
@@ -190,7 +204,7 @@ namespace ft
 		This effectively increases the container size by one. */
 		void push_front (const T& val)
 		{
-			node*		new_node = new listNode<T>(val);
+			Node*		new_node = new listNode<T>(val);
 
 			new_node->prev = _head;
 			this->_head->next->prev = new_node;
@@ -206,7 +220,7 @@ namespace ft
 		This effectively increases the container size by one. */
 		void push_back (const T& val)
 		{
-			node*	new_node = new listNode<T>(val);
+			Node*	new_node = new listNode<T>(val);
 			
 			new_node->next = _tail;
 			this->_tail->prev->next = new_node;
@@ -224,7 +238,7 @@ namespace ft
 		{
 			if (this->_size)
 			{
-				node*	back_node = this->_tail->prev;
+				Node*	back_node = this->_tail->prev;
 				
 				this->_tail->prev->prev->next = this->_tail;
 				this->_tail->prev = this->_tail->prev->prev;
@@ -264,8 +278,8 @@ namespace ft
 		same type. Sizes may differ. */
 		void swap (list& x)
 		{
-			node*	tmp_head = x._head;
-			node*	tmp_tail = x._tail;
+			Node*	tmp_head = x._head;
+			Node*	tmp_tail = x._tail;
 			size_t	tmp_size = x._size;
 			Alloc	tmp_alloc = x._allocator;
 			

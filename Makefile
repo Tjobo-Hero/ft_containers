@@ -6,15 +6,15 @@
 #    By: timvancitters <timvancitters@student.co      +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/03/26 16:27:02 by timvancitte   #+#    #+#                  #
-#    Updated: 2021/04/09 14:02:17 by timvancitte   ########   odam.nl          #
+#    Updated: 2021/04/15 11:02:31 by timvancitte   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	ft_containers
 
 SOURCES			= 	TEST/main.cpp \
-					TEST/vector_test.cpp \
-					TEST/list_test.cpp \
+					TEST/Vector_test.cpp \
+					TEST/List_test.cpp \
 					TEST/catch.cpp \
 					# UNIT_TEST/1_Bidirectionaliterator_test.cpp \
 					# UNIT_TEST/2_RandomAccessIterator_test.cpp \
@@ -40,7 +40,7 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	@echo "$(GREEN)----------------------------------------------------"
-	$(COMPILE) $(INCLUDES) $(TEST) $(FLAGS) -o $(NAME) $(OBJECTS)
+	$(COMPILE) $(INCLUDES) $(TEST) $(FLAGS) -g3 -o  $(NAME) $(OBJECTS)
 	@echo "Executable				./ft_containers"
 	@echo "$(GREEN)----------------------------------------------------"
 

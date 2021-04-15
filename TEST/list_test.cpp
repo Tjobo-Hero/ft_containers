@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/14 14:35:58 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/15 11:04:40 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,197 +41,194 @@ TEST_CASE("list-Fill constructor", "[list]")
 	
 // }
 
-// TEST_CASE("list-Copy constructor", "[list]")
-// {
-// 	ft::list<int>		own(6, 100);
-// 	ft::list<int>		own2(own);
-// 	std::list<int>		real(6, 100);
-// 	std::list<int>		real2(real);
+TEST_CASE("list-Copy constructor", "[list]")
+{
+	ft::list<int>		own(6, 100);
+	ft::list<int>		own2(own);
+	std::list<int>		real(6, 100);
+	std::list<int>		real2(real);
 
 
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own2.empty() == real2.empty());
+	REQUIRE(own2.front() == real2.front());
+	REQUIRE(own2.back() == real2.back());
+}
+
+TEST_CASE("list-Assign content", "[list]")
+{
+	ft::list<int>		own(6, 100);
+	ft::list<int>		own2;
+	std::list<int>		real(6, 100);
+	std::list<int>		real2;
+
+	own2 = own;
+	real2 = real;
 	
-// 	REQUIRE(own2.size() == real2.size());
-// 	REQUIRE(own2.empty() == real2.empty());
-// 	REQUIRE(own2.front() == real2.front());
-// 	REQUIRE(own2.back() == real2.back());
-// }
-
-// TEST_CASE("list-Assign content", "[list]")
-// {
-// 	ft::list<int>		own(6, 100);
-// 	ft::list<int>		own2;
-// 	std::list<int>		real(6, 100);
-// 	std::list<int>		real2;
-
-// 	own2 = own;
-// 	real = real2;
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own2.empty() == real2.empty());
+	REQUIRE(own2.front() == real2.front());
+	REQUIRE(own2.back() == real2.back());
+	REQUIRE(own2.get_allocator() == real2.get_allocator());
 	
-// 	REQUIRE(own2.size() == real2.size());
-// 	REQUIRE(own2.empty() == real2.empty());
-// 	REQUIRE(own2.front() == real2.front());
-// 	REQUIRE(own2.back() == real2.back());
-// 	REQUIRE(own2.get_allocator() == real2.get_allocator());
-	
-// }
+}
 
 /* ------------ ITERATORS ------------ */
-// TEST_CASE("list-list-begin function", "[list]")
-// {
-// 	ft::list<int> 	own(4, 3);
-// 	std::list<int> 	real(4, 3);
+TEST_CASE("list-begin function", "[list]")
+{
+	ft::list<int> 	own(4, 3);
+	std::list<int> 	real(4, 3);
 	
-// 	ft::list<int>::iterator own_it = own.begin();
-// 	std::list<int>::iterator real_it = real.begin();
+	ft::list<int>::iterator own_it = own.begin();
+	std::list<int>::iterator real_it = real.begin();
 
-// 	REQUIRE(*own_it == *real_it);
-// }
+	REQUIRE(*own_it == *real_it);
+}
 
-// TEST_CASE("list-list-const begin function", "[list]")
-// {
-// 	ft::list<int> 	own(4, 3);
-// 	std::list<int> 	real(4, 3);
+TEST_CASE("list-const begin function", "[list]")
+{
+	ft::list<int> 	own(4, 3);
+	std::list<int> 	real(4, 3);
 	
-// 	ft::list<int>::const_iterator own_it = own.begin();
-// 	std::list<int>::const_iterator real_it = real.begin();
+	ft::list<int>::const_iterator own_it = own.begin();
+	std::list<int>::const_iterator real_it = real.begin();
 
-// 	REQUIRE(*own_it == *real_it);
-// }
+	REQUIRE(*own_it == *real_it);
+}
 
-// TEST_CASE("list-list-end function", "[list]")
-// {
-// 	ft::list<int> 	own(4, 3);
-// 	std::list<int> 	real(4, 3);
+TEST_CASE("list-end function", "[list]")
+{
+	ft::list<int> 	own(4, 3);
+	std::list<int> 	real(4, 3);
 	
-// 	ft::list<int>::iterator own_ite = own.end();
-// 	std::list<int>::iterator real_ite = real.end();
+	ft::list<int>::iterator own_ite = own.end();
+	std::list<int>::iterator real_ite = real.end();
 
-// 	own_ite--;
-// 	real_ite--;
-// 	REQUIRE(*own_ite == *real_ite);
-// }
+	own_ite--;
+	real_ite--;
+	REQUIRE(*own_ite == *real_ite);
+}
 
-// TEST_CASE("list-list-const end function", "[list]")
-// {
-// 	ft::list<int> 	own(4, 3);
-// 	std::list<int> 	real(4, 3);
+TEST_CASE("list-const end function", "[list]")
+{
+	ft::list<int> 	own(4, 3);
+	std::list<int> 	real(4, 3);
 	
-// 	ft::list<int>::const_iterator own_ite = own.end();
-// 	std::list<int>::const_iterator real_ite = real.end();
+	ft::list<int>::const_iterator own_ite = own.end();
+	std::list<int>::const_iterator real_ite = real.end();
 
-// 	own_ite--;
-// 	real_ite--;
-// 	REQUIRE(*own_ite == *real_ite);
-// }
+	own_ite--;
+	real_ite--;
+	REQUIRE(*own_ite == *real_ite);
+}
 
-// TEST_CASE("list-list-rbegin function", "[list]")
-// {
-// 	int sum = 0;
-// 	ft::list<int>		own(5);
-// 	std::list<int>	real(5);
+TEST_CASE("list-rbegin function", "[list]")
+{
+	int sum = 0;
+	ft::list<int>		own(5);
+	std::list<int>	real(5);
 
-// 	for(int i = 0; i < 5; i++)
-// 	{
-// 		real.push_back(sum);
-// 		own.push_back(sum);
-// 		sum += 1;
-// 	}
+	for(int i = 0; i < 5; i++)
+	{
+		real.push_back(sum);
+		own.push_back(sum);
+		sum += 1;
+	}
 	
-// 	ft::list<int>::reverse_iterator own_rit = own.rbegin();
-// 	ft::list<int>::reverse_iterator old_own_rit;
-// 	std::list<int>::reverse_iterator real_rit = real.rbegin();
-// 	std::list<int>::reverse_iterator old_real_rit;
+	ft::list<int>::reverse_iterator own_rit = own.rbegin();
+	ft::list<int>::reverse_iterator old_own_rit;
+	std::list<int>::reverse_iterator real_rit = real.rbegin();
+	std::list<int>::reverse_iterator old_real_rit;
 
-// 	++own_rit;
-// 	++real_rit;
-// 	REQUIRE(*own_rit == *real_rit);
+	++own_rit;
+	++real_rit;
+	REQUIRE(*own_rit == *real_rit);
 	
-// 	old_own_rit = own_rit++;
-// 	old_real_rit = real_rit++;
-// 	REQUIRE(*old_real_rit == *old_own_rit);
-// }
+	old_own_rit = own_rit++;
+	old_real_rit = real_rit++;
+	REQUIRE(*old_real_rit == *old_own_rit);
+}
 
-// TEST_CASE("list-list-const rbegin function", "[list]")
-// {
-// 	int sum = 0;
-// 	ft::list<int>		own(5);
-// 	std::list<int>	real(5);
+TEST_CASE("list-const rbegin function", "[list]")
+{
+	int sum = 0;
+	ft::list<int>		own(5);
+	std::list<int>	real(5);
 
-// 	for(int i = 0; i < 5; i++)
-// 	{
-// 		real.push_back(sum);
-// 		own.push_back(sum);
-// 		sum += 1;
-// 	}
+	for(int i = 0; i < 5; i++)
+	{
+		real.push_back(sum);
+		own.push_back(sum);
+		sum += 1;
+	}
 	
-// 	ft::list<int>::const_reverse_iterator own_rit = own.rbegin();
-// 	ft::list<int>::const_reverse_iterator old_own_rit;
-// 	std::list<int>::const_reverse_iterator real_rit = real.rbegin();
-// 	std::list<int>::const_reverse_iterator old_real_rit;
+	ft::list<int>::const_reverse_iterator own_rit = own.rbegin();
+	ft::list<int>::const_reverse_iterator old_own_rit;
+	std::list<int>::const_reverse_iterator real_rit = real.rbegin();
+	std::list<int>::const_reverse_iterator old_real_rit;
 
-// 	++own_rit;
-// 	++real_rit;
-// 	REQUIRE(*own_rit == *real_rit);
+	++own_rit;
+	++real_rit;
+	REQUIRE(*own_rit == *real_rit);
 	
-// 	old_own_rit = own_rit++;
-// 	old_real_rit = real_rit++;
-// 	REQUIRE(*old_real_rit == *old_own_rit);
-// }
+	old_own_rit = own_rit++;
+	old_real_rit = real_rit++;
+	REQUIRE(*old_real_rit == *old_own_rit);
+}
 
-// TEST_CASE("list-list-rend function", "[list]")
-// {
-// 	int sum = 0;
-// 	ft::list<int>		own(5);
-// 	std::list<int>	real(5);
+TEST_CASE("list-rend function", "[list]")
+{
+	int sum = 0;
+	ft::list<int>		own(5);
+	std::list<int>	real(5);
 
-// 	for(int i = 0; i < 5; i++)
-// 	{
-// 		real.push_back(sum);
-// 		own.push_back(sum);
-// 		sum += 1;
-// 	}
+	for(int i = 0; i < 5; i++)
+	{
+		real.push_back(sum);
+		own.push_back(sum);
+		sum += 1;
+	}
 	
-// 	ft::list<int>::reverse_iterator own_rite = own.rend();
-// 	ft::list<int>::reverse_iterator old_own_rite;
-// 	std::list<int>::reverse_iterator real_rite = real.rend();
-// 	std::list<int>::reverse_iterator old_real_rite;
+	ft::list<int>::reverse_iterator own_rite = own.rend();
+	ft::list<int>::reverse_iterator old_own_rite;
+	std::list<int>::reverse_iterator real_rite = real.rend();
+	std::list<int>::reverse_iterator old_real_rite;
 
-// 	--own_rite;
-// 	--real_rite;
-// 	REQUIRE(*own_rite == *real_rite);
+	--own_rite;
+	--real_rite;
+	REQUIRE(*own_rite == *real_rite);
 	
-// 	old_own_rite = own_rite--;
-// 	old_real_rite = real_rite--;
-// 	REQUIRE(*old_real_rite == *old_own_rite);
-// }
+	old_own_rite = own_rite--;
+	old_real_rite = real_rite--;
+	REQUIRE(*old_real_rite == *old_own_rite);
+}
 
-// TEST_CASE("list-list-const rend function", "[list]")
-// {
-// 	int sum = 0;
-// 	ft::list<int>		own(5);
-// 	std::list<int>		real(5);
+TEST_CASE("list-const rend function", "[list]")
+{
+	int sum = 0;
+	ft::list<int>		own(5);
+	std::list<int>		real(5);
 
-// 	for(int i = 0; i < 5; i++)
-// 	{
-// 		real.push_back(sum);
-// 		own.push_back(sum);
-// 		sum += 1;
-// 	}
+	for(int i = 0; i < 5; i++)
+	{
+		real.push_back(sum);
+		own.push_back(sum);
+		sum += 1;
+	}
 	
-// 	ft::list<int>::const_reverse_iterator own_rite = own.rend();
-// 	ft::list<int>::const_reverse_iterator old_own_rite;
-// 	std::list<int>::const_reverse_iterator real_rite = real.rend();
-// 	std::list<int>::const_reverse_iterator old_real_rite;
+	ft::list<int>::const_reverse_iterator own_rite = own.rend();
+	ft::list<int>::const_reverse_iterator old_own_rite;
+	std::list<int>::const_reverse_iterator real_rite = real.rend();
+	std::list<int>::const_reverse_iterator old_real_rite;
 
-// 	--own_rite;
-// 	--real_rite;
-// 	REQUIRE(*own_rite == *real_rite);
+	--own_rite;
+	--real_rite;
+	REQUIRE(*own_rite == *real_rite);
 	
-// 	old_own_rite = own_rite--;
-// 	old_real_rite = real_rite--;
-// 	REQUIRE(*old_real_rite == *old_own_rite);
-// }
-
-
+	old_own_rite = own_rite--;
+	old_real_rite = real_rite--;
+	REQUIRE(*old_real_rite == *old_own_rite);
+}
 
 /* ------------ CAPACITY ------------ */
 

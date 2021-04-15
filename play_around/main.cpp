@@ -6,34 +6,39 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/24 16:32:05 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/09 13:29:54 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/15 09:57:43 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <vector>
+
+#include <iostream>       // std::cout
+#include <string>         // std::string
 
 int main ()
 {
-  std::vector<int> myvector;
-  int * p;
-  unsigned int i;
+  std::string str ("There are two needles in this haystack with needles.");
+  std::string str2 ("needle");
 
-  // allocate an array with space for 5 elements using vector's allocator:
-  p = myvector.get_allocator().allocate(5);
+  // different member versions of find in the same order as above:
+  std::size_t found = str.find(str2);
+  if (found != std::string::npos)
+    std::cout << "first 'needle' found at: " << found << '\n';
 
-  if (!p)
-	std::cout << "HHOW" << std::endl;
-  // construct values in-place on the array:
-  for (i=0; i<5; i++) myvector.get_allocator().construct(&p[i],i);
+  found = str.find("needles are small",found+1,6);
+  if (found!=std::string::npos)
+    std::cout << "second 'needle' found at: " << found << '\n';
 
-  std::cout << "The allocated array contains:";
-  for (i=0; i<5; i++) std::cout << ' ' << p[i];
-  std::cout << '\n';
+  found=str.find("haystack");
+  if (found!=std::string::npos)
+    std::cout << "'haystack' also found at: " << found << '\n';
 
-  // destroy and deallocate:
-  for (i=0; i<5; i++) myvector.get_allocator().destroy(&p[i]);
-  myvector.get_allocator().deallocate(p,5);
+  found=str.find('.');
+  if (found!=std::string::npos)
+    std::cout << "Period found at: " << found << '\n';
+
+  // let's replace the first needle:
+  str.replace(str.find(str2),str2.length(),"preposition");
+  std::cout << str << '\n';
 
   return 0;
 }
