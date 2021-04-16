@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/16 12:30:04 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/16 15:24:00 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1010,8 +1010,69 @@ TEST_CASE("list-unique version 1", "[list]")
 	}
 }
 
+// a binary predicate implemented as a function:
+bool same_integral_part (double first, double second)
+{ return ( int(first) == int(second) ); }
+
+// a binary predicate implemented as a class:
+struct is_near {
+  bool operator() (double first, double second)
+  { return (fabs(first-second)<5.0); }
+};
+
 TEST_CASE("list-unique version 2", "[list]")
 {
+	ft::list<double>	own;
+	std::list<double>	real;
+
+	own.push_back(12.15); real.push_back(12.15);
+	own.push_back(2.72); real.push_back(2.72);
+	own.push_back(73.0); real.push_back(73.0);
+	own.push_back(12.77); real.push_back(12.77);
+	own.push_back(12.14); real.push_back(12.14);
+	own.push_back(12.77); real.push_back(12.77);
+	own.push_back(73.35); real.push_back(73.35);
+	own.push_back(72.25); real.push_back(72.25);
+	own.push_back(72.3); real.push_back(72.3);
+	own.push_back(72.25); real.push_back(72.25);
+
+	own.print();
+	own.unique(same_integral_part);
+	real.unique(same_integral_part);
+	own.print();
+	
+	ft::list<double>::iterator		own_it = own.begin();
+	std::list<double>::iterator	real_it = real.begin();
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+	
+	own.print();
+	own.unique(is_near());
+	real.unique(is_near());
+	own.print();
+
+	own_it = own.begin();
+	real_it = real.begin();
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
 	
 }
 

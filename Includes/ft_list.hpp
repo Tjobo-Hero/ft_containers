@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/16 12:28:28 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/16 15:30:27 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -502,7 +502,11 @@ namespace ft
 		{
 			if (this->size() <= 1)
 				return;
-			
+			for (iterator it = this->begin(); it != this->end(); ++it)
+			{
+				if (binary_pred(*it, it.get_ptr()->prev->data))
+					erase(it);
+			}
 		}
 
 		/* MERGE--> Merges x into the list by transferring all of its 
@@ -540,11 +544,23 @@ namespace ft
 		The function does nothing if (&x == this). */
 
 		/* Version 1 */
-		// void merge (list& x);
+		// void merge (list& x)
+		// {
+		// 	if (this != &x)
+		// 	{
+				
+		// 	}
+		// }
 
 		/* Version 2 */
 		// template <class Compare>
-  		// void merge (list& x, Compare comp);
+  		// void merge (list& x, Compare comp)
+		// {
+		// 	if (this != &x)
+		// 	{
+				
+		// 	}
+		// }
 
 		/* SORT--> Sorts the elements in the list, altering their 
 		position within the container.
