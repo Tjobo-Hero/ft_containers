@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/15 13:59:43 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/16 12:28:28 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <iostream>
 # include <string>
 # include <memory>
+# include <list>
 # include <algorithm>
 # include "ft_ListNode.hpp"
 # include "ft_BiDirectionalIterator.hpp"
@@ -48,13 +49,30 @@ namespace ft
 			Alloc		_allocator;
 			size_t		_size;
 
+			void move(iterator _list, iterator _add)
+			{
+				Node*	add = _add.get_ptr();
+				Node*	list = _list.get_ptr();
+
+				// OUt of contianer (x)
+				add->next->prev = add->prev;
+				add->prev->next = add->next;
+				
+				
+				// IN container (*this)
+				add->prev = list->prev;
+				add->next = list;
+				list->prev->next = add;
+				list->prev = add;
+			}
+
 		public:
 
 		/* ------------ MEMBER FUNCTIONS ------------ */
 
 		/* EMPTY CONTAINER CONSTRUCTOR--> Constructs an empty 
 		container, with no elements. */
-		explicit list (const allocator_type& alloc = allocator_type()) : _allocator(alloc), _size(0)
+		explicit list (const Alloc& alloc = allocator_type()) : _allocator(alloc), _size(0)
 		{
 			_head = new listNode<T>();
 			_tail = new listNode<T>();
@@ -65,8 +83,8 @@ namespace ft
 
 		/* FILL CONSTRUCTOR--> Constructs a container 
 		with n elements. Each element is a copy of val. */
-		explicit list (size_type n, const value_type& val = value_type(),
-                const allocator_type& alloc = allocator_type()) : _allocator(alloc), _size(0)
+		explicit list (size_t n, const T& val = T(),
+                const Alloc& alloc = allocator_type()) : _allocator(alloc), _size(0)
 		{
 			_head = new listNode<T>();
 			_tail = new listNode<T>();
@@ -80,7 +98,7 @@ namespace ft
 		element constructed from its corresponding element in that 
 		range, in the same order.*/
 		template <class InputIterator>
-  		list (typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()) : _allocator(alloc), _size(0)
+  		list (typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last, const Alloc& alloc = allocator_type()) : _allocator(alloc), _size(0)
 		{
 			_head = new listNode<T>();
 			_tail = new listNode<T>();
@@ -263,7 +281,7 @@ namespace ft
 		the amount of elements inserted. */
 
 		/* Single Element */
-		iterator insert (iterator position, const value_type& val)
+		iterator insert (iterator position, const T& val)
 		{
 			Node*	new_node = new listNode<T>(val);
 			Node*	pos = position.get_ptr();
@@ -386,21 +404,52 @@ namespace ft
 		move-construction or not. */
 		
 		/* Version 1: transfers all the elements of x into the container. */
-		// void splice (iterator position, list& x);
+		void splice (iterator position, list& x)
+		{
+			if (this != &x && !x.empty())
+			{
+				while (x.size())
+				{
+					move(position, x.begin());
+					x._size -= 1;
+					this->_size += 1;
+				}
+			}
+		}
 		
 		/* Version 2: transfers only the element pointed by i from x 
 		into the container. */
-		// void splice (iterator position, list& x, iterator i);
+		void splice (iterator position, list& x, iterator i)
+		{
+			move(position, i);
+			x._size -= 1;
+			this->_size += 1;
+		}
 
 		/* Version 3: transfers the range [first,last) from x 
 		into the container. */
-		// void splice (iterator position, list& x, iterator first, iterator last);
+		void splice (iterator position, list& x, iterator first, iterator last)
+		{
+			while (first != last)
+			{
+				iterator tmp = iterator(first.get_ptr()->next);
+				move(position, first);
+				x._size -= 1;
+				this->_size += 1;
+				first = tmp;
+			}
+		}
 
 		/* REMOVE--> Removes from the container all the elements 
 		that compare equal to val. This calls the destructor of 
 		these objects and reduces the container size by the 
 		number of elements removed. */
-		// void remove (const value_type& val);
+		void remove (const T& val)
+		{
+			for (iterator it = this->begin(); it != this->end(); ++it)
+				if (*it == val)
+					erase(it);
+		}
 
 		/* REMOVE_IF--> Removes from the container all the elements 
 		for which Predicate pred returns true. This calls the destructor 
@@ -410,8 +459,13 @@ namespace ft
 		The function calls pred(*i) for each element 
 		(where i is an iterator to that element). Any of the elements in 
 		the list for which this returns true, are removed from the container. */
-		// template <class Predicate>
-  		// void remove_if (Predicate pred);
+		template < class Predicate >
+  		void remove_if (Predicate pred)
+		{
+			for (iterator it = this->begin(); it != this->end(); ++it)
+				if (pred(*it))
+					erase(it);
+		}
 
 		/* UNIQUE--> The version with no parameters (1), 
 		removes all but the first element from every consecutive group of 
@@ -431,11 +485,25 @@ namespace ft
 		The elements removed are destroyed. */
 
 		/* Version 1 */
-		// void unique();
+		void unique()
+		{
+			if (this->size() <= 1)
+				return;
+			for (iterator it = this->begin(); it != this->end(); ++it)
+			{
+				if (*it == it.get_ptr()->next->data)
+					erase(it);
+			}
+		}
 
 		/* Version 2 */
-		// template <class BinaryPredicate>
-  		// void unique (BinaryPredicate binary_pred);
+		template <class BinaryPredicate>
+		void unique (BinaryPredicate binary_pred)
+		{
+			if (this->size() <= 1)
+				return;
+			
+		}
 
 		/* MERGE--> Merges x into the list by transferring all of its 
 		elements at their respective ordered positions into the container 
@@ -509,6 +577,8 @@ namespace ft
 		container. */
 		Alloc get_allocator() const { return this->_allocator; }
 
+		/* PRINT--> tool created by me to print out the 
+		contents of the list. */
 		void print()
 		{
 			iterator first = this->begin();

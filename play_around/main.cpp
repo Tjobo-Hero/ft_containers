@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/24 16:32:05 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/15 13:44:25 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/16 11:04:50 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,22 @@ void	print(std::list<int> hoi)
 }
 int main ()
 {
-	std::list<int>	hoi;
-
-	// int sum = 5;
 	
-	for (int i = 0; i < 10; ++i)
-	{
-		hoi.push_back(i);
-		// sum += 5;
-	}
-	
-	print(hoi);
+	std::list<int>	real;
+	std::list<int>	real2(5, 100);
+
+	for (int i = 1; i < 5; ++i) real.push_back(i);
+
+	std::list<int>::iterator it = real.end();
+	std::list<int>::iterator ite = real.begin();
 
 
-	std::list<int>::iterator it = hoi.begin();
-	++it;
-	++it;
-	
-	it = hoi.erase(it);
+	// real.splice(it, real);
+	// print(real);
+	// ++it;
+	--it;
+	real.splice(it, real2, ite);
 
-	std::cout << "return: " << *it << std::endl;
-
-	print(hoi);
-  
-  return 0;
+	print(real);
+	return(0);
 }

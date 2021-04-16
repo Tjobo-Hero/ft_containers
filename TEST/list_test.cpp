@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/15 14:09:19 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/16 12:30:04 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -599,10 +599,8 @@ TEST_CASE("list-erase single element", "[list]")
 	++own_it; ++own_it;
 	++real_it; ++real_it;
 	
-	own.print();
 	own.erase(own_it);
 	real.erase(real_it);
-	own.print();
 
 	own_it = own.begin();
 	real_it = real.begin();
@@ -620,10 +618,47 @@ TEST_CASE("list-erase single element", "[list]")
 	}
 }
 
-// TEST_CASE("list-erase range element", "[list]")
-// {
+TEST_CASE("list-erase range element", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+
+	int sum = 5;
 	
-// }
+	for (int i = 0; i < 10; ++i)
+	{
+		own.push_back(sum);
+		real.push_back(sum);
+		sum += 5;
+	}
+
+	ft::list<int>::iterator		own_it = own.begin();
+	ft::list<int>::iterator		own_ite = own.end();
+	
+	std::list<int>::iterator	real_it = real.begin();
+	std::list<int>::iterator	real_ite = real.end();
+	
+	++own_it; ++own_it;
+	++real_it; ++real_it;
+	
+	own.erase(own_it, own_ite);
+	real.erase(real_it, real_ite);
+
+	own_it = own.begin();
+	real_it = real.begin();
+
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
 
 TEST_CASE("list-swap ", "[list]")
 {
@@ -695,38 +730,290 @@ TEST_CASE("list-clear", "[list]")
 
 /* ------------ OPERATIONS ------------ */
 
-// TEST_CASE("list-splice version 1", "[list]")
-// {
-	
-// }
-// TEST_CASE("list-splice version 2", "[list]")
-// {
-	
-// }
-// TEST_CASE("list-splice version 3", "[list]")
-// {
-	
-// }
+TEST_CASE("list-splice version 1", "[list]")
+{
+	ft::list<int>	own;
+	ft::list<int>	own2;
+	std::list<int>	real;
+	std::list<int>	real2;
 
-// TEST_CASE("list-remove", "[list]")
-// {
+	for (int i = 1; i < 5; ++i)
+	{
+		own.push_back(i); 
+		real.push_back(i);
+	} 
+	for (int i = 5; i < 7; ++i)
+	{
+		own2.push_back(i); 
+		real2.push_back(i);
+	}
 	
-// }
+	own.splice(own.end(), own2);
+	real.splice(real.end(), real2);
 
-// TEST_CASE("list-remove_if", "[list]")
-// {
 	
-// }
+	ft::list<int>::iterator		own_it = own.begin();
+	std::list<int>::iterator	real_it = real.begin();
 
-// TEST_CASE("list-unique version 1", "[list]")
-// {
-	
-// }
+	REQUIRE(own2.empty() == real2.empty());
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
 
-// TEST_CASE("list-unique version 2", "[list]")
-// {
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-splice version 2", "[list]")
+{
+	ft::list<int>	own;
+	ft::list<int>	own2;
+	std::list<int>	real;
+	std::list<int>	real2;
+
+	for (int i = 1; i < 5; ++i)
+	{
+		own.push_back(i); 
+		real.push_back(i);
+	} 
+	for (int i = 5; i < 7; ++i)
+	{
+		own2.push_back(i); 
+		real2.push_back(i);
+	}
 	
-// }
+	ft::list<int>::iterator		own_it = own2.begin();
+	std::list<int>::iterator	real_it = real2.begin();
+	
+	own.splice(own.end(), own2, own_it);
+	real.splice(real.end(), real2, real_it);
+	
+	own_it = own.begin();
+	real_it = real.begin();
+
+	REQUIRE(own2.empty() == real2.empty());
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-splice version 3", "[list]")
+{
+	ft::list<int>	own;
+	ft::list<int>	own2;
+	std::list<int>	real;
+	std::list<int>	real2;
+
+	for (int i = 1; i < 5; ++i)
+	{
+		own.push_back(i); 
+		real.push_back(i);
+	} 
+	for (int i = 5; i < 10; ++i)
+	{
+		own2.push_back(i); 
+		real2.push_back(i);
+	}
+	
+	ft::list<int>::iterator		own_it = own2.begin();
+	ft::list<int>::iterator		own_ite = own2.end();
+
+	std::list<int>::iterator	real_it = real2.begin();
+	std::list<int>::iterator	real_ite = real2.end();
+	
+	own.splice(own.end(), own2, own_it, own_ite);
+	real.splice(real.end(), real2, real_it, real_ite);
+	
+	own_it = own.begin();
+	real_it = real.begin();
+
+	REQUIRE(own2.empty() == real2.empty());
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-remove", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+
+	for (int i = 1; i < 10; ++i)
+	{
+		own.push_back(i); 
+		real.push_back(i);
+	} 
+	
+	own.remove(5);
+	real.remove(5);
+
+	ft::list<int>::iterator		own_it = own.begin();
+	std::list<int>::iterator	real_it = real.begin();
+
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+	
+	for (int i = 1; i < 10; ++i)
+	{
+		own.push_back(100); 
+		real.push_back(100);
+	}
+
+	own_it = own.begin();
+	real_it = real.begin();
+	
+	own.remove(100);
+	real.remove(100);
+
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+// a predicate implemented as a function:
+bool single_digit (const int& value) { return (value<10); }
+
+// a predicate implemented as a class:
+struct is_odd {
+  bool operator() (const int& value) { return (value%2)==1; }
+};
+
+TEST_CASE("list-remove_if", "[list]")
+{
+	ft::list<int> own;
+	std::list<int> real;
+
+	for (int i = 1; i < 16; ++i)
+	{
+		own.push_back(i); 
+		real.push_back(i);
+	}
+
+	// 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+	own.remove_if(single_digit);           // 10 11 12 13 14 15 
+	own.remove_if(is_odd());               // 10 12 14
+	real.remove_if(single_digit);           // 10 11 12 13 14 15
+	real.remove_if(is_odd());               // 10 12 14
+
+	ft::list<int>::iterator		own_it = own.begin();
+	std::list<int>::iterator	real_it = real.begin();
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-unique version 1", "[list]")
+{
+	ft::list<int> own;
+	std::list<int> real;
+
+	int suma = 1;
+	int sumb = 1;
+
+	
+	for (int i = 0; i < 10; ++i)
+	{
+		own.push_back(suma);
+		own.push_back(sumb);
+		real.push_back(suma);
+		real.push_back(sumb);
+		suma += 1;
+		sumb += 1;
+	}
+	// 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10
+	own.unique();
+	real.unique();
+	// 1 2 3 4 5 6 7 8 9 10
+	ft::list<int>::iterator		own_it = own.begin();
+	std::list<int>::iterator	real_it = real.begin();
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+	
+	own.push_back(10); own.push_back(10); own.push_back(10);
+	real.push_back(10); real.push_back(10); real.push_back(10);
+	// 1 2 3 4 5 6 7 8 9 10 10 10 10 
+
+	own.unique();
+	real.unique();
+
+	own_it = own.begin();
+	real_it = real.begin();
+	
+	// 1 2 3 4 5 6 7 8 9 10
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-unique version 2", "[list]")
+{
+	
+}
 
 // TEST_CASE("list-merge version 1", "[list]")
 // {
