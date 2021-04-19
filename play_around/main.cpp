@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/24 16:32:05 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/16 11:04:50 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/19 12:32:51 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <string>         // std::string
 #include <list>
 
-void	print(std::list<int> hoi)
+void	print(std::list<double> hoi)
 {
-	std::list<int>::iterator it = hoi.begin();
+	std::list<double>::iterator it = hoi.begin();
 	while (it != hoi.end())
 	{
 		std::cout << " " << *it;
@@ -25,24 +25,40 @@ void	print(std::list<int> hoi)
 	}
 	std::cout << std::endl;
 }
+
+// compare only integral part:
+bool mycomparison (double first, double second)
+{ return ( int(first)<int(second) ); }
+
 int main ()
 {
 	
-	std::list<int>	real;
-	std::list<int>	real2(5, 100);
+	
+	std::list<double> first, second;
 
-	for (int i = 1; i < 5; ++i) real.push_back(i);
+  first.push_back (3.1);
+  first.push_back (2.2);
+  first.push_back (2.9);
 
-	std::list<int>::iterator it = real.end();
-	std::list<int>::iterator ite = real.begin();
+  second.push_back (3.7);
+  second.push_back (7.1);
+  second.push_back (1.4);
 
+  first.sort();
+  second.sort();
 
-	// real.splice(it, real);
-	// print(real);
-	// ++it;
-	--it;
-	real.splice(it, real2, ite);
+  first.merge(second);
 
-	print(real);
-	return(0);
+  // (second is now empty)
+  print(first);
+  second.push_back (3.4);
+
+  first.merge(second,mycomparison);
+
+  std::cout << "first contains:";
+  for (std::list<double>::iterator it=first.begin(); it!=first.end(); ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+
+  return 0;
 }

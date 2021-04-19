@@ -6,14 +6,14 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/25 12:11:16 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/14 15:49:55 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/19 10:28:31 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_RANDOMACCESSITERATOR_HPP
 # define FT_RANDOMACCESSITERATOR_HPP
 
-# include "type_traits.hpp"
+# include "Type_Traits.hpp"
 
 namespace ft
 {

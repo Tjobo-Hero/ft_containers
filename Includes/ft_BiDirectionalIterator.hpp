@@ -6,12 +6,14 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/14 11:50:10 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/15 12:34:55 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/19 10:28:54 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_BIDIRECTIONALITTERATOR_HPP
 # define FT_BIDIRECTIONALITTERATOR_HPP
+
+# include "Type_Traits.hpp"
 
 namespace ft
 {

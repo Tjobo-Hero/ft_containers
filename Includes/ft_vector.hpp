@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/12 13:00:18 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/19 11:49:54 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <memory>
 # include <algorithm>
 # include "ft_RandomAccessIterator.hpp"
-# include "type_traits.hpp"
+# include "Type_Traits.hpp"
 
 namespace ft
 {
@@ -368,9 +368,7 @@ namespace ft
 		/* GET_ALLOCATOR--> Returns a copy of the 
 		allocator object associated with the vector. */
 		allocator_type get_allocator() const { return this->_allocator; }
-		
 
-		
 		/* ------------ EXCEPTIONS ------------ */
 		class out_of_range : public std::exception
 		{
@@ -391,12 +389,12 @@ namespace ft
 	
 	/* ------------ RELATIONAL OPERATORS ------------ */
 	template <typename T>
-    void swap(vector<T> &x, vector<T> &y)
-    {
-        vector<T> temp(y);
-        y = x;
-        x = temp;
-    }
+	void swap(vector<T> &x, vector<T> &y)
+	{
+		vector<T> temp(y);
+		y = x;
+		x = temp;
+	}
 	
 	/* The equality comparison (operator==) is performed by first 
 	comparing sizes, and if they match, the elements are compared 
@@ -406,11 +404,11 @@ namespace ft
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		typename ft::vector<T>::const_iterator it_lhs = lhs.begin();
-        typename ft::vector<T>::const_iterator it_rhs = rhs.begin();
+		typename ft::vector<T>::const_iterator it_rhs = rhs.begin();
 		
 		if (lhs.size() != rhs.size())
 			return false;
-		while (*it_lhs != *lhs.end())
+		while (it_lhs != lhs.end())
 		{
 			if (*it_lhs != *it_rhs)
 				return false;
@@ -418,7 +416,6 @@ namespace ft
 			++it_rhs;
 		}
 		return true;
-			
 	}
 	
 	// a != b <<>>  !(a == b)
@@ -427,7 +424,7 @@ namespace ft
 	{
 		return !(a == b);
 	}
-	
+
 	/* The less-than comparison (operator<) behaves as if using algorithm 
 	lexicographical_compare, which compares the elements sequentially 
 	using operator< in a reciprocal manner (i.e., checking both a < b 

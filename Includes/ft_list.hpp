@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/16 15:30:27 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/19 13:42:58 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <algorithm>
 # include "ft_ListNode.hpp"
 # include "ft_BiDirectionalIterator.hpp"
-# include "type_traits.hpp"
+# include "Type_Traits.hpp"
 
 namespace ft
 {
@@ -49,7 +49,7 @@ namespace ft
 			Alloc		_allocator;
 			size_t		_size;
 
-			void move(iterator _list, iterator _add)
+			void	move(iterator _list, iterator _add)
 			{
 				Node*	add = _add.get_ptr();
 				Node*	list = _list.get_ptr();
@@ -64,6 +64,26 @@ namespace ft
 				add->next = list;
 				list->prev->next = add;
 				list->prev = add;
+			}
+
+			void	switchplace(Node* it)
+			{
+				Node*	one = it->prev->prev;
+				Node*	two = it->prev;
+				Node*	three = it;
+				Node*	four = it->next;
+				
+				one->next = three;
+
+				
+				
+				two->next = four;
+				
+				two->prev = three;
+				three->next = two;
+			
+				three->prev = one;
+				four->prev = two;
 			}
 
 		public:
@@ -544,23 +564,28 @@ namespace ft
 		The function does nothing if (&x == this). */
 
 		/* Version 1 */
-		// void merge (list& x)
-		// {
-		// 	if (this != &x)
-		// 	{
-				
-		// 	}
-		// }
+		void merge (list& x)
+		{
+			if (this != &x)
+				while (!x.empty())
+					this->splice(this->begin(), x);
+			this->sort();
+		}
 
 		/* Version 2 */
-		// template <class Compare>
-  		// void merge (list& x, Compare comp)
-		// {
-		// 	if (this != &x)
-		// 	{
-				
-		// 	}
-		// }
+		template <class Compare>
+  		void merge (list& x, Compare comp)
+		{
+			if (this != &x)
+			{
+				iterator	it = this->begin();
+				while (!x.empty())
+				{
+					if (it == this->end() || comp(*(x.begin()), *it)) this->splice(it, x, x.begin());
+					else ++it;
+				}
+			}
+		}
 
 		/* SORT--> Sorts the elements in the list, altering their 
 		position within the container.
@@ -576,15 +601,62 @@ namespace ft
 		before the call. */
 
 		/* Version 1 */
-		// void sort();
+		void sort()
+		{
+			if (this->size() <= 1)
+				return;
+			iterator it = this->begin();
+			while (it != this->end())
+			{
+				if (*it < it.get_ptr()->prev->data)
+				{
+					switchplace(it.get_ptr());
+					it = this->begin();
+				}
+				else
+					++it;
+			}
+		}
 
 		/* Version 2 */
-		// template <class Compare>
-  		// void sort (Compare comp);
+		template <class Compare>
+		void sort (Compare comp)
+		{
+			if (this->size() <= 1)
+				return;
+			iterator it = this->begin();
+			while (it != this->end())
+			{
+				if (comp(*it, it.get_ptr()->prev->data) == true)
+				{
+					switchplace(it.get_ptr());
+					it = this->begin();
+				}
+				else
+					++it;
+			}
+		}
 
 		/* REVERSE--> Reverses the order of the elements 
 		in the list container. */
-		// void reverse();
+		void reverse()
+		{
+			Node*	tmp;
+			Node*	pos = this->_head;
+
+			while (pos != NULL)
+			{
+				tmp = pos->next;
+				pos->next = pos->prev;
+				pos->prev = tmp;
+				
+				pos = tmp;
+			}
+			tmp = this->_head;
+			this->_head = this->_tail;
+			this->_tail = tmp;
+
+		}
 
 		/* ------------ OBSERVERS ------------ */
 
@@ -612,24 +684,67 @@ namespace ft
 
 	// template <class T, class Alloc>
   	// void swap (list<T,Alloc>& x, list<T,Alloc>& y);
-	  
-	// template <class T, class Alloc>
-  	// bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
 
-	// template <class T, class Alloc>
-  	// bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	/* The equality comparison (operator==) is performed 
+	by first comparing sizes, and if they match, the 
+	elements are compared sequentially using operator==, 
+	stopping at the first mismatch (as if using algorithm equal). */
+	template <class T, class Alloc>
+	bool operator==(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+	{
+		typename ft::list<T>::const_iterator it_lhs = lhs.begin();
+		typename ft::list<T>::const_iterator it_rhs = rhs.begin();
+		
+		if (lhs.size() != rhs.size())
+			return false;
+		while (it_lhs != lhs.end())
+		{
+			if (*it_lhs != *it_rhs)
+				return false;
+			++it_lhs;
+			++it_rhs;
+		}
+		return true;
+	}
 
-	// template <class T, class Alloc>
-  	// bool operator<  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	// a != b <<>> !(a == b)
+	template <class T, class Alloc>
+	bool operator!=(const list<T,Alloc>& a, const list<T,Alloc>& b)
+	{
+		return !(a == b);
+	}
 	
-	// template <class T, class Alloc>
- 	// bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
-	 	
-	// template <class T, class Alloc>
-  	// bool operator>  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	/* The less-than comparison (operator<) behaves as if using 
+	algorithm lexicographical_compare, which compares the 
+	elements sequentially using operator< in a reciprocal 
+	manner (i.e., checking both a<b and b<a) and stopping 
+	at the first occurrence. */
+	template <class T, class Alloc>
+  	bool operator<(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+	{
+		return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	// a <= b <<>>  !(b < a)
+	template <class T, class Alloc>
+	bool operator<=(const list<T,Alloc>& a, const list<T,Alloc>& b)
+	{
+		return !(b < a);
+	}
+
+	// a > b <<>>  b < a
+	template <class T, class Alloc>
+	bool operator>(const list<T,Alloc>& a, const list<T,Alloc>& b)
+	{
+		return (b < a);
+	}
 	
-	// template <class T, class Alloc>
-  	// bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	// a >= b <<>>  !(a < b)
+	template <class T, class Alloc>
+	bool operator>=(const list<T,Alloc>& a, const list<T,Alloc>& b)
+	{
+		return !(a < b);
+	}
 }
 
 #endif // end of ft namespace

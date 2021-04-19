@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/16 15:24:00 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/19 12:49:38 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1036,10 +1036,8 @@ TEST_CASE("list-unique version 2", "[list]")
 	own.push_back(72.3); real.push_back(72.3);
 	own.push_back(72.25); real.push_back(72.25);
 
-	own.print();
 	own.unique(same_integral_part);
 	real.unique(same_integral_part);
-	own.print();
 	
 	ft::list<double>::iterator		own_it = own.begin();
 	std::list<double>::iterator	real_it = real.begin();
@@ -1055,10 +1053,8 @@ TEST_CASE("list-unique version 2", "[list]")
 		++real_it;
 	}
 	
-	own.print();
 	own.unique(is_near());
 	real.unique(is_near());
-	own.print();
 
 	own_it = own.begin();
 	real_it = real.begin();
@@ -1076,40 +1072,309 @@ TEST_CASE("list-unique version 2", "[list]")
 	
 }
 
-// TEST_CASE("list-merge version 1", "[list]")
-// {
-	
-// }
+TEST_CASE("list-merge version 1", "[list]")
+{
+	ft::list<double>	own1;
+	ft::list<double>	own2;
+	std::list<double>	real1; 
+	std::list<double>	real2;
 
-// TEST_CASE("list-merge version 2", "[list]")
-// {
+	own1.push_back (3.1);
+	own1.push_back (2.2);
+	own1.push_back (2.9);	
+	own2.push_back (3.7);
+	own2.push_back (7.1);
+	own2.push_back (1.4);
 	
-// }
+	real1.push_back (3.1);
+	real1.push_back (2.2);
+	real1.push_back (2.9);	
+	real2.push_back (3.7);
+	real2.push_back (7.1);
+	real2.push_back (1.4);
+	
+	own1.sort();
+	own2.sort();
+	real1.sort();
+	real2.sort();	
+	
+	own1.merge(own2);
+	real1.merge(real2);
 
-// TEST_CASE("list-sort version 1", "[list]")
-// {
+	ft::list<double>::iterator		own_it = own1.begin();
+	std::list<double>::iterator		real_it = real1.begin();
 	
-// }
-// TEST_CASE("list-sort version 2", "[list]")
-// {
-	
-// }
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own2.empty() == real2.empty());
+	REQUIRE(own1.size() == real1.size());
+	REQUIRE(own1.empty() == real1.empty());
+	REQUIRE(own1.front() == real1.front());
+	REQUIRE(own1.back() == real1.back());
 
-// TEST_CASE("list-reverse", "[list]")
-// {
+	while (own_it != own1.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+// compare only integral part:
+bool mycomparison (double first, double second)
+{ return ( int(first)<int(second) ); }
+
+TEST_CASE("list-merge version 2", "[list]")
+{
+	ft::list<double>	own1;
+	ft::list<double>	own2;
+	std::list<double>	real1; 
+	std::list<double>	real2;
+
+	own1.push_back (3.1);
+	own1.push_back (2.2);
+	own1.push_back (2.9);	
+	own2.push_back (3.7);
+	own2.push_back (7.1);
+	own2.push_back (1.4);
 	
-// }
+	real1.push_back (3.1);
+	real1.push_back (2.2);
+	real1.push_back (2.9);	
+	real2.push_back (3.7);
+	real2.push_back (7.1);
+	real2.push_back (1.4);
+	
+	own1.sort();
+	own2.sort();
+	real1.sort();
+	real2.sort();	
+	
+	own1.merge(own2, mycomparison);
+	real1.merge(real2, mycomparison);
+
+	ft::list<double>::iterator		own_it = own1.begin();
+	std::list<double>::iterator		real_it = real1.begin();
+	
+	REQUIRE(own2.size() == real2.size());
+	REQUIRE(own2.empty() == real2.empty());
+	REQUIRE(own1.size() == real1.size());
+	REQUIRE(own1.empty() == real1.empty());
+	REQUIRE(own1.front() == real1.front());
+	REQUIRE(own1.back() == real1.back());
+
+	while (own_it != own1.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-sort version 1", "[list]")
+{
+	ft::list<std::string>	own;
+	std::list<std::string>	real;
+	
+	real.push_back ("one");
+	real.push_back ("two");
+	real.push_back ("Three");
+
+	own.push_back ("one");
+	own.push_back ("two");
+	own.push_back ("Three");
+
+	real.sort();
+	own.sort();
+
+	std::list<std::string>::iterator	real_it = real.begin();
+	ft::list<std::string>::iterator		own_it = own.begin();
+	
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+// comparison, not case sensitive.
+bool compare_nocase (const std::string& first, const std::string& second)
+{
+  unsigned int i=0;
+  while ( (i<first.length()) && (i<second.length()) )
+  {
+    if (tolower(first[i])<tolower(second[i])) return true;
+    else if (tolower(first[i])>tolower(second[i])) return false;
+    ++i;
+  }
+  return ( first.length() < second.length() );
+}
+
+TEST_CASE("list-sort version 2", "[list]")
+{
+	ft::list<std::string>	own;
+	std::list<std::string>	real;
+	
+	real.push_back ("one");
+	real.push_back ("two");
+	real.push_back ("Three");
+
+	own.push_back ("one");
+	own.push_back ("two");
+	own.push_back ("Three");
+
+	real.sort(compare_nocase);
+	own.sort(compare_nocase);
+
+	std::list<std::string>::iterator	real_it = real.begin();
+	ft::list<std::string>::iterator		own_it = own.begin();
+	
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("list-reverse", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+
+	for (int i = 0; i < 10; ++i) own.push_back(i);
+	for (int i = 0; i < 10; ++i) real.push_back(i);
+
+	own.reverse();
+	real.reverse();
+	
+	std::list<int>::iterator	real_it = real.begin();
+	ft::list<int>::iterator		own_it = own.begin();
+	
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+}
 
 /* ------------ OBSERVERS ------------ */
 
-// TEST_CASE("list-get_allocator", "[list]")
-// {
+TEST_CASE("list-get_allocator", "[list]")
+{
+	ft::list<int>		own;
+	std::list<int>		real;
+
+	int *p_own;
+	int *p_real;
+	bool own_return = false;
+	bool real_return = false;
+	unsigned int i_own;
+	unsigned int i_real;
+
+	// allocate an array with space for 5 elements using list's allocator:
+  	p_own = own.get_allocator().allocate(5);
+  	p_real = real.get_allocator().allocate(5);
+
+	if (!p_own)
+		own_return = false;
+	else
+		own_return = true;
+
+	if (!p_real)
+		real_return = false;
+	else
+		real_return = true;
+		
+	REQUIRE(own_return == real_return);
+
+  	// construct values in-place on the array:
+  	for (i_own = 0; i_own < 5; i_own++) own.get_allocator().construct(&p_own[i_own],i_own);
+  	for (i_real = 0; i_real < 5; i_real++) real.get_allocator().construct(&p_real[i_real],i_real);
+
+	REQUIRE(p_own[0] == p_real[0]);
+	REQUIRE(p_own[1] == p_real[1]);
+	REQUIRE(p_own[2] == p_real[2]);
+	REQUIRE(p_own[3] == p_real[3]);
+
+  	// destroy and deallocate:
+	for (i_own = 0; i_own < 3; i_own++) own.get_allocator().destroy(&p_own[i_own]);
+	for (i_real = 0; i_real < 3; i_real++) own.get_allocator().destroy(&p_own[i_real]);
 	
-// }
+	REQUIRE(p_own[0] == p_real[0]);
+	REQUIRE(p_own[1] == p_real[1]);
+	
+	own.get_allocator().deallocate(p_own,5);
+	real.get_allocator().deallocate(p_real,5);
+	
+	if (!p_own)
+		own_return = false;
+	else
+		own_return = true;
+
+	if (!p_real)
+		real_return = false;
+	else
+		real_return = true;
+		
+	REQUIRE(own_return == real_return);
+}
 
 /* ------------ RELATIONAL OPERATORS ------------ */
 
-// TEST_CASE("list-operation overloaders", "[list]")
-// {
+TEST_CASE("list-operation overloaders", "[list]")
+{
+	ft::list<int> 	own(4, 200);
+	ft::list<int> 	own2(4, 100);
+	ft::list<int> 	own3(4, 200);
+	std::list<int>	real(4, 200);
+	std::list<int>	real2(4, 100);
+	std::list<int>	real3(4, 200);
+
+
+	REQUIRE((own == own3) == true);
+	REQUIRE((own == own2) == false);
+	REQUIRE((real == real3) == true);
+	REQUIRE((real == real2) == false);
 	
-// }
+	REQUIRE((own != own3) == false);
+	REQUIRE((own != own2) == true);
+	REQUIRE((real != real3) == false);
+	REQUIRE((real != real2) == true);
+	
+	REQUIRE((own < own2) == false);
+	REQUIRE((own2 < own3) == true);
+	REQUIRE((real < real2) == false);
+	REQUIRE((real2 < real3) == true);
+
+	REQUIRE((own < own3) == false);
+	REQUIRE((own <= own3) == true);
+	REQUIRE((real < real3) == false);
+	REQUIRE((real <= real3) == true);
+
+	REQUIRE((own > own2) == true);
+	REQUIRE((own2 > own3) == false);
+	REQUIRE((real > real2) == true);
+	REQUIRE((real2 > real3) == false);
+
+	REQUIRE((own > own3) == false);
+	REQUIRE((own >= own3) == true);
+	REQUIRE((real > real3) == false);
+	REQUIRE((real >= real3) == true);
+}
