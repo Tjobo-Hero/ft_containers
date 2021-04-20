@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/20 11:34:26 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 13:16:51 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 17:10:39 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ TEST_CASE("queue-push function", "[queue]")
 
 /* ------------ RELATIONAL OPERATORS ------------ */
 
-TEST_CASE("queue-push function", "[queue]")
+TEST_CASE("queue-relational operators", "[queue]")
 {
 	ft::queue<int> own_queue1;
 	ft::queue<int> own_queue2;
@@ -237,8 +237,23 @@ TEST_CASE("queue-push function", "[queue]")
 	REQUIRE((own_queue1 != own_queue2) == false);
 	REQUIRE((own_queue2 != own_queue3) == true);
 	
-	// REQUIRE((own_queue1 != own1) == false);
-	// REQUIRE((own_queue2 == own1) == true);
+	REQUIRE((own1 < own2) == false);
+	REQUIRE((own_queue2 < own_queue1) == false);
+	REQUIRE((own1 < own3) == true);
+	REQUIRE((own_queue2 < own_queue3) == true);
 
-	// REQUIRE(own1.empty() == real1.empty());
+	REQUIRE((own1 <= own2) == true);
+	REQUIRE((own_queue2 <= own_queue1) == true);
+	REQUIRE((own1 <= own3) == true);
+	REQUIRE((own_queue2 <= own_queue3) == true);
+
+	REQUIRE((own1 >= own2) == true);
+	REQUIRE((own_queue2 >= own_queue1) == true);
+	REQUIRE((own1 > own3) == false);
+	REQUIRE((own_queue2 > own_queue3) == false);
+
+	REQUIRE((own1 >= own2) == true);
+	REQUIRE((own_queue2 >= own_queue1) == true);
+	REQUIRE((own1 > own3) == false);
+	REQUIRE((own_queue2 > own_queue3) == false);
 }
