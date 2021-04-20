@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/19 11:49:54 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 12:40:04 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -385,7 +385,8 @@ namespace ft
 				return "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size";
 			}
 		};
-	}; // end of vector class
+
+	}; // end of VECTOR class
 	
 	/* ------------ RELATIONAL OPERATORS ------------ */
 	template <typename T>

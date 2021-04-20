@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/20 11:34:26 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 12:33:54 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 12:58:31 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 #include "../INCLUDES/ft_Queue.hpp"
 
-/*-----------------CONSTRUCTORS-----------------*/
+/*-----------------MEMBER FUNCTIONS-----------------*/
 
 TEST_CASE("queue-Empty container constructor", "[queue]")
 {
@@ -52,7 +52,6 @@ TEST_CASE("queue-Copy Constructor", "[queue]")
 	REQUIRE(own1.front() == real1.front());
 	REQUIRE(own1.back() == real1.back());
 }
-
 
 TEST_CASE("queue-empty function", "[queue]")
 {
@@ -194,3 +193,5 @@ TEST_CASE("queue-push function", "[queue]")
 	REQUIRE(own_queue.empty() == real_queue.empty());
 	REQUIRE(own1.empty() == real1.empty());
 }
+
+/* ------------ RELATIONAL OPERATORS ------------ */

@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 12:24:35 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 12:39:36 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -695,7 +695,7 @@ namespace ft
 			std::cout << std::endl;
 		}
 		
-	}; // end of list class
+	}; // end of LIST class
 
 	/* ------------ RELATIONAL OPERATORS ------------ */
 
@@ -764,4 +764,4 @@ namespace ft
 	}
 }
 
-#endif // end of ft namespace
+#endif // end of namespace ft

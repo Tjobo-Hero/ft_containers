@@ -6,7 +6,7 @@
 #    By: timvancitters <timvancitters@student.co      +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/03/26 16:27:02 by timvancitte   #+#    #+#                  #
-#    Updated: 2021/04/20 12:02:01 by timvancitte   ########   odam.nl          #
+#    Updated: 2021/04/20 12:49:48 by timvancitte   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SOURCES			= 	TEST/main.cpp \
 					TEST/List_test.cpp \
 					TEST/Queue_test.cpp \
 					TEST/catch.cpp \
+					# TEST/Stack_test.cpp \
 					# TEST/1_Bidirectionaliterator_test.cpp \
 					# TEST/2_RandomAccessIterator_test.cpp \
 					# TEST/5_queue_test.cpp \

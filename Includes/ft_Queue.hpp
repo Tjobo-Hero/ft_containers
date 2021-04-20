@@ -6,21 +6,20 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/19 15:17:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 12:16:57 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 12:53:20 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_QUEUE_HPP
 # define FT_QUEUE_HPP
 
-# include <deque>
 # include <iostream>
+# include <deque>
 # include "ft_List.hpp"
 
 namespace ft
 {
-	
-	template <class T, class Container = list<T> > 
+	template <class T, class Container = std::deque<T> > 
 	class queue
 	{
 		public:
