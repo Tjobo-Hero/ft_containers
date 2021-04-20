@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/19 15:17:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/19 15:27:31 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 12:16:57 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <deque>
 # include <iostream>
-# include <ft_List.hpp>
+# include "ft_List.hpp"
 
 namespace ft
 {
@@ -35,13 +35,113 @@ namespace ft
 		public:
 
 		/* ------------ MEMBER FUNCTIONS ------------ */
+		
+		/* EMPTY CONTAINER CONSTRUCTOR--> Constructs an empty 
+		container, with no elements. */
+		explicit queue(const container_type& ctnr = container_type()) : _container(ctnr) { return; }
+		
+		/*EMPTY--> Returns whether the queue is empty: 
+		i.e. whether its size is zero.
 
-		explicit queue (const container_type& ctnr = container_type()) : _containter(ctnr) { return; }
-		
-			
-		
+		This member function effectively calls member 
+		empty of the underlying container object. */
+		bool empty() const { return _container.empty(); }
 	
-	}; // end of QUEUE class
+		/* SIZE--> Returns the number of elements 
+		in the queue.
 
+		This member function effectively calls 
+		member size of the underlying container 
+		object. */
+		size_type size() const { return _container.size(); }
+		
+		/* FRONT--> Returns a reference to the next element 
+		in the queue.
+
+		The next element is the "oldest" element 
+		in the queue and the same element that is 
+		popped out from the queue when queue::pop is 
+		called.
+
+		This member function effectively calls member 
+		front of the underlying container object. */
+		T& front() { return _container.front(); }
+		const T& front() const { return _container.front(); }
+
+		/* Returns a reference to the last element 
+		in the queue. This is the "newest" element 
+		in the queue (i.e. the last element pushed 
+		into the queue).
+
+		This member function effectively calls member 
+		back of the underlying container object. */
+		T& back() { return _container.back(); }
+		const T& back() const { return _container.back(); }
+
+		/* PUSH--> Inserts a new element at the end of 
+		the queue, after its current last element. 
+		The content of this new element is initialized 
+		to val.
+
+		This member function effectively calls the member 
+		function push_back of the underlying container 
+		object. */
+		void push(const value_type& val) { _container.push_back(val); return;}
+
+		/* POP--> Removes the next element in the queue, 
+		effectively reducing its size by one.
+
+		The element removed is the "oldest" element in 
+		the queue whose value can be retrieved by calling 
+		member queue::front.
+
+		This calls the removed element's destructor.
+
+		This member function effectively calls the 
+		member function pop_front of the underlying 
+		container object. */
+		void pop() { _container.pop_front(); return; }
+
+		/* ------------ RELATIONAL OPERATORS ------------ */
+		
+		template <class value_type, class ctnr>
+		friend bool operator==(const queue<T,Container>& lhs, const queue<T,Container>& rhs)
+		{
+			return (lhs._container == rhs._container);
+		}
+		
+		template <class value_type, class ctnr>
+		friend bool operator!=(const queue<T,Container>& lhs, const queue<T,Container>& rhs)
+		{
+			return (lhs._container != rhs._container);
+		}
+		
+		template <class value_type, class ctnr>
+		friend bool operator<(const queue<T,Container>& lhs, const queue<T,Container>& rhs)
+		{
+			return (lhs._container < rhs._container);
+		}
+	
+		template <class value_type, class ctnr>
+		friend bool operator<=(const queue<T,Container>& lhs, const queue<T,Container>& rhs)
+		{
+			return (lhs._container <= rhs._container);
+		}
+		
+		template <class value_type, class ctnr>
+		friend bool operator>(const queue<T,Container>& lhs, const queue<T,Container>& rhs)
+		{
+			return (lhs._container > rhs._container);
+		}
+		
+		template <class value_typeT, class ctnr>
+		friend bool operator>=(const queue<T,Container>& lhs, const queue<T,Container>& rhs)
+		{
+			return (lhs._container >= rhs._container);
+		}
+			
+		}; // end of QUEUE class
+	
 } // end of namespace ft
+
 #endif

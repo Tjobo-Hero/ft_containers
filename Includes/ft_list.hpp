@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/19 13:42:58 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 12:24:35 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,23 @@ namespace ft
 			new_node->next = this->_head->next;
 			this->_head->next = new_node;
 			this->_size += 1;
+		}
+
+		/* POP_FRONT--> Removes the first element in the list 
+		container, effectively reducing its size by one.
+
+		This destroys the removed element. */
+		void pop_front()
+		{
+			if (this->_size)
+			{
+				Node*	front_node = this->_head->next;
+				
+				this->_head->next->next->prev = this->_head;
+				this->_head->next = this->_head->next->next;
+				this->_size -= 1;
+				delete front_node;
+			}
 		}
 
 		/* PUSH_BACK--> Adds a new element at the end of the 

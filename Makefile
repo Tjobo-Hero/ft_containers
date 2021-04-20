@@ -6,7 +6,7 @@
 #    By: timvancitters <timvancitters@student.co      +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/03/26 16:27:02 by timvancitte   #+#    #+#                  #
-#    Updated: 2021/04/15 14:09:03 by timvancitte   ########   odam.nl          #
+#    Updated: 2021/04/20 12:02:01 by timvancitte   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME			=	ft_containers
 SOURCES			= 	TEST/main.cpp \
 					TEST/Vector_test.cpp \
 					TEST/List_test.cpp \
+					TEST/Queue_test.cpp \
 					TEST/catch.cpp \
 					# TEST/1_Bidirectionaliterator_test.cpp \
 					# TEST/2_RandomAccessIterator_test.cpp \

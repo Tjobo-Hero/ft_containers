@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/19 12:49:38 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 12:26:33 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -403,6 +403,28 @@ TEST_CASE("list-push_front function", "[list]")
 		own.push_front(sum);
 		real.push_front(sum);
 		sum += 11;
+	}
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+}
+
+TEST_CASE("list-pop_front function", "[list]")
+{
+	ft::list<int>	own;
+	std::list<int>	real;
+	int sum = 10;
+	for (int i = 0; i < 10; ++i)
+	{
+		own.push_front(sum);
+		real.push_front(sum);
+		sum += 11;
+	}
+	for (int i = 0; i < 5; ++i)
+	{
+		own.pop_front();
+		real.pop_front();
 	}
 	REQUIRE(own.size() == real.size());
 	REQUIRE(own.empty() == real.empty());
