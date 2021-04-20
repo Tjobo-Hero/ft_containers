@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/19 15:14:08 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 17:18:37 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 17:19:23 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include "ft_List.hpp"
+# include <deque>
 
 namespace ft
 {
