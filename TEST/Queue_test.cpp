@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/20 11:34:26 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 12:58:31 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/20 13:16:51 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ TEST_CASE("queue-Empty container constructor", "[queue]")
 	std::list<int> real_list;
 	ft::list<int> own_list;
 
+	std::deque<int> real_deck(5, 100);
+
 	std::queue<int> real1;                 // empty queue
-	std::queue<int> real2;       // queue initialized to copy of deque	
+	std::queue<int> real2(real_deck);       // queue initialized to copy of deque	
 	std::queue<int,std::list<int> > real3; // empty queue with list as underlying container
 	std::queue<int,std::list<int> > real4(real_list);	
 
 	ft::queue<int> own1;                 // empty queue
-	ft::queue<int> own2;       // queue initialized to copy of deque	
+	ft::queue<int> own2(real_deck);       // queue initialized to copy of deque	
 	ft::queue<int,ft::list<int> > own3; // empty queue with list as underlying container
 	ft::queue<int,ft::list<int> > own4(own_list);	
 	
@@ -195,3 +197,48 @@ TEST_CASE("queue-push function", "[queue]")
 }
 
 /* ------------ RELATIONAL OPERATORS ------------ */
+
+TEST_CASE("queue-push function", "[queue]")
+{
+	ft::queue<int> own_queue1;
+	ft::queue<int> own_queue2;
+	ft::queue<int> own_queue3;
+
+	ft::queue<int,ft::list<int> > own1; // empty queue with list as underlying container
+	ft::queue<int,ft::list<int> > own2; // empty queue with list as underlying container
+	ft::queue<int,ft::list<int> > own3; // empty queue with list as underlying container
+
+	int sum = 10;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		own_queue1.push(sum);
+		own_queue2.push(sum);
+		own1.push(sum);
+		own2.push(sum);
+		sum += 13;
+	}
+	while (!own_queue1.size())
+	{
+		own_queue1.pop();
+		own_queue2.pop();
+		own1.pop();
+		own2.pop();
+	}
+	own_queue3.push(2000);
+	own3.push(2000);
+	REQUIRE((own1 == own2) == true);
+	REQUIRE((own2 == own3) == false);
+	REQUIRE((own_queue1 == own_queue2) == true);
+	REQUIRE((own_queue2 == own_queue3) == false);
+
+	REQUIRE((own1 != own2) == false);
+	REQUIRE((own2 != own3) == true);
+	REQUIRE((own_queue1 != own_queue2) == false);
+	REQUIRE((own_queue2 != own_queue3) == true);
+	
+	// REQUIRE((own_queue1 != own1) == false);
+	// REQUIRE((own_queue2 == own1) == true);
+
+	// REQUIRE(own1.empty() == real1.empty());
+}
