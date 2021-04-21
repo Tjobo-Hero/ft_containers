@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_list.hpp                                        :+:    :+:            */
+/*   ft_List.hpp                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 12:39:36 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/21 14:07:32 by tvan-cit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 # define FT_LIST_HPP
 
 # include <iostream>
-# include <string>
-# include <memory>
-# include <list>
-# include <algorithm>
 # include "ft_ListNode.hpp"
 # include "ft_BiDirectionalIterator.hpp"
 # include "Type_Traits.hpp"
