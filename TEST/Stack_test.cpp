@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/20 12:44:15 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/21 08:43:28 by tvan-cit      ########   odam.nl         */
+/*   Updated: 2021/04/21 14:05:08 by tvan-cit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -445,4 +445,88 @@ TEST_CASE("stack-pop function", "[stack]")
 	REQUIRE(own3.size() == real3.size());
 	REQUIRE(own4.size() == real4.size());
 	REQUIRE(own5.size() == real5.size());
+}
+
+/* ------------ RELATIONAL OPERATORS ------------ */
+
+TEST_CASE("stack-relational operators", "[stack]")
+{
+	ft::stack<int> own_stack1;
+	ft::stack<int> own_stack2;
+	ft::stack<int> own_stack3;
+
+	ft::stack<int,ft::list<int> > own_list1; // empty stack with list as underlying container
+	ft::stack<int,ft::list<int> > own_list2; // empty stack with list as underlying container
+	ft::stack<int,ft::list<int> > own_list3; // empty stack with list as underlying container
+	ft::stack<int,ft::vector<int> > own_vector1; // empty stack with vector as underlying container
+	ft::stack<int,ft::vector<int> > own_vector2; // empty stack with vector as underlying container
+	ft::stack<int,ft::vector<int> > own_vector3; // empty stack with vector as underlying container
+
+	int sum = 10;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		own_stack1.push(sum);
+		own_stack2.push(sum);
+		own_list1.push(sum);
+		own_list2.push(sum);
+		own_vector1.push(sum);
+		own_vector2.push(sum);
+		
+		sum += 13;
+	}
+	while (!own_stack1.size())
+	{
+		own_stack1.pop();
+		own_stack2.pop();
+		own_list1.pop();
+		own_list2.pop();
+		own_vector1.pop();
+		own_vector2.pop();
+	}
+	own_stack3.push(2000);
+	own_list3.push(2000);
+	own_vector3.push(2000);
+	
+	REQUIRE((own_list1 == own_list2) == true);
+	REQUIRE((own_list2 == own_list3) == false);
+	REQUIRE((own_vector1 == own_vector2) == true);
+	REQUIRE((own_vector2 == own_vector3) == false);
+	REQUIRE((own_stack1 == own_stack2) == true);
+	REQUIRE((own_stack2 == own_stack3) == false);
+
+	REQUIRE((own_list1 != own_list2) == false);
+	REQUIRE((own_list2 != own_list3) == true);
+	REQUIRE((own_vector1 != own_vector2) == false);
+	REQUIRE((own_vector2 != own_vector3) == true);
+	REQUIRE((own_stack1 != own_stack2) == false);
+	REQUIRE((own_stack2 != own_stack3) == true);
+	
+	REQUIRE((own_list1 < own_list2) == false);
+	REQUIRE((own_list1 < own_list3) == true);
+	REQUIRE((own_vector1 < own_vector2) == false);
+	REQUIRE((own_vector1 < own_vector3) == true);
+	REQUIRE((own_stack2 < own_stack1) == false);
+	REQUIRE((own_stack2 < own_stack3) == true);
+
+	REQUIRE((own_list1 <= own_list2) == true);
+	REQUIRE((own_list1 <= own_list3) == true);
+	REQUIRE((own_vector1 <= own_vector2) == true);
+	REQUIRE((own_vector1 <= own_vector3) == true);
+	REQUIRE((own_stack2 <= own_stack1) == true);
+	REQUIRE((own_stack2 <= own_stack3) == true);
+
+	REQUIRE((own_list1 >= own_list2) == true);
+	REQUIRE((own_list1 > own_list3) == false);
+	REQUIRE((own_vector1 >= own_vector2) == true);
+	REQUIRE((own_vector1 > own_vector3) == false);
+	REQUIRE((own_stack2 >= own_stack1) == true);
+	REQUIRE((own_stack2 > own_stack3) == false);
+
+	REQUIRE((own_list1 >= own_list2) == true);
+	REQUIRE((own_list1 > own_list3) == false);
+	REQUIRE((own_vector1 >= own_vector2) == true);
+	REQUIRE((own_vector1 > own_vector3) == false);
+	REQUIRE((own_stack2 >= own_stack1) == true);
+	REQUIRE((own_stack2 > own_stack3) == false);
 }
