@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/25 12:11:16 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/19 10:28:31 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/22 14:47:22 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ namespace ft
 		std::ptrdiff_t				operator-(const random_access_iterator& obj) { return _ptr - obj._ptr; }
 	
 		/* OPERATOR+= FUNCTION --> Pluses the pointer with n */ 
-		random_access_iterator		operator+=(const std::ptrdiff_t& n) { return _ptr += n; }
+		random_access_iterator		operator+=(const std::ptrdiff_t& n) { _ptr += n; return *this; }
 	
 		/* OPERATOR+= FUNCTION --> Minisus the pointer with n */ 
-		random_access_iterator		operator-=(const std::ptrdiff_t& n) { return _ptr -= n; }
+		random_access_iterator		operator-=(const std::ptrdiff_t& n) { _ptr -= n; return *this; }
 
 		/* ------------ RELATIONAL OPERATORS------------ */
 		template< typename T2>
@@ -194,10 +194,10 @@ namespace ft
 		std::ptrdiff_t						operator-(const const_random_access_iterator& obj) { return _ptr - obj._ptr; }
 	
 		/* OPERATOR+= FUNCTION --> Pluses the pointer with n */ 
-		const_random_access_iterator		operator+=(const std::ptrdiff_t& n) { return _ptr += n; }
+		const_random_access_iterator		operator+=(const std::ptrdiff_t& n) { _ptr += n; return *this; }
 	
 		/* OPERATOR+= FUNCTION --> Minisus the pointer with n */ 
-		const_random_access_iterator		operator-=(const std::ptrdiff_t& n) { return _ptr -= n; }
+		const_random_access_iterator		operator-=(const std::ptrdiff_t& n) { _ptr -= n; return *this; }
 
 		/* ------------ RELATIONAL OPERATORS------------ */
 		template< typename T2>
@@ -241,7 +241,7 @@ namespace ft
 		public:
 
 		/* ------------MEMBER FUNCTIONS------------ */
-		/* CONSTRUCTOR */
+		/* CONSTRUCTOR */		
 		reverse_random_access_iterator() : _ptr(NULL) { return; }
 		explicit reverse_random_access_iterator(T* it) : _ptr(it) { return; }
 		reverse_random_access_iterator(const reverse_random_access_iterator& src) { *this = src; return; }
@@ -272,7 +272,7 @@ namespace ft
 		{
 			reverse_random_access_iterator tmp(*this);
 
-			--(*this);
+			++(*this);
 			return tmp;
 		}
 
@@ -282,7 +282,7 @@ namespace ft
 		{
 			reverse_random_access_iterator tmp(*this);
 
-			++(*this);
+			--(*this);
 			return tmp;
 		}
 		
@@ -295,10 +295,10 @@ namespace ft
 		std::ptrdiff_t						operator-(const reverse_random_access_iterator& obj) { return _ptr + obj._ptr; }
 	
 		/* OPERATOR+= FUNCTION --> Pluses the pointer with n */ 
-		reverse_random_access_iterator		operator+=(const std::ptrdiff_t& n) { return _ptr -= n; }
+		reverse_random_access_iterator		operator+=(const std::ptrdiff_t& n) { _ptr -= n; return *this; }
 	
 		/* OPERATOR+= FUNCTION --> Minisus the pointer with n */ 
-		reverse_random_access_iterator		operator-=(const std::ptrdiff_t& n) { return _ptr += n; }
+		reverse_random_access_iterator		operator-=(const std::ptrdiff_t& n) { _ptr += n; return *this; }
 
 		/* ------------ RELATIONAL OPERATORS------------ */
 		template< typename T2>
@@ -377,7 +377,7 @@ namespace ft
 		{
 			const_reverse_random_access_iterator tmp(*this);
 
-			--(*this);
+			++(*this);
 			return tmp;
 		}
 
@@ -387,7 +387,7 @@ namespace ft
 		{
 			const_reverse_random_access_iterator tmp(*this);
 
-			++(*this);
+			--(*this);
 			return tmp;
 		}
 		
@@ -400,10 +400,10 @@ namespace ft
 		std::ptrdiff_t							operator-(const const_reverse_random_access_iterator& obj) { return _ptr + obj._ptr; }
 	
 		/* OPERATOR+= FUNCTION --> Pluses the pointer with n */ 
-		const_reverse_random_access_iterator	operator+=(const std::ptrdiff_t& n) { return _ptr -= n; }
+		const_reverse_random_access_iterator	operator+=(const std::ptrdiff_t& n) { _ptr -= n; return *this; }
 	
 		/* OPERATOR+= FUNCTION --> Minisus the pointer with n */ 
-		const_reverse_random_access_iterator	operator-=(const std::ptrdiff_t& n) { return _ptr += n; }
+		const_reverse_random_access_iterator	operator-=(const std::ptrdiff_t& n) { _ptr += n; return *this; }
 
 		/* ------------ RELATIONAL OPERATORS------------ */
 		template< typename T2>

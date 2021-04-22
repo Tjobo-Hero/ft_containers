@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/22 11:55:02 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/22 14:36:14 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,6 +361,17 @@ namespace ft
 			for (size_t i = 0; i < this->size(); i++)
 				_allocator.destroy(&this->_data[i]);
 			this->_size = 0;
+		}
+
+		void print()
+		{
+			iterator first = this->begin();
+			while (first != this->end())
+			{
+				std::cout << " " << *first;
+				++first;
+			}
+			std::cout << std::endl;
 		}
 
 		/* ------------ OBSERVERS ------------ */

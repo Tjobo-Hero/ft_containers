@@ -6,19 +6,19 @@
 #    By: timvancitters <timvancitters@student.co      +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/03/26 16:27:02 by timvancitte   #+#    #+#                  #
-#    Updated: 2021/04/22 12:28:24 by timvancitte   ########   odam.nl          #
+#    Updated: 2021/04/22 14:09:45 by timvancitte   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	ft_containers
 
 SOURCES			= 	TEST/main.cpp \
-					TEST/Vector_test.cpp \
 					TEST/List_test.cpp \
 					TEST/Queue_test.cpp \
 					TEST/Stack_test.cpp \
 					TEST/RandomAccesIterator_test.cpp \
 					TEST/catch.cpp \
+					# TEST/Vector_test.cpp \
 					# TEST/Stack_test.cpp \
 					# TEST/1_Bidirectionaliterator_test.cpp \
 					# TEST/2_RandomAccessIterator_test.cpp \
