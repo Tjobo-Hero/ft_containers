@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/25 12:11:16 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/22 14:47:22 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/22 15:54:28 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,7 @@ namespace ft
 		}
 		
 		/* OPERATOR[] FUNCTION --> Returns reference of pointer to the n'th object */ 
-		T&							operator[](const std::ptrdiff_t& n) { return _ptr[n]; }
+		T&							operator[](const std::ptrdiff_t& n) { return _ptr[-n]; }
 		
 		/* OPERATOR* FUNCTION --> Return reference */ 
 		T&							operator*() { return *_ptr; }
@@ -363,7 +363,7 @@ namespace ft
 		}
 		
 		/* OPERATOR[] FUNCTION --> Returns reference of pointer to the n'th object */ 
-		T&							operator[](const std::ptrdiff_t& n) { return _ptr[n]; }
+		T&							operator[](const std::ptrdiff_t& n) { return _ptr[-n]; }
 		
 		/* OPERATOR* FUNCTION --> Return reference */ 
 		T&							operator*() { return *_ptr; }
