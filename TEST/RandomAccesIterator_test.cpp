@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/22 11:03:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/22 12:06:18 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/22 12:43:48 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ TEST_CASE( "RandomAccesIterator-tests", "[randomaccesiterator]")
 		REQUIRE(*own_it2 == *real_it2);
 	}
 
-    SECTION("-> overload")
+	SECTION("-> overload")
 	{
 		++own_it;
 		++real_it;
@@ -78,32 +78,38 @@ TEST_CASE( "RandomAccesIterator-tests", "[randomaccesiterator]")
 
 		REQUIRE(*own_ite->data() == *real_ite->data());
 		REQUIRE(*own_it->data() == *real_it->data());
-    }
-    // SECTION("[] overload")
-	// {
-		
-    //     REQUIRE(*own_ite[4] == *real_ite[4]);
-	// 	REQUIRE(*own_ite2[2] == *real_ite2[2]);
-    //     REQUIRE(*own_it[2] == *real_it[2]);
-	// 	REQUIRE(*own_it2[2] == *real_it2[2]);
-    // }
-//     SECTION("Increment - prefix and postfix") {
-//         REQUIRE(*own_it == *real_it);
-//         own_it++;
-//         real_it++;
-//         REQUIRE(*own_it->data() == *real_it->data());
-//         ++own_it;
-//         ++real_it;
-//         REQUIRE(*own_it == *real_it);
-//     }
-//     SECTION("Decrement - prefix and postfix") {
-//         own_ite--;
-//         real_ite--;
-//         REQUIRE(*own_ite->data() == *real_ite->data());
-//         --own_ite;
-//         --real_ite;
-//         REQUIRE(*own_ite == *real_ite);
-//     }
+	}
+	
+	SECTION("[] overload")
+	{
+		REQUIRE(own_it[2] == real_it[2]);
+		REQUIRE(own_it2[2] == real_it2[2]);
+	}
+	
+	SECTION("Increment - prefix and postfix")
+	{
+		REQUIRE(*own_it == *real_it);
+		REQUIRE(*own_it2 == *real_it2);
+		own_it++;
+		real_it++;
+		own_it2++;
+		real_it2++;
+		REQUIRE(*own_it == *real_it);
+		REQUIRE(*own_it2 == *real_it2);
+		++own_it;
+		++real_it;
+		REQUIRE(*own_it == *real_it);
+	}
+	
+	SECTION("Decrement - prefix and postfix")
+	{
+		own_ite--;
+		real_ite--;
+		REQUIRE(*own_ite->data() == *real_ite->data());
+		--own_ite;
+		--real_ite;
+		REQUIRE(*own_ite == *real_ite);
+	}
 //     SECTION("+ overload") {
 //         own_it = own_it + 2;
 //         real_it = real_it + 2;
