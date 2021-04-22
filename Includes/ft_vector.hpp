@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 12:40:04 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/22 11:55:02 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,7 @@ namespace ft
 		
 		/* INSERT--> Insert elements */ 
 		iterator insert (iterator position, const T& val)
-		{
+		{  
 			size_t i = distance(begin(), position);
 			insert(position, 1, val);
 			return iterator(&this->_data[i]);

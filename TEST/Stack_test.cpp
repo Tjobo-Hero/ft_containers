@@ -6,24 +6,29 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/20 12:44:15 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/21 14:05:08 by tvan-cit      ########   odam.nl         */
+/*   Updated: 2021/04/22 12:27:27 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "catch.hpp"
 #include <stack>
+#include <list>
+#include <vector>
+#include <iostream>
 
 #include "../INCLUDES/ft_Stack.hpp"
+#include "../INCLUDES/ft_Vector.hpp"
+#include "../INCLUDES/ft_List.hpp"
 
 /*-----------------MEMBER FUNCTIONS-----------------*/
 
 TEST_CASE("stack-Empty container constructor", "[stack]")
 {
-	std::vector<int> real_vector(3, 100);
-	ft::vector<int> own_vector(3, 100);
+	std::list<int>		real_list(5, 100);
+	std::vector<int>	real_vector(3, 100);
 
-	std::list<int> real_list(5, 100);
-	ft::list<int> own_list(5, 100);
+	ft::list<int>		own_list(5, 100);
+	ft::vector<int>		own_vector(3, 100);
 	
 
 	std::stack<int> real1;
@@ -37,7 +42,7 @@ TEST_CASE("stack-Empty container constructor", "[stack]")
 	ft::stack<int> own2;	
 	ft::stack<int,ft::vector<int> > own3;
 	ft::stack<int,ft::vector<int> > own4(own_vector);
-	std::stack<int,ft::list<int> > own5(real_list);
+	ft::stack<int,ft::list<int> > own5(own_list);
 	
 	REQUIRE(own1.size() == real1.size());
 	REQUIRE(own2.size() == real2.size());
@@ -45,7 +50,6 @@ TEST_CASE("stack-Empty container constructor", "[stack]")
 	REQUIRE(own4.size() == real4.size());
 	REQUIRE(own5.size() == real5.size());
 	REQUIRE(own5.top() == real5.top());
-	REQUIRE(own5.back() == real5.back());
 }
 
 TEST_CASE("stack-copy constructor", "[stack]")
@@ -68,7 +72,7 @@ TEST_CASE("stack-copy constructor", "[stack]")
 	ft::stack<int> own2;	
 	ft::stack<int,ft::vector<int> > own3;
 	ft::stack<int,ft::vector<int> > own4(own_vector);
-	std::stack<int,ft::list<int> > own5(real_list);
+	ft::stack<int,ft::list<int> > own5(own_list);
 	
 	REQUIRE(own1.size() == real1.size());
 	REQUIRE(own2.size() == real2.size());
@@ -76,7 +80,6 @@ TEST_CASE("stack-copy constructor", "[stack]")
 	REQUIRE(own4.size() == real4.size());
 	REQUIRE(own5.size() == real5.size());
 	REQUIRE(own5.top() == real5.top());
-	REQUIRE(own5.back() == real5.back());
 }
 
 TEST_CASE("stack-empty function", "[stack]")
@@ -99,7 +102,7 @@ TEST_CASE("stack-empty function", "[stack]")
 	ft::stack<int> own2;	
 	ft::stack<int,ft::vector<int> > own3;
 	ft::stack<int,ft::vector<int> > own4(own_vector);
-	std::stack<int,ft::list<int> > own5(real_list);
+	ft::stack<int,ft::list<int> > own5(own_list);
 	
 	REQUIRE(own1.empty() == real1.empty());
 	REQUIRE(own2.empty() == real2.empty());
@@ -142,37 +145,6 @@ TEST_CASE("stack-empty function", "[stack]")
 	REQUIRE(own5.empty() == real5.empty());
 }
 
-TEST_CASE("stack-copy constructor", "[stack]")
-{
-	std::vector<int> real_vector(3, 100);
-	ft::vector<int> own_vector(3, 100);
-
-	std::list<int> real_list(5, 100);
-	ft::list<int> own_list(5, 100);
-	
-
-	std::stack<int> real1;
-	std::stack<int> real2;
-	std::stack<int,std::vector<int> > real3;
-	std::stack<int,std::vector<int> > real4(real_vector);	
-	std::stack<int,std::list<int> > real5(real_list);
-
-
-	ft::stack<int> own1;
-	ft::stack<int> own2;	
-	ft::stack<int,ft::vector<int> > own3;
-	ft::stack<int,ft::vector<int> > own4(own_vector);
-	std::stack<int,ft::list<int> > own5(real_list);
-	
-	REQUIRE(own1.size() == real1.size());
-	REQUIRE(own2.size() == real2.size());
-	REQUIRE(own3.size() == real3.size());
-	REQUIRE(own4.size() == real4.size());
-	REQUIRE(own5.size() == real5.size());
-	REQUIRE(own5.top() == real5.top());
-	REQUIRE(own5.back() == real5.back());
-}
-
 TEST_CASE("stack-size function", "[stack]")
 {
 	std::vector<int> real_vector(10, 3);
@@ -193,7 +165,7 @@ TEST_CASE("stack-size function", "[stack]")
 	ft::stack<int> own2;	
 	ft::stack<int,ft::vector<int> > own3;
 	ft::stack<int,ft::vector<int> > own4(own_vector);
-	std::stack<int,ft::list<int> > own5(real_list);
+	ft::stack<int,ft::list<int> > own5(own_list);
 	
 	REQUIRE(own1.size() == real1.size());
 	REQUIRE(own2.size() == real2.size());
@@ -245,21 +217,20 @@ TEST_CASE("stack-top function", "[stack]")
 	ft::list<int> own_list(4, 100);
 	
 
-	std::stack<int> real1(real_vector);
-	std::stack<int> real2(real_list);
-	std::stack<int,std::vector<int> > real3(own_vector);
+	std::stack<int> real1;
+	std::stack<int> real2;
+	std::stack<int,std::vector<int> > real3(real_vector);
 	std::stack<int,std::vector<int> > real4(real_vector);	
 	std::stack<int,std::list<int> > real5(real_list);
 
 
-	ft::stack<int> own1(own_vector);
-	ft::stack<int> own2(own_list);	
+	ft::stack<int> own1;
+	ft::stack<int> own2;	
 	ft::stack<int,ft::vector<int> > own3(own_vector);
 	ft::stack<int,ft::vector<int> > own4(own_vector);
-	std::stack<int,ft::list<int> > own5(real_list);
+	ft::stack<int,ft::list<int> > own5(own_list);
 	
-	REQUIRE(own1.top() == real1.top());
-	REQUIRE(own2.top() == real2.top());
+
 	REQUIRE(own3.top() == real3.top());
 	REQUIRE(own4.top() == real4.top());
 	REQUIRE(own5.top() == real5.top());
@@ -308,23 +279,21 @@ TEST_CASE("stack-push function", "[stack]")
 	ft::list<int> own_list(4, 100);
 	
 
-	std::stack<int> real1(real_vector);
-	std::stack<int> real2(real_list);
-	std::stack<int,std::vector<int> > real3(own_vector);
+	std::stack<int> real1;
+	std::stack<int> real2;
+	std::stack<int,std::vector<int> > real3(real_vector);
 	std::stack<int,std::vector<int> > real4(real_vector);	
 	std::stack<int,std::list<int> > real5(real_list);
 
 
-	ft::stack<int> own1(own_vector);
-	ft::stack<int> own2(own_list);	
+	ft::stack<int> own1;
+	ft::stack<int> own2;	
 	ft::stack<int,ft::vector<int> > own3(own_vector);
 	ft::stack<int,ft::vector<int> > own4(own_vector);
-	std::stack<int,ft::list<int> > own5(real_list);
+	ft::stack<int,ft::list<int> > own5(own_list);
 
 	int sum = 22;
 	
-	REQUIRE(own1.top() == real1.top());
-	REQUIRE(own2.top() == real2.top());
 	REQUIRE(own3.top() == real3.top());
 	REQUIRE(own4.top() == real4.top());
 	REQUIRE(own5.top() == real5.top());
@@ -378,23 +347,21 @@ TEST_CASE("stack-pop function", "[stack]")
 	ft::list<int> own_list(4, 100);
 	
 
-	std::stack<int> real1(real_vector);
-	std::stack<int> real2(real_list);
-	std::stack<int,std::vector<int> > real3(own_vector);
+	std::stack<int> real1;
+	std::stack<int> real2;
+	std::stack<int,std::vector<int> > real3(real_vector);
 	std::stack<int,std::vector<int> > real4(real_vector);	
 	std::stack<int,std::list<int> > real5(real_list);
 
 
-	ft::stack<int> own1(own_vector);
-	ft::stack<int> own2(own_list);	
+	ft::stack<int> own1;
+	ft::stack<int> own2;	
 	ft::stack<int,ft::vector<int> > own3(own_vector);
 	ft::stack<int,ft::vector<int> > own4(own_vector);
-	std::stack<int,ft::list<int> > own5(real_list);
+	ft::stack<int,ft::list<int> > own5(own_list);
 
 	int sum = 22;
 	
-	REQUIRE(own1.top() == real1.top());
-	REQUIRE(own2.top() == real2.top());
 	REQUIRE(own3.top() == real3.top());
 	REQUIRE(own4.top() == real4.top());
 	REQUIRE(own5.top() == real5.top());

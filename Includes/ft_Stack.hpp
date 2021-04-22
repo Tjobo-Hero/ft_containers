@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/19 15:14:08 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 17:19:23 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/22 12:25:42 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ namespace ft
 
 		This member function effectively calls member 
 		size of the underlying container object. */
-		size_type size() const { return _cointainer.size(); }
+		size_type size() const { return _container.size(); }
 
 		/* TOP--> Returns a reference to the top element in the stack. 
 
@@ -59,7 +59,7 @@ namespace ft
 
 		This member function effectively calls member back 
 		of the underlying container object. */
-		value_type& top() { return _contianer.back(); }
+		value_type& top() { return _container.back(); }
 		const value_type& top() const { return _container.back(); }
 
 		/* PUSH--> Inserts a new element at the top of the stack, 
