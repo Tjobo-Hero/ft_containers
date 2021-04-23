@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:35:23 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/22 09:07:06 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/23 10:16:20 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ namespace ft
 
 		/* INITIALIZATION CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */
-		pair (const first& a, const second& b) : first(a), second(b) { return; }
+		pair (const first_type& a, const second_type& b) : first(a), second(b) { return; }
 
 		/* Assigns pr as the new content for the pair object
 		Member first is assigned pr.first, and member second

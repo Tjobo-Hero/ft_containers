@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/22 10:35:26 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/23 16:00:51 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 # include "ft_BiDirectionalIterator.hpp"
 # include "Type_Traits.hpp"
 # include "ft_Pair.hpp"
+# include "ft_MapNode.hpp"
+
 
 namespace ft
 {
-	template < class Key, class T, class Compare = less<Key>, class Alloc = allocator<pair<const Key,T> > > 
+	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key,T> > > 
 	class map
 	{
 		public:
@@ -29,7 +31,7 @@ namespace ft
 			typedef Compare											key_compare;
 			typedef Alloc											allocator_type;
 			typedef ft::pair<const key_type, mapped_type>			value_type;
-			typedef mapNode<T>										Node;
+			typedef mapNode<value_type>								Node;
 			typedef T&												reference;
 			typedef const T&										const_reference;
 			typedef T*												pointer;
@@ -43,8 +45,13 @@ namespace ft
 
 		private:
 
-			Node*		whatthehow;
-			
+			Node*		_root;
+			Node*		_first;
+			Node*		_last;
+			size_t		_size;
+			Alloc		_alloc;
+			Compare		_compare;
+
 		public:
 
 		/* ------------ NESTED COMPARE CLASS ------------ */
@@ -67,12 +74,15 @@ namespace ft
 				}
 		}; // end of VALUE_COMPARE CLASS
 
+		
 		/* ------------ MEMBER FUNCTIONS ------------ */
 		/* EMPTY CONSTRUCTOR--> Constructs an empty 
 		container, with no elements. */
-		// explicit map (const key_compare& comp = key_compare(),
-		// const allocator_type& alloc = allocator_type());
+		explicit map (const key_compare& comp = key_compare(),
+		const allocator_type& alloc = allocator_type()) : _root(new Node), _first(new Node), _last(new Node),  _size(0), _alloc(alloc), _compare(comp) { return; }
 
+		
+		
 		/* RANGE CONSTRUCTOR--> Constructs a container 
 		with as many elements as the range [first,last), 
 		with each element constructed from its corresponding 
@@ -152,11 +162,11 @@ namespace ft
 		This function does not modify the container 
 		in any way. To clear the content of a map 
 		container, see map::clear. */
-		// bool empty() const;
+		bool empty() const { return this->size() == 0; }
 
 		/* SIZE--> Returns the number of 
 		elements in the map container. */
-		// size_type size() const;
+		size_type size() const { return this->_size; }
 
 		/* MAX_SIZE--> Returns the maximum number of 
 		elements that the map container can hold.
@@ -208,7 +218,10 @@ namespace ft
 		inserted in its respective position following this ordering. */
 
 		/* Single Element*/
-		// pair<iterator,bool> insert (const value_type& val);
+		// pair<iterator,bool> insert (const value_type& val)
+		// {
+			
+		// }
 		
 		/* With Hint */	
 		// iterator insert (iterator position, const value_type& val);
@@ -217,7 +230,7 @@ namespace ft
 		// template <class InputIterator>
 		// void insert (InputIterator first, InputIterator last);
 
-		/* INSERT--> Removes from the map container either 
+		/* ERASE--> Removes from the map container either 
 		a single element or a range of elements ([first,last)).
 
 		This effectively reduces the container size by 
@@ -391,6 +404,68 @@ namespace ft
 		/* GET_ALLOCATOR--> Returns a copy of 
 		the allocator object associated with the map. */
 		// allocator_type get_allocator() const;
+
+		void    print_node(std::string root_path) {
+            Node* tmp = _root;
+            std::cout << ".";
+            for (int i = 0; root_path[i]; ++i){
+                if (root_path[i] == 'L'){
+                    if (tmp->left == NULL)
+                        return ;
+                    tmp = tmp->left;
+                }
+                if (root_path[i] == 'R'){
+                    if (tmp->right == NULL)
+                        return ;
+                    tmp = tmp->right;
+                }
+            }
+            if (tmp->data.first)
+                std::cout << "\033[1;37m" << tmp->data.first << "\033[0m";
+        }
+        void    print_tree() {
+            std::string root_path;
+            int layer = 0;
+            root_path = "";
+            int starting_tabs = 16;
+            int starting_gap = 16;
+            while (layer < 5)
+            {
+                root_path.clear();
+                int tmp_tabs = starting_tabs;
+                int tmp_gap = starting_gap;
+                for (int tmp_layer = layer; tmp_layer; --tmp_layer)
+                {
+                    root_path.append("L");
+                    tmp_gap = tmp_gap / 2;
+                    tmp_tabs -= tmp_gap;
+                }
+                while (root_path.find('L') != std::string::npos){
+                    if (root_path.find('R') == std::string::npos)
+                        for (; tmp_tabs; --tmp_tabs)
+                            std::cout << "   ";
+                    else
+                        for (int tmp_gap2 = tmp_gap * 2; tmp_gap2; --tmp_gap2)
+                            std::cout << "   ";
+                    print_node(root_path);
+                    size_t L_found = root_path.find_last_of('L');
+                    root_path[L_found] = 'R';
+                    ++L_found;
+                    for (;L_found != root_path.size(); ++L_found){
+                        root_path[L_found] = 'L';
+                    }
+                }
+                if (root_path.find('R') == std::string::npos)
+                    for (; tmp_tabs; --tmp_tabs)
+                        std::cout << "   ";
+                else
+                    for (int tmp_gap2 = tmp_gap * 2; tmp_gap2; --tmp_gap2)
+                        std::cout << "   ";
+               	print_node(root_path);
+                std::cout << std::endl << std::endl << std::endl;
+                layer++;
+            }
+        }
 		
 	}; // end of MAP class
 

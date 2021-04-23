@@ -6,7 +6,7 @@
 #    By: timvancitters <timvancitters@student.co      +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/03/26 16:27:02 by timvancitte   #+#    #+#                  #
-#    Updated: 2021/04/22 16:45:11 by timvancitte   ########   odam.nl          #
+#    Updated: 2021/04/23 10:55:15 by timvancitte   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ SOURCES			= 	TEST/main.cpp \
 					TEST/Vector_test.cpp \
 					TEST/RandomAccesIterator_test.cpp \
 					TEST/BiDirectionalIterator_test.cpp \
+					TEST/Map_test.cpp \
 					TEST/catch.cpp \
-					# TEST/Map_test.cpp \
 
 OBJECTS 		=	${SOURCES:%.c=%.o}
 

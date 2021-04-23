@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/19 15:17:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/20 17:10:17 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/23 10:43:34 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,45 +102,49 @@ namespace ft
 		void pop() { _container.pop_front(); return; }
 
 		/* ------------ RELATIONAL OPERATORS ------------ */
+		template <class value_type2, class ctnr2>
+		friend bool operator==(const queue<value_type2, ctnr2>& lhs, const queue<value_type2, ctnr2>& rhs);
 		
-		template <class value_type, class ctnr>
-		friend bool operator==(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
-		{
-			return (lhs._container == rhs._container);
-		}
-		
-		template <class value_type, class ctnr>
-		friend bool operator!=(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
-		{
-			return (lhs._container != rhs._container);
-		}
-		
-		template <class value_type, class ctnr>
-		friend bool operator<(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
-		{
-			return (lhs._container < rhs._container);
-		}
-	
-		template <class value_type, class ctnr>
-		friend bool operator<=(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
-		{
-			return (lhs._container <= rhs._container);
-		}
-		
-		template <class value_type, class ctnr>
-		friend bool operator>(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
-		{
-			return (lhs._container > rhs._container);
-		}
-		
-		template <class value_type, class ctnr>
-		friend bool operator>=(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
-		{
-			return (lhs._container >= rhs._container);
-		}
-			
+		template <class value_type2, class ctnr2>
+		friend bool operator<(const queue<value_type2, ctnr2>& lhs, const queue<value_type2, ctnr2>& rhs);
 	}; // end of QUEUE class
 	
+	/* ------------ NON-MEMBER FUNCTION OVERLOADS ------------ */
+	template <class value_type, class ctnr>
+	bool operator==(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
+	{
+		return (lhs._container == rhs._container);
+	}
+	
+	template <class value_type, class ctnr>
+	bool operator<(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
+	{
+		return (lhs._container < rhs._container);
+	}
+	template <class value_type, class ctnr>
+	bool operator!=(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <class value_type, class ctnr>
+	bool operator<=(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
+	{
+		return !(rhs < lhs);
+	}
+	
+	template <class value_type, class ctnr>
+	bool operator>(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
+	{
+		return (rhs < lhs);
+	}
+	
+	template <class value_type, class ctnr>
+	bool operator>=(const queue<value_type, ctnr>& lhs, const queue<value_type, ctnr>& rhs)
+	{
+		return !(lhs < rhs);
+	}
+
 } // end of namespace ft
 
 #endif
