@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 08:46:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/23 15:58:50 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/26 13:29:24 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,12 @@ namespace ft
 			mapNode*	left;
 			mapNode*	right;
 			mapNode*	parent;
-			size_t		height;
 			T			data;
 		
-		explicit mapNode() : left(NULL), right(NULL), parent(NULL), height(0), data() { return; }
-		explicit mapNode(const T &data) : left(NULL), right(NULL), parent(NULL){ 
-			data = ft::make_pair(data);
-			return; }
+		explicit mapNode() : left(NULL), right(NULL), parent(NULL), data() { return; }
+		explicit mapNode(const T &data) : left(NULL), right(NULL), parent(NULL), data(data) { return; }
 		~mapNode() { return; }
-		mapNode(const mapNode &src) : left(src.left), right(src.right), parent(src.parent), data(src.data), height(0) { return *this; }
+		mapNode(const mapNode &src) : left(src.left), right(src.right), parent(src.parent), data(src.data) { return *this; }
 		
 		mapNode&		operator=(const mapNode &obj)
 		{

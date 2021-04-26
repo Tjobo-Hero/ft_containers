@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/23 16:00:51 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/26 14:48:35 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,17 @@ namespace ft
 			typedef const T&										const_reference;
 			typedef T*												pointer;
 			typedef const T*										const_pointer;
-			typedef bidirectional_iterator< T, Node >				iterator;
-			typedef const_bidirectional_iterator< T, Node >			const_iterator;
-			typedef reverse_bidirectional_iterator< T, Node >		reverse_iterator;
-			typedef const_reverse_bidirectional_iterator< T, Node >	const_reverse_iterator;
+			typedef bidirectional_iterator< value_type, Node >				iterator;
+			typedef const_bidirectional_iterator< value_type, Node >			const_iterator;
+			typedef reverse_bidirectional_iterator< value_type, Node >		reverse_iterator;
+			typedef const_reverse_bidirectional_iterator< value_type, Node >	const_reverse_iterator;
 			typedef std::ptrdiff_t									difference_type;
 			typedef size_t											size_type;
 
 		private:
 
 			Node*		_root;
-			Node*		_first;
-			Node*		_last;
+			Node*		_lastElement;
 			size_t		_size;
 			Alloc		_alloc;
 			Compare		_compare;
@@ -79,10 +78,14 @@ namespace ft
 		/* EMPTY CONSTRUCTOR--> Constructs an empty 
 		container, with no elements. */
 		explicit map (const key_compare& comp = key_compare(),
-		const allocator_type& alloc = allocator_type()) : _root(new Node), _first(new Node), _last(new Node),  _size(0), _alloc(alloc), _compare(comp) { return; }
+		const allocator_type& alloc = allocator_type()) : _root(new Node), _lastElement(new Node), _size(0), _alloc(alloc), _compare(comp) 
+		{
+			this->_root = this->_lastElement;
+			this->_lastElement->left = this->_lastElement;
+			this->_lastElement->right = this->_lastElement;
+			return; 
+		}
 
-		
-		
 		/* RANGE CONSTRUCTOR--> Constructs a container 
 		with as many elements as the range [first,last), 
 		with each element constructed from its corresponding 
@@ -216,12 +219,176 @@ namespace ft
 		sorted by their key following the criterion specified 
 		by its comparison object. The elements are always 
 		inserted in its respective position following this ordering. */
+		
+		void	set_limits()
+		{
+			Node*	tmp = this->_root;
 
-		/* Single Element*/
-		// pair<iterator,bool> insert (const value_type& val)
-		// {
+			while (tmp->left != NULL)
+				tmp = tmp->left;
+			tmp->left = this->_first;
+			this->_first->parent = tmp;
 			
+			tmp = this->_root;
+			while (tmp->right != NULL)
+				tmp = tmp->right;
+			tmp->right = this->_last;
+			this->_last->parent = tmp;
+		}
+		
+		Node*	insert_left(const value_type &val, Node* position)
+		{
+			Node*	new_node = new Node(val);
+
+			new_node->parent = position;
+			position->left = new_node;
+			this->set_limits();
+			this->_size += 1;
+			// new_node->height += 1;
+			// new_node->height = calheight(new_node);
+			return new_node;
+		}
+
+		Node*	insert_right(const value_type &val, Node* position)
+		{
+			Node*	new_node = new Node(val);
+
+			new_node->parent = position;
+			position->right = new_node;
+			this->set_limits();
+			this->_size += 1;
+			// new_node->height += 1;
+			// new_node->height = calheight(new_node);
+			return new_node;
+		}
+		
+		// size_t	calheight(Node *new_node)
+		// {
+		// 	if (new_node->left && new_node->right)
+		// 	{
+		// 		if (new_node->left->height < new_node->right->height)
+		// 			return new_node->right->height + 1;
+		// 		else
+		// 			return new_node->left->height + 1;
+		// 	}
+		// 	else if (new_node->left && new_node->right == NULL)
+		// 		return new_node->left->height + 1;
+		// 	else if (new_node->left == NULL && new_node->right)
+		// 		return new_node->right->height + 1;
+		// 	return 0;
 		// }
+
+		// Node*		insert_recursive(Node*	move, const value_type& val)
+		// {
+		// 	if (move == NULL)
+		// 	{
+		// 		if (size() == 0)
+		// 		{
+		// 			delete this->_root;
+		// 			this->_root = new Node(val);
+		// 			this->set_limits();
+		// 			this->_size += 1;
+		// 			return this->_root;
+		// 		}
+		// 		Node*	new_node = new Node(val);
+		// 		move = new_node;
+		// 		move->left = NULL;
+		// 		move->right = NULL;
+		// 		move->height = 1;
+		// 		this->_size += 1;
+		// 		set_limits();
+		// 		return move;
+		// 	}
+		// 	else if (move->data.first == val.first)
+		// 	{
+		// 		set_limits();
+		// 		return NULL;
+		// 	}
+		// 	else
+		// 	{
+		// 		if (value_compare(this->_compare)(val, move->data) == true)
+		// 		{
+		// 			move->left = insert_recursive(move->left, val);
+		// 			move->left->parent = move;
+					
+		// 		}
+		// 		else
+		// 		{
+		// 			move->right = insert_recursive(move->right, val);
+		// 			move->right->parent = move;
+		// 		}
+
+		// 	}
+		// 	move->height = calheight(move);
+		// 	set_limits();
+		// 	return move;
+		// }
+
+		Node*					searchNode(Node* root, key_type key_value)
+		{
+			if (!root || root == this->_lastElement)
+				return 0;
+			if (!this->_compare(root->data.first, key_value) && !_comp(key_value, root->data.first))
+				return root;
+
+		
+		}
+		
+		/* Single Element*/
+		ft::pair<iterator,bool> insert (const value_type& val)
+		{
+
+			Node*	checkifexist = searchNode(this->_root, val.first);
+			
+				
+				
+			if (this->_root == this->_lastElement)
+			{
+				delete this->_root;
+				this->_root = new Node(val);
+				_root->left = this->_lastElement;
+				_root->right = this->_lastElement;
+				this->lastElement->left = this->_root;
+				this->lastElement->right = this->_root;
+				this->_size += 1;
+				return ft::make_pair(iterator(this->_root), true);
+			}
+			if (move->data.first == val.first)
+			{
+					set_limits();
+					return ft::make_pair(iterator(move), false);
+			}
+			Node*	move = this->_root;
+			while (move->left || move->right)
+			{
+				if (move->data.first == val.first)
+				{
+					set_limits();
+					return ft::make_pair(iterator(move), false);
+				}
+				if (value_compare(this->_compare)(val, move->data) == true)
+				{
+					if (move->left != NULL)
+						move = move->left;
+					else
+						break ;
+				}
+				else
+				{
+					if (move->right != NULL)
+						move = move->right;
+					else
+						break;
+				}
+			}
+			if (value_compare(this->_compare)(val, move->data) == true)
+				move = insert_left(val, move);
+			else
+				move = insert_right(val, move);
+			
+			
+			return ft::make_pair(iterator(move), true);
+		}
 		
 		/* With Hint */	
 		// iterator insert (iterator position, const value_type& val);
@@ -421,7 +588,7 @@ namespace ft
                 }
             }
             if (tmp->data.first)
-                std::cout << "\033[1;37m" << tmp->data.first << "\033[0m";
+                std::cout << tmp->data.first << std::endl;
         }
         void    print_tree() {
             std::string root_path;

@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:35:23 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/23 10:16:20 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/26 10:44:03 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ namespace ft
 		/* COPY CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */
 		template<class U, class V> 
-		pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) { return; }
+		pair (const pair< U, V > &pr) : first(pr.first), second(pr.second) { return; }
 
 		/* INITIALIZATION CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */

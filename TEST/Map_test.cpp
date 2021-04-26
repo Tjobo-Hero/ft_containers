@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 10:10:11 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/23 15:54:16 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/26 13:29:55 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,24 @@
 
 TEST_CASE("map-Empty container constructor", "[map]")
 {
-	ft::map<int, char>	own;
-	std::map<int, char>	real;
+	ft::map<int, int>	own;
+	std::map<int, int>	real;
+	
 
 	REQUIRE(own.size() == real.size());
 	REQUIRE(own.empty() == real.empty());
-	// own.insert(ft::pair<int, std::string>(6, "tim"));
+	own.insert(ft::pair<int, int>(6, 8));
 	own.print_tree();
+	own.insert(ft::pair<int, int>(4, 10));
+	own.print_tree();
+
+	own.insert(ft::pair<int, int>(10, 10));
+	own.print_tree();
+
+	own.insert(ft::pair<int, int>(7, 10));
+	own.print_tree();
+
+
+
+	// own.print_tree();
 }
