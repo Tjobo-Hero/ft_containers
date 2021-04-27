@@ -6,12 +6,13 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/26 14:48:35 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/27 13:44:42 by tvan-cit      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MAP_HPP
 # define FT_MAP_HPP
+# define COUNT 10
 
 # include <iostream>
 # include "ft_BiDirectionalIterator.hpp"
@@ -26,22 +27,22 @@ namespace ft
 	class map
 	{
 		public:
-			typedef Key												key_type;
-			typedef T												mapped_type;
-			typedef Compare											key_compare;
-			typedef Alloc											allocator_type;
-			typedef ft::pair<const key_type, mapped_type>			value_type;
-			typedef mapNode<value_type>								Node;
-			typedef T&												reference;
-			typedef const T&										const_reference;
-			typedef T*												pointer;
-			typedef const T*										const_pointer;
-			typedef bidirectional_iterator< value_type, Node >				iterator;
+			typedef Key															key_type;
+			typedef T															mapped_type;
+			typedef Compare														key_compare;
+			typedef Alloc														allocator_type;
+			typedef ft::pair<const key_type, mapped_type>						value_type;
+			typedef mapNode<value_type>											Node;
+			typedef T&															reference;
+			typedef const T&													const_reference;
+			typedef T*															pointer;
+			typedef const T*													const_pointer;
+			typedef bidirectional_iterator< value_type, Node >					iterator;
 			typedef const_bidirectional_iterator< value_type, Node >			const_iterator;
-			typedef reverse_bidirectional_iterator< value_type, Node >		reverse_iterator;
+			typedef reverse_bidirectional_iterator< value_type, Node >			reverse_iterator;
 			typedef const_reverse_bidirectional_iterator< value_type, Node >	const_reverse_iterator;
-			typedef std::ptrdiff_t									difference_type;
-			typedef size_t											size_type;
+			typedef std::ptrdiff_t												difference_type;
+			typedef size_t														size_type;
 
 		private:
 
@@ -78,7 +79,7 @@ namespace ft
 		/* EMPTY CONSTRUCTOR--> Constructs an empty 
 		container, with no elements. */
 		explicit map (const key_compare& comp = key_compare(),
-		const allocator_type& alloc = allocator_type()) : _root(new Node), _lastElement(new Node), _size(0), _alloc(alloc), _compare(comp) 
+		const allocator_type& alloc = allocator_type()) : _lastElement(new Node), _size(0), _alloc(alloc), _compare(comp) 
 		{
 			this->_root = this->_lastElement;
 			this->_lastElement->left = this->_lastElement;
@@ -138,23 +139,25 @@ namespace ft
 		// iterator end();
 		// const_iterator end() const;
 
-		/* RBEGIN--> Returns a reverse iterator pointing 
-		to the last element in the container (i.e., its reverse beginning).
-
-		Reverse iterators iterate backwards: increasing 
-		them moves them towards the beginning of the container.
-
-		rbegin points to the element preceding the one 
-		that would be pointed to by member end. */
+		/* 	RBEGIN--> Returns a reverse iterator pointing 
+		*	to the last element in the container (i.e., its reverse beginning).
+		*	
+		* 	Reverse iterators iterate backwards: increasing 
+		*	them moves them towards the beginning of the container.
+		*
+		*	rbegin points to the element preceding the one 
+		*	that would be pointed to by member end. 
+		*/
 		// reverse_iterator rbegin();
 		// const_reverse_iterator rbegin() const;
 
 		/* REND--> Returns a reverse iterator pointing 
-		to the theoretical element right before the first 
-		element in the map container (which is considered its reverse end).
+		* to the theoretical element right before the first 
+		* element in the map container (which is considered its reverse end).
 
-		The range between map::rbegin and map::rend 
-		contains all the elements of the container (in reverse order).*/
+		* The range between map::rbegin and map::rend 
+		* contains all the elements of the container (in reverse order).
+		*/
 		// reverse_iterator rend();
 		// const_reverse_iterator rend() const;
 
@@ -220,47 +223,47 @@ namespace ft
 		by its comparison object. The elements are always 
 		inserted in its respective position following this ordering. */
 		
-		void	set_limits()
-		{
-			Node*	tmp = this->_root;
+		// void	set_limits()
+		// {
+		// 	Node*	tmp = this->_root;
 
-			while (tmp->left != NULL)
-				tmp = tmp->left;
-			tmp->left = this->_first;
-			this->_first->parent = tmp;
+		// 	while (tmp->left != NULL)
+		// 		tmp = tmp->left;
+		// 	tmp->left = this->_first;
+		// 	this->_first->parent = tmp;
 			
-			tmp = this->_root;
-			while (tmp->right != NULL)
-				tmp = tmp->right;
-			tmp->right = this->_last;
-			this->_last->parent = tmp;
-		}
+		// 	tmp = this->_root;
+		// 	while (tmp->right != NULL)
+		// 		tmp = tmp->right;
+		// 	tmp->right = this->_last;
+		// 	this->_last->parent = tmp;
+		// }
 		
-		Node*	insert_left(const value_type &val, Node* position)
-		{
-			Node*	new_node = new Node(val);
+		// Node*	insert_left(const value_type &val, Node* position)
+		// {
+		// 	Node*	new_node = new Node(val);
 
-			new_node->parent = position;
-			position->left = new_node;
-			this->set_limits();
-			this->_size += 1;
-			// new_node->height += 1;
-			// new_node->height = calheight(new_node);
-			return new_node;
-		}
+		// 	new_node->parent = position;
+		// 	position->left = new_node;
+		// 	this->set_limits();
+		// 	this->_size += 1;
+		// 	// new_node->height += 1;
+		// 	// new_node->height = calheight(new_node);
+		// 	return new_node;
+		// }
 
-		Node*	insert_right(const value_type &val, Node* position)
-		{
-			Node*	new_node = new Node(val);
+		// Node*	insert_right(const value_type &val, Node* position)
+		// {
+		// 	Node*	new_node = new Node(val);
 
-			new_node->parent = position;
-			position->right = new_node;
-			this->set_limits();
-			this->_size += 1;
-			// new_node->height += 1;
-			// new_node->height = calheight(new_node);
-			return new_node;
-		}
+		// 	new_node->parent = position;
+		// 	position->right = new_node;
+		// 	this->set_limits();
+		// 	this->_size += 1;
+		// 	// new_node->height += 1;
+		// 	// new_node->height = calheight(new_node);
+		// 	return new_node;
+		// }
 		
 		// size_t	calheight(Node *new_node)
 		// {
@@ -323,73 +326,164 @@ namespace ft
 		// 	set_limits();
 		// 	return move;
 		// }
-
+		
+		/*
+		*	FUNCTION: searchNode searches the key_value in the three and returns it
+		*	if it will find the key.
+		*/
 		Node*					searchNode(Node* root, key_type key_value)
 		{
-			if (!root || root == this->_lastElement)
+			// Statement if we've reached a max or min node or a leaf node
+			if (root == NULL || root == this->_lastElement)
 				return 0;
-			if (!this->_compare(root->data.first, key_value) && !_comp(key_value, root->data.first))
-				return root;
 
+			// Statement if the key_value are equal the key_value already exist in the tree
+			if (root->data.first == key_value) 
+				return root;
+			// if (value_compare(root->data.first, key_value) == true && value_compare(key_value, root->data.first) == true)
+			// 	return root;
+
+			// Recursive loop that will go trough the whole tree
+			if (root->data.first > key_value && root->left && root->left != this->_lastElement)
+				return searchNode(root->left, key_value);
+			if (root->data.first < key_value && root->left && root->left != this->_lastElement)
+				return searchNode(root->right, key_value);
+			return 0;
 		
+		}
+
+		int					calheight(Node *root, int height)
+		{
+			// Reached NULL
+			if (root == NULL || root == this->_lastElement)
+				return height -1;
+			
+			// Goint trough the left side of the node and after that the right side
+			int leftHeight = calheight(root->left, height + 1);
+			int rightHeight = calHeight(root->right, height +1);
+			if (leftHeight > rightHeight)
+			{
+				std::cout <<"Left height" << leftHeight << std::endl;
+				return leftHeight;
+			}
+			else
+			{
+				std::cout << "Right height" << rightHeight << std::endl;
+				return rightHeight;
+			}
+		}
+
+		/*
+		*	FUNCTION: balanceSubtrees Compares the heights of the left and right subtrees
+		*/
+		int		balanceSubtrees(Node* node)
+		{
+			if (node == NULL)
+				return 0;
+			return calheight(node->left, 1) - calheight(node->right, 1);
+		}
+		
+		/*
+		*	FUNCTION: balance_tree Starts from a node in the Tree. And will check
+		*	for this node and all the parent's node until the root if their balance (so the height)
+		*	is correct. If not a rotation (left or right) around the node will take place and will put
+		*	the Tree back in balance.
+		*/
+		void					balance_tree(Node** root, Node *node)
+		{
+			while(node)
+			{
+				int balancefactor;
+				
+				// R R case (right subtree is deeper, and right right subtree as well)
+				if (((balancefactor = balanceSubtrees(node)) < -1) && balanceSubtrees(node->right) < 0)
+					rotateLeft(root, node);
+				
+			}
+		}
+
+		/*
+		*	FUNCTION: insertNode inserts a Node in the tree. After that
+		*	balances the tree if necessary.
+		*/
+		Node*					insertNode(Node* move, const value_type &val)
+		{
+			// Statement for the first node of the tree
+			if (this->_root == this->_lastElement)
+			{
+				this->_root = new Node(val);
+				_root->left = this->_lastElement;
+				_root->right = this->_lastElement;
+				this->_lastElement->left = this->_root;
+				this->_lastElement->right = this->_root;
+				this->_size += 1;
+				return this->_root;
+			}
+			
+			// Statement to check if the key already exists
+			if (move->data.first == val.first)
+					return 0;					// does this generate a good iterator in insert? And necessary because we check befor in insert 
+												// function with searchNode
+			// Recursive loop that finds the position of the key_value in the tree
+			// either as a new leaf node or lastElement
+			if (move->data.first > val.first && move->left && move->left != this->_lastElement)
+				return insertNode(move->left, val);
+			else if (move->data.first < val.first && move->right && move->right != this->_lastElement)
+				return insertNode(move->right, val);
+			
+			// When we arrive here the move pointer is at the position where we have to insert
+			// the new node
+			Node* new_node = new Node(val);
+			
+			// Check if the place where we insert is a leaf node
+			// Left leaf node
+			if (move->data.first > new_node->data.first && !move->left)
+			{
+				move->left = new_node;
+				new_node->parent = move;
+			}
+			// Right Leaf node
+			else if (move->data.first < new_node->data.first && !move->right)
+			{
+				move->right = new_node;
+				new_node->parent = move;
+			}
+			// Check if the place where we insert is a lastElement node
+			// Min lastElement
+			else if (move->left && (move->data.first > new_node->data.first))
+			{
+				new_node->left = this->_lastElement;
+				this->_lastElement->left = new_node; // changed to left
+				move->left = new_node;
+				new_node->parent = move;
+			}
+			// Max lastElement
+			else if (move->right && (move->data.first < new_node->data.first))
+			{
+				new_node->right = this->_lastElement;
+				this->_lastElement->right = new_node; // changed to right
+				move->right = new_node;
+				new_node->parent = move;
+			}
+			// Balance the tree from the new_node back to the root node
+			
+			// balance_tree(&this->_root, new_node);
+			return new_node;
 		}
 		
 		/* Single Element*/
 		ft::pair<iterator,bool> insert (const value_type& val)
 		{
-
 			Node*	checkifexist = searchNode(this->_root, val.first);
 			
-				
-				
-			if (this->_root == this->_lastElement)
-			{
-				delete this->_root;
-				this->_root = new Node(val);
-				_root->left = this->_lastElement;
-				_root->right = this->_lastElement;
-				this->lastElement->left = this->_root;
-				this->lastElement->right = this->_root;
-				this->_size += 1;
-				return ft::make_pair(iterator(this->_root), true);
-			}
-			if (move->data.first == val.first)
-			{
-					set_limits();
-					return ft::make_pair(iterator(move), false);
-			}
-			Node*	move = this->_root;
-			while (move->left || move->right)
-			{
-				if (move->data.first == val.first)
-				{
-					set_limits();
-					return ft::make_pair(iterator(move), false);
-				}
-				if (value_compare(this->_compare)(val, move->data) == true)
-				{
-					if (move->left != NULL)
-						move = move->left;
-					else
-						break ;
-				}
-				else
-				{
-					if (move->right != NULL)
-						move = move->right;
-					else
-						break;
-				}
-			}
-			if (value_compare(this->_compare)(val, move->data) == true)
-				move = insert_left(val, move);
-			else
-				move = insert_right(val, move);
+			if (checkifexist)
+				return ft::make_pair(iterator(checkifexist), false);
 			
-			
-			return ft::make_pair(iterator(move), true);
+			checkifexist = insertNode(this->_root, val);
+			this->_size += 1;
+			return ft::make_pair(iterator(checkifexist), true);
 		}
-		
+
 		/* With Hint */	
 		// iterator insert (iterator position, const value_type& val);
 		
@@ -571,18 +665,117 @@ namespace ft
 		/* GET_ALLOCATOR--> Returns a copy of 
 		the allocator object associated with the map. */
 		// allocator_type get_allocator() const;
+		
+		Node*	getRoot()
+		{
+			return this->_root;
+		}
+
+		// void display(Node *root, int level)
+		// {
+    	// 	int i;
+    	// 	if (root != NULL)
+    	// 	{
+        // 		display(root->right, level + 1);
+        // 			printf("\n");
+        // 		if (root == root)
+        //     		std::cout << "Root -> ";
+        // 		for (i = 0; i < level && root != root; i++)
+		// 		{
+        //    			std::cout << "        ";
+					
+		// 		}
+        // 		std::cout << root->data.first;
+		// 		display(root->left, level + 1);
+		// 	}
+    	// }	
+
+		void print2DUtil(Node *root, int space) 
+		{ 
+    		// Base case 
+    		if (root == NULL) 
+       			return; 
+			if (root != NULL && root != this->_lastElement)
+			{
+				// Increase distance between levels 
+    			space += COUNT; 
+	
+    			// Process right child first 
+    			print2DUtil(root->right, space); 
+	
+    			// Print current node after space 
+    			// count 
+   				std::cout << std::endl; 
+    			for (int i = COUNT; i < space; i++) 
+        			std::cout<<" "; 
+    			std::cout<<root->data.first <<"\n"; 
+	
+    			// Process left child 
+   				print2DUtil(root->left, space); 
+			}
+    	
+		}
+		void print_tree(Node* root)
+		{
+			std::cout << "-----------------------------------" << std::endl;
+			print2DUtil(root, 0);
+		}
+		// void 	print_tree(Node *root, std::string indent, bool last)
+		// {
+		// 	if (root != NULL && root != this->_lastElement)
+		// 	{
+		// 		std::cout << indent;
+		// 		if (last)
+		// 		{
+		// 			std::cout << "R----";
+		// 			indent += "     ";
+		// 		}
+		// 		else
+		// 		{
+		// 			std::cout << "L-----";
+		// 			indent += "|    ";
+		// 		}
+		// 		std::cout << root->data.first << std::endl;
+		// 		print_tree(root->left, indent, false);
+		// 		print_tree(root->right, indent, true);
+		// 	}
+		// 	return;
+		// }
+
+		// void printTree(Node *root, std::string indent, bool last) 
+		// {
+  		// 	if (root != NULL) 
+		// 	{
+    	// 		std::cout << indent;
+   		// 		if (last) 
+		// 		{
+      	// 			std::cout << "R----";
+      	// 			indent += "   ";
+    	// 		} 
+		// 		else 
+		// 		{
+      	// 			std::cout << "L----";
+      	// 			indent += "|  ";
+		// 		}
+    	// 	}
+    	// 	std::cout << root->data.first << std::endl;
+    	// 	printTree(root->left, indent, false);
+    	// 	printTree(root->right, indent, true);
+		// 	// return;
+  		// }
+
 
 		void    print_node(std::string root_path) {
             Node* tmp = _root;
             std::cout << ".";
             for (int i = 0; root_path[i]; ++i){
                 if (root_path[i] == 'L'){
-                    if (tmp->left == NULL)
+                    if (tmp->left == NULL || tmp->left == this->_lastElement)
                         return ;
                     tmp = tmp->left;
                 }
                 if (root_path[i] == 'R'){
-                    if (tmp->right == NULL)
+                    if (tmp->right == NULL || tmp->right == this->_lastElement)
                         return ;
                     tmp = tmp->right;
                 }
@@ -590,7 +783,7 @@ namespace ft
             if (tmp->data.first)
                 std::cout << tmp->data.first << std::endl;
         }
-        void    print_tree() {
+        void    print_Tree() {
             std::string root_path;
             int layer = 0;
             root_path = "";
