@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/28 13:46:11 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/28 15:26:48 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -753,22 +753,79 @@ namespace ft
 					this->_lastElement->right = this->_lastelement;
 				}
 
-				// Statement with only onse son (left or right)
+				// Statement with only one son on the left
 				else if (delNode->left && delNode->right == this->_lastElement)
 				{
 					tmpNode = delNode->parent;
 					this->_root = delNode->left;
 					delNode->left->parent = NULL;
+
+					// Tree is AVL _root has only one son and on the left it's linked to last element
+					//  but the right not. So we have to link the right side to the lastElement
 					this->_lastElement->left = delNode->left;
 					delNode->left->right = this->_lastElement;
 				}
+				// Statement with only one son on the right
 				else if (delNode->right && delNode->left == this->_lastElement)
 				{
 					tmpNode = delNode->parent;
 					this->_root = delNode->right;
-					delNode->
+					delNode->right->parent = NULL;
+					// Tree is AVL _root has only one son and on the right it's linked to lastElement
+					// but the right not. So we have to link the left side to the lastElement
+					this->_lastElement->right = delNode->right;
+					delNode->right->left = this->_lastElement;
+				}
+				// Statement in the case of two sons. We need to switch the key_value of delNode
+				// with the highest key_value of the left subtree, and to delete the node with this highest 
+				// key_value in the left subtree
+				else
+				{
+					Node*	maxNodeLeftSubtree = getMaxNode(delNode->left);
+					
+					delNode.data = maxNodeLeftSubtree.data;
+					return deleteNode(delNode->left, maxNodeLeftSubtree->data.first); // check if working
 				}
 			}
+			// The case the node to delete is a LEAF node
+			else if ((delNode->left == NULL) || delNode->left == this->_lastElement) && (delNode->right == NULL || delNode->right == this->_lastElement)
+			{
+				tmpNode = delNode->parent;
+				
+				//Statement for min or max node, linking it with lastElement
+				Node* parentLink = NULL;
+				if (delNode->left == this->_lastElement || delNode->right == this->_lastElement)
+				{
+					parentLink = this->_lastElement;
+					if (delNode.data.frist < delNode->parent->data.first)
+						this->_lastElement->right = delNode->parent;
+					else
+						this->_lastElement->left = delNode->parent;
+				}
+				if (delNode->data.first < delNode->parent->data.first)
+					delNode->parent->left = parentLink;
+				else
+					delNode->parent->right = parentLink;
+			}
+			// The case with only one son (only left son or only right son)
+			else if ((delNode->left && delNode->left != this->_lastElement) && (delNode->right == NULL || delNode->right == this->_lastElement))
+			{
+				tmpNode = delNode->parent;
+				
+				if (delNode->data.first < delNode->parent->data.first)
+					delNode->parent->left = delNode->left;
+				else
+					delNode->parent->right = delNode->left;
+				delNode->left->parent = delNode->parent;
+				
+				// Case the node we need to delete is the max node, we need to relink lastElement
+				if (delNode->right == this->_lastElement)
+				{
+					this->_lastElement->left = delNode->left;
+					delNode->left->right = this->_lastElement;
+				}
+			}
+			else if ((delNode->left && delNode->left != this->_lastElement) &&(delNode->right == NULL || delNode->right == this->_lastElement))
 		}
 
 	
