@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/27 13:44:42 by tvan-cit      ########   odam.nl         */
+/*   Updated: 2021/04/28 13:46:11 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,257 +222,9 @@ namespace ft
 		sorted by their key following the criterion specified 
 		by its comparison object. The elements are always 
 		inserted in its respective position following this ordering. */
-		
-		// void	set_limits()
-		// {
-		// 	Node*	tmp = this->_root;
 
-		// 	while (tmp->left != NULL)
-		// 		tmp = tmp->left;
-		// 	tmp->left = this->_first;
-		// 	this->_first->parent = tmp;
-			
-		// 	tmp = this->_root;
-		// 	while (tmp->right != NULL)
-		// 		tmp = tmp->right;
-		// 	tmp->right = this->_last;
-		// 	this->_last->parent = tmp;
-		// }
-		
-		// Node*	insert_left(const value_type &val, Node* position)
-		// {
-		// 	Node*	new_node = new Node(val);
-
-		// 	new_node->parent = position;
-		// 	position->left = new_node;
-		// 	this->set_limits();
-		// 	this->_size += 1;
-		// 	// new_node->height += 1;
-		// 	// new_node->height = calheight(new_node);
-		// 	return new_node;
-		// }
-
-		// Node*	insert_right(const value_type &val, Node* position)
-		// {
-		// 	Node*	new_node = new Node(val);
-
-		// 	new_node->parent = position;
-		// 	position->right = new_node;
-		// 	this->set_limits();
-		// 	this->_size += 1;
-		// 	// new_node->height += 1;
-		// 	// new_node->height = calheight(new_node);
-		// 	return new_node;
-		// }
-		
-		// size_t	calheight(Node *new_node)
-		// {
-		// 	if (new_node->left && new_node->right)
-		// 	{
-		// 		if (new_node->left->height < new_node->right->height)
-		// 			return new_node->right->height + 1;
-		// 		else
-		// 			return new_node->left->height + 1;
-		// 	}
-		// 	else if (new_node->left && new_node->right == NULL)
-		// 		return new_node->left->height + 1;
-		// 	else if (new_node->left == NULL && new_node->right)
-		// 		return new_node->right->height + 1;
-		// 	return 0;
-		// }
-
-		// Node*		insert_recursive(Node*	move, const value_type& val)
-		// {
-		// 	if (move == NULL)
-		// 	{
-		// 		if (size() == 0)
-		// 		{
-		// 			delete this->_root;
-		// 			this->_root = new Node(val);
-		// 			this->set_limits();
-		// 			this->_size += 1;
-		// 			return this->_root;
-		// 		}
-		// 		Node*	new_node = new Node(val);
-		// 		move = new_node;
-		// 		move->left = NULL;
-		// 		move->right = NULL;
-		// 		move->height = 1;
-		// 		this->_size += 1;
-		// 		set_limits();
-		// 		return move;
-		// 	}
-		// 	else if (move->data.first == val.first)
-		// 	{
-		// 		set_limits();
-		// 		return NULL;
-		// 	}
-		// 	else
-		// 	{
-		// 		if (value_compare(this->_compare)(val, move->data) == true)
-		// 		{
-		// 			move->left = insert_recursive(move->left, val);
-		// 			move->left->parent = move;
-					
-		// 		}
-		// 		else
-		// 		{
-		// 			move->right = insert_recursive(move->right, val);
-		// 			move->right->parent = move;
-		// 		}
-
-		// 	}
-		// 	move->height = calheight(move);
-		// 	set_limits();
-		// 	return move;
-		// }
-		
-		/*
-		*	FUNCTION: searchNode searches the key_value in the three and returns it
-		*	if it will find the key.
-		*/
-		Node*					searchNode(Node* root, key_type key_value)
-		{
-			// Statement if we've reached a max or min node or a leaf node
-			if (root == NULL || root == this->_lastElement)
-				return 0;
-
-			// Statement if the key_value are equal the key_value already exist in the tree
-			if (root->data.first == key_value) 
-				return root;
-			// if (value_compare(root->data.first, key_value) == true && value_compare(key_value, root->data.first) == true)
-			// 	return root;
-
-			// Recursive loop that will go trough the whole tree
-			if (root->data.first > key_value && root->left && root->left != this->_lastElement)
-				return searchNode(root->left, key_value);
-			if (root->data.first < key_value && root->left && root->left != this->_lastElement)
-				return searchNode(root->right, key_value);
-			return 0;
-		
-		}
-
-		int					calheight(Node *root, int height)
-		{
-			// Reached NULL
-			if (root == NULL || root == this->_lastElement)
-				return height -1;
-			
-			// Goint trough the left side of the node and after that the right side
-			int leftHeight = calheight(root->left, height + 1);
-			int rightHeight = calHeight(root->right, height +1);
-			if (leftHeight > rightHeight)
-			{
-				std::cout <<"Left height" << leftHeight << std::endl;
-				return leftHeight;
-			}
-			else
-			{
-				std::cout << "Right height" << rightHeight << std::endl;
-				return rightHeight;
-			}
-		}
-
-		/*
-		*	FUNCTION: balanceSubtrees Compares the heights of the left and right subtrees
-		*/
-		int		balanceSubtrees(Node* node)
-		{
-			if (node == NULL)
-				return 0;
-			return calheight(node->left, 1) - calheight(node->right, 1);
-		}
-		
-		/*
-		*	FUNCTION: balance_tree Starts from a node in the Tree. And will check
-		*	for this node and all the parent's node until the root if their balance (so the height)
-		*	is correct. If not a rotation (left or right) around the node will take place and will put
-		*	the Tree back in balance.
-		*/
-		void					balance_tree(Node** root, Node *node)
-		{
-			while(node)
-			{
-				int balancefactor;
-				
-				// R R case (right subtree is deeper, and right right subtree as well)
-				if (((balancefactor = balanceSubtrees(node)) < -1) && balanceSubtrees(node->right) < 0)
-					rotateLeft(root, node);
-				
-			}
-		}
-
-		/*
-		*	FUNCTION: insertNode inserts a Node in the tree. After that
-		*	balances the tree if necessary.
-		*/
-		Node*					insertNode(Node* move, const value_type &val)
-		{
-			// Statement for the first node of the tree
-			if (this->_root == this->_lastElement)
-			{
-				this->_root = new Node(val);
-				_root->left = this->_lastElement;
-				_root->right = this->_lastElement;
-				this->_lastElement->left = this->_root;
-				this->_lastElement->right = this->_root;
-				this->_size += 1;
-				return this->_root;
-			}
-			
-			// Statement to check if the key already exists
-			if (move->data.first == val.first)
-					return 0;					// does this generate a good iterator in insert? And necessary because we check befor in insert 
-												// function with searchNode
-			// Recursive loop that finds the position of the key_value in the tree
-			// either as a new leaf node or lastElement
-			if (move->data.first > val.first && move->left && move->left != this->_lastElement)
-				return insertNode(move->left, val);
-			else if (move->data.first < val.first && move->right && move->right != this->_lastElement)
-				return insertNode(move->right, val);
-			
-			// When we arrive here the move pointer is at the position where we have to insert
-			// the new node
-			Node* new_node = new Node(val);
-			
-			// Check if the place where we insert is a leaf node
-			// Left leaf node
-			if (move->data.first > new_node->data.first && !move->left)
-			{
-				move->left = new_node;
-				new_node->parent = move;
-			}
-			// Right Leaf node
-			else if (move->data.first < new_node->data.first && !move->right)
-			{
-				move->right = new_node;
-				new_node->parent = move;
-			}
-			// Check if the place where we insert is a lastElement node
-			// Min lastElement
-			else if (move->left && (move->data.first > new_node->data.first))
-			{
-				new_node->left = this->_lastElement;
-				this->_lastElement->left = new_node; // changed to left
-				move->left = new_node;
-				new_node->parent = move;
-			}
-			// Max lastElement
-			else if (move->right && (move->data.first < new_node->data.first))
-			{
-				new_node->right = this->_lastElement;
-				this->_lastElement->right = new_node; // changed to right
-				move->right = new_node;
-				new_node->parent = move;
-			}
-			// Balance the tree from the new_node back to the root node
-			
-			// balance_tree(&this->_root, new_node);
-			return new_node;
-		}
-		
 		/* Single Element*/
-		ft::pair<iterator,bool> insert (const value_type& val)
+		ft::pair<iterator,bool> insert(const value_type& val)
 		{
 			Node*	checkifexist = searchNode(this->_root, val.first);
 			
@@ -666,105 +418,397 @@ namespace ft
 		the allocator object associated with the map. */
 		// allocator_type get_allocator() const;
 		
+		/* ------------ PRIVATE MEMBER FUNCTIONS ------------ */
+
+		/*
+		*	FUNCTION: searchNode searches the key_value in the three and returns it
+		*	if it will find the key.
+		*/
+		Node*					searchNode(Node* root, key_type key_value)
+		{
+			// Statement if we've reached a max or min node or a leaf node
+			if (root == NULL || root == this->_lastElement)
+				return 0;
+
+			// Statement if the key_value are equal the key_value already exist in the tree
+			if (root->data.first == key_value) 
+				return root;
+			// if (value_compare(root->data.first, key_value) == true && value_compare(key_value, root->data.first) == true)
+			// 	return root;
+
+			// Recursive loop that will go trough the whole tree
+			if (root->data.first > key_value && root->left && root->left != this->_lastElement)
+				return searchNode(root->left, key_value);
+			if (root->data.first < key_value && root->left && root->left != this->_lastElement)
+				return searchNode(root->right, key_value);
+			return 0;
+		
+		}
+
+		int					calheight(Node *root, int height)
+		{
+			// Reached NULL
+			if (root == NULL || root == this->_lastElement)
+				return height -1;
+			
+			// Goint trough the left side of the node and after that the right side
+			int leftHeight = calheight(root->left, height + 1);
+			int rightHeight = calheight(root->right, height +1);
+			if (leftHeight > rightHeight)
+				return leftHeight;
+			else
+				return rightHeight;
+		}
+
+		/*
+		*	FUNCTION: balanceSubtrees Compares the heights of the left and right subtrees
+		*/
+		int		balanceSubtrees(Node* node)
+		{
+			if (node == NULL)
+				return 0;
+			return calheight(node->left, 1) - calheight(node->right, 1);
+		}
+		
+		/*
+		*	FUNCTION: leftRotation Rotates the subtree to the left. It will move node Y up and X
+		*	down as shown below:
+		*		
+		*	Before:
+		*			X					10X
+		*		  /   \				   /  \
+		*		A	   Y			  5A   15Y
+		*			  / \				  /  \
+		*			 B   C				13B    20C
+		*   X = X < Y
+		*	A = A < X
+		*		A < Y
+		*	Y = Y > X
+		*	B = B > X
+		*		B < Y
+		*	C = C > X
+		*		C > Y
+		*	
+		*	After:
+		*			Y			   15Y	
+		*		  /   \			  /   \	
+		*		X      C		10X    20C
+		*	   /  \	  		   /  \	  	
+		*	  A	  B	 		  5A   13B	 	
+		*
+		*/
+		void	leftRotation(Node* X)
+		{
+			std::cout << "Left rotation" << std::endl;
+
+			Node*	Y = X->right;
+			
+			// Right X son becomes left Y son
+			X->right = Y->left;
+
+			// Statement Y left son is NULL to prevent Segfault
+			if (Y->left)
+				Y->left->parent = X;
+			
+			
+
+			// Left Y son is now X
+			Y->left = X;
+			
+			// Parent Y = Parent X
+			Y->parent = X->parent;
+
+			// Check if X has a parent (if not, X is root) and if that is the case, 
+			// we need to determine if it's left son or right son. AFter that we need
+			// to update X parent with his new son, Y node.
+			if (X->parent && X->parent->left == X)
+				X->parent->left = Y;
+			else if (X->parent)
+				X->parent->right = Y;
+			
+			// Parent of X is now Y
+			X->parent = Y;
+
+			// Update the root node if the rotation happend on Root
+			if (Y->parent == NULL)
+				this->_root = Y;
+		}
+
+		/*
+		*	FUNCTION: leftRotation Rotates the subtree to the left. It will move node Y up and X
+		*	down as shown below:
+		*
+		* 	Before
+		*			X			   15X	
+		*		  /   \			  /   \	
+		*		Y      A		10Y    20A
+		*	   /  \	  		   /  \	  	
+		*	  C	  B	 		  5C   13B	 	
+		*
+		*   X = X < Y
+		*	A = A > X
+		*		A > Y
+		*	Y = Y < X
+		*	B = B < X
+		*		B > Y
+		*	C = C < X
+		*		C < Y
+		*	
+		*	After:
+		*			Y					10Y
+		*		  /   \				   /  \
+		*		C	   X			  5C   15X
+		*			  / \				  /  \
+		*			 B   A				13B    20A
+		*
+		*/
+		void	rightRotation(Node* X)
+		{
+			std::cout << "Right rotation" << std::endl;
+			Node*	Y = X->left;
+			
+			// Left X son becomes right Y son
+			X->left = Y->right;
+
+			// Statement Y right son is NULL to prevent Segfault
+			if (Y->right)
+				Y->right->parent = X;
+
+			// Left Y son is now X
+			Y->right = X;
+			
+			// Parent Y = Parent X
+			Y->parent = X->parent;
+
+			// Check if X has a parent (if not, X is root) and if that is the case, 
+			// we need to determine if it's left son or right son. AFter that we need
+			// to update X parent with his new son, Y node.
+			if (X->parent && X->parent->left == X)
+				X->parent->left = Y;
+			else if (X->parent)
+				X->parent->right = Y;
+			
+			// Parent of X is now Y
+			X->parent = Y;
+
+			// Update the root node if the rotation happend on Root
+			if (Y->parent == NULL)
+				this->_root = Y;
+		}
+		
+		/*
+		*	FUNCTION: balance_tree Starts from a node in the Tree. And will check
+		*	for this node and all the parent's node until the root if their balance (so the height)
+		*	is correct. If not a rotation (left or right) around the node will take place and will put
+		*	the Tree back in balance.
+		*/
+		void					balance_tree(Node *node)
+		{
+			while(node)
+			{
+				int balancefactor;
+				
+				// R R case (right subtree is deeper, and right right subtree as well)
+				if (((balancefactor = balanceSubtrees(node)) < -1) && balanceSubtrees(node->right) < 0)
+					leftRotation(node);
+				// R L case (if balance of the right node == 0), no difference between R
+				// R case and R L case)
+				else if (balancefactor < -1 && (balanceSubtrees(node->right) >= 0))
+				{
+					rightRotation(node->right);
+					leftRotation(node);
+				}
+				// L L case (left subtree is depper and lef left subtree as well)
+				else if (balancefactor > 1 && (balanceSubtrees(node->left) > 0))
+					rightRotation(node);
+				// L R case (if balance of the left node == 0), no difference between R R case en R L case)
+				else if (balancefactor > 1 && (balanceSubtrees(node->left) <= 0))
+				{
+					leftRotation(node->left);
+					rightRotation(node);
+				}
+				node = node->parent;
+			}
+		}
+
+		/*
+		*	FUNCTION: insertNode inserts a Node in the tree. After that
+		*	balances the tree if necessary.
+		*/
+		Node*					insertNode(Node* move, const value_type &val)
+		{
+			// Statement for the first node of the tree
+			if (this->_root == this->_lastElement)
+			{
+				this->_root = new Node(val);
+				_root->left = this->_lastElement;
+				_root->right = this->_lastElement;
+				this->_lastElement->left = this->_root;
+				this->_lastElement->right = this->_root;
+				this->_size += 1;
+				return this->_root;
+			}
+			
+			// Statement to check if the key already exists
+			if (move->data.first == val.first)
+					return 0;					// does this generate a good iterator in insert? And necessary because we check befor in insert 
+												// function with searchNode
+			// Recursive loop that finds the position of the key_value in the tree
+			// either as a new leaf node or lastElement
+			if (move->data.first > val.first && move->left && move->left != this->_lastElement)
+				return insertNode(move->left, val);
+			else if (move->data.first < val.first && move->right && move->right != this->_lastElement)
+				return insertNode(move->right, val);
+			
+			// When we arrive here the move pointer is at the position where we have to insert
+			// the new node
+			Node* new_node = new Node(val);
+			
+			// Check if the place where we insert is a leaf node
+			// Left leaf node
+			if (move->data.first > new_node->data.first && !move->left)
+			{
+				move->left = new_node;
+				new_node->parent = move;
+			}
+			// Right Leaf node
+			else if (move->data.first < new_node->data.first && !move->right)
+			{
+				move->right = new_node;
+				new_node->parent = move;
+			}
+			// Check if the place where we insert is a lastElement node
+			// Min lastElement
+			else if (move->left && (move->data.first > new_node->data.first))
+			{
+				new_node->left = this->_lastElement;
+				this->_lastElement->left = new_node; // changed to left
+				move->left = new_node;
+				new_node->parent = move;
+			}
+			// Max lastElement
+			else if (move->right && (move->data.first < new_node->data.first))
+			{
+				new_node->right = this->_lastElement;
+				this->_lastElement->right = new_node; // changed to right
+				move->right = new_node;
+				new_node->parent = move;
+			}
+			// Balance the tree from the new_node back to the root node
+			
+			balance_tree(new_node);
+			return new_node;
+		}
+		
+		/*
+		*	FUNCTION: getMinNode returns node on the far most left side of the tree
+		*	the lowest Key_value in the tree
+		*/
+		Node*		getMinNode(Node* root) const
+		{
+			if (root->left && root->left != this->_lastElement)
+				getMinNode(root->left);
+			return root;
+		}
+
+		/*
+		*	FUNCTION: getMinNode returns node on the far most right side of the tree
+		*	the highest Key_value in the tree
+		*/
+		Node*		getMaxNode(Node* root) const
+		{
+			if (root->right && root->right != this->_lastElement)
+				getMaxNode(root->left);
+			return root;
+		}
+
+		/*
+		*	FUNCTION: deleteNode, deletes the matching keynote with the same key_value
+		*	if no Node is found with the same key_value the function returns False.
+		*	If a Node wit the same key_value is found the function deletes the node and 
+		* 	balances the tree after that (if necessary).
+		*/
+		bool deleteNode(Node* deletePosition, key_type key_value)
+		{
+			// This tmpNode will point to the first node impacted by the deletion (if we
+			// delete a node, it will be the parent node). if we delete root, it will act
+			//  as one of it's sons). After that we will call the balanceTree funtion.
+			Node*	tmpNode = NULL;
+
+			// The Node to delete, looking from deletePosition until we match a key_value;
+			Node* delNode = searchNode(deletePosition, key_value);
+			
+			// If no Node with the key_value is found there is nothing to delete
+			if (delNode == NULL)
+				return false;
+			
+			// The case were ROOT has to be deleted
+			if (delNode->parent == NULL)
+			{
+				// Statement if there is only one Node in the tree
+				if (delNode->left == this->_lastElement && delNode->right == this->_lastElement)
+				{
+					this->_root = this->_lastElement;
+					this->_lastElement->left = this->_lastElement;
+					this->_lastElement->right = this->_lastelement;
+				}
+
+				// Statement with only onse son (left or right)
+				else if (delNode->left && delNode->right == this->_lastElement)
+				{
+					tmpNode = delNode->parent;
+					this->_root = delNode->left;
+					delNode->left->parent = NULL;
+					this->_lastElement->left = delNode->left;
+					delNode->left->right = this->_lastElement;
+				}
+				else if (delNode->right && delNode->left == this->_lastElement)
+				{
+					tmpNode = delNode->parent;
+					this->_root = delNode->right;
+					delNode->
+				}
+			}
+		}
+
+	
+		/*
+		*	FUNCTION: getRoot returns root
+		*/
 		Node*	getRoot()
 		{
 			return this->_root;
 		}
 
-		// void display(Node *root, int level)
-		// {
-    	// 	int i;
-    	// 	if (root != NULL)
-    	// 	{
-        // 		display(root->right, level + 1);
-        // 			printf("\n");
-        // 		if (root == root)
-        //     		std::cout << "Root -> ";
-        // 		for (i = 0; i < level && root != root; i++)
-		// 		{
-        //    			std::cout << "        ";
-					
-		// 		}
-        // 		std::cout << root->data.first;
-		// 		display(root->left, level + 1);
-		// 	}
-    	// }	
-
 		void print2DUtil(Node *root, int space) 
 		{ 
-    		// Base case 
-    		if (root == NULL) 
-       			return; 
+			// Base case 
+			if (root == NULL) 
+				return; 
 			if (root != NULL && root != this->_lastElement)
 			{
 				// Increase distance between levels 
-    			space += COUNT; 
-	
-    			// Process right child first 
-    			print2DUtil(root->right, space); 
-	
-    			// Print current node after space 
-    			// count 
-   				std::cout << std::endl; 
-    			for (int i = COUNT; i < space; i++) 
-        			std::cout<<" "; 
-    			std::cout<<root->data.first <<"\n"; 
-	
-    			// Process left child 
-   				print2DUtil(root->left, space); 
+				space += COUNT;			
+				// Process right child first 
+				print2DUtil(root->right, space);			
+				// Print current node after space 
+				// count 
+				std::cout << std::endl; 
+				for (int i = COUNT; i < space; i++) 
+					std::cout<<" "; 
+				std::cout<<root->data.first <<"\n";			
+				// Process left child 
+				print2DUtil(root->left, space); 
 			}
-    	
 		}
+		
 		void print_tree(Node* root)
 		{
-			std::cout << "-----------------------------------" << std::endl;
+			// std::cout << "-----------------------------------" << std::endl;
 			print2DUtil(root, 0);
+			std::cout << "-----------------------------------" << std::endl;
 		}
-		// void 	print_tree(Node *root, std::string indent, bool last)
-		// {
-		// 	if (root != NULL && root != this->_lastElement)
-		// 	{
-		// 		std::cout << indent;
-		// 		if (last)
-		// 		{
-		// 			std::cout << "R----";
-		// 			indent += "     ";
-		// 		}
-		// 		else
-		// 		{
-		// 			std::cout << "L-----";
-		// 			indent += "|    ";
-		// 		}
-		// 		std::cout << root->data.first << std::endl;
-		// 		print_tree(root->left, indent, false);
-		// 		print_tree(root->right, indent, true);
-		// 	}
-		// 	return;
-		// }
-
-		// void printTree(Node *root, std::string indent, bool last) 
-		// {
-  		// 	if (root != NULL) 
-		// 	{
-    	// 		std::cout << indent;
-   		// 		if (last) 
-		// 		{
-      	// 			std::cout << "R----";
-      	// 			indent += "   ";
-    	// 		} 
-		// 		else 
-		// 		{
-      	// 			std::cout << "L----";
-      	// 			indent += "|  ";
-		// 		}
-    	// 	}
-    	// 	std::cout << root->data.first << std::endl;
-    	// 	printTree(root->left, indent, false);
-    	// 	printTree(root->right, indent, true);
-		// 	// return;
-  		// }
-
-
+		
 		void    print_node(std::string root_path) {
             Node* tmp = _root;
             std::cout << ".";
@@ -783,6 +827,7 @@ namespace ft
             if (tmp->data.first)
                 std::cout << tmp->data.first << std::endl;
         }
+
         void    print_Tree() {
             std::string root_path;
             int layer = 0;
