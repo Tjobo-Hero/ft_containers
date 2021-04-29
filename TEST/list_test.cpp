@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/29 10:27:55 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/29 10:29:54 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1061,6 +1061,25 @@ TEST_CASE("list-unique version 1", "[list]")
 	
 	own.push_back(1);
 	real.push_back(1);
+	
+	own.unique();
+	real.unique();
+
+	own_it = own.begin();
+	real_it = real.begin();
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+	own.clear();
+	real.clear();
 	
 	own.unique();
 	real.unique();
