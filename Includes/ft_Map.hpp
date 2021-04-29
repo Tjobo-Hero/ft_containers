@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/29 17:34:57 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/29 18:08:45 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ namespace ft
 
 		If the container is empty, this function returns 
 		the same as map::begin. */
-		iterator end() { return iterator(this->_lastElementgit); }
+		iterator end() { return iterator(this->_lastElement); }
 		// const_iterator end() const;
 
 		/* 	RBEGIN--> Returns a reverse iterator pointing 

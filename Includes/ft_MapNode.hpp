@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 08:46:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/29 17:25:22 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/29 18:13:50 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ namespace ft
 				{
 					std::cout << "LE " << next->right->data.first << std::endl;
 				}
-				while(next->left)
+				while (next->left && next->data)
 				{
 					next = next->left;
 					std::cout << "TEST3" << std::endl;
