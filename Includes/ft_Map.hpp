@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/29 10:01:16 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/29 12:07:05 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,20 @@ namespace ft
 		// void erase (iterator position);
 
 		/* Version 2 */
-		// size_type erase (const key_type& k);
+		size_type erase (const key_type& k)
+		{
+			Node*	checkIfExist = searchNode(this->_root, k);
+
+			if (!checkIfExist)
+				return 0;
+			else
+			{
+				this->deleteNode(this->_root, k);
+				this->_size -= 1;
+				return 1;
+			}
+			return 0;
+		}
 
 		/* Version 3 */
 		// void erase (iterator first, iterator last);
@@ -645,7 +658,6 @@ namespace ft
 				_root->right = this->_lastElement;
 				this->_lastElement->left = this->_root;
 				this->_lastElement->right = this->_root;
-				this->_size += 1;
 				return this->_root;
 			}
 			
@@ -745,15 +757,25 @@ namespace ft
 			// The case were ROOT has to be deleted
 			if (delNode->parent == NULL)
 			{
-				// Statement if there is only one Node in the tree
+				/* Statement if there is only one Node in the tree
+				*			6 <--Root == delNode 
+				*		   /  \	  
+				*       LE    LE   
+				*/						
 				if (delNode->left == this->_lastElement && delNode->right == this->_lastElement)
 				{
 					this->_root = this->_lastElement;
 					this->_lastElement->left = this->_lastElement;
-					this->_lastElement->right = this->_lastelement;
+					this->_lastElement->right = this->_lastElement;
 				}
 
-				// Statement with only one son on the left
+				/* Statement with only one son on the left						
+				*			     6 <-- delNode	
+				*		       /  \				
+				*            3    LE			
+				*           /				
+				*         LE		
+				*/		
 				else if (delNode->left && delNode->right == this->_lastElement)
 				{
 					tmpNode = delNode->parent;
@@ -765,7 +787,13 @@ namespace ft
 					this->_lastElement->left = delNode->left;
 					delNode->left->right = this->_lastElement;
 				}
-				// Statement with only one son on the right
+				/* Statement with only one son on the right							
+				*			     6 <-- delNode
+				*		       /  \			
+				*            LE    10 		
+				*	                \ 			
+				*					 LE
+				*/	
 				else if (delNode->right && delNode->left == this->_lastElement)
 				{
 					tmpNode = delNode->parent;
@@ -776,38 +804,64 @@ namespace ft
 					this->_lastElement->right = delNode->right;
 					delNode->right->left = this->_lastElement;
 				}
-				// Statement in the case of two sons. We need to switch the key_value of delNode
-				// with the highest key_value of the left subtree, and to delete the node with this highest 
-				// key_value in the left subtree
+				/* Statement in the case of two sons. We need to switch the key_value of delNode
+				*  with the highest key_value of the left subtree, and to delete the node with this highest 
+				*  key_value in the left subtree
+				*  Statement with only one son on the right									
+				*			      6 <--delNode
+				*		       /    \			
+				*             4      10 			
+				*	        /         \  		
+				*		   LE		   LE
+				*/		
 				else
 				{
 					Node*	maxNodeLeftSubtree = getMaxNode(delNode->left);
 					
-					delNode.data = maxNodeLeftSubtree.data; 							// may cause problem with const variable;
+					_alloc.destroy(&delNode->data);
+					_alloc.construct(&delNode->data, maxNodeLeftSubtree->data);
+					// delNode->data = maxNodeLeftSubtree->data; 							// may cause problem with const variable;
 					return deleteNode(delNode->left, maxNodeLeftSubtree->data.first); // check if working
 				}
 			}
-			// The case the node to delete is a LEAF node
-			else if ((delNode->left == NULL) || delNode->left == this->_lastElement) && (delNode->right == NULL || delNode->right == this->_lastElement)
+			/* The case the node to delete is a LEAF node
+			*	   		  15	
+			*	       /     \	
+			*	     10       20
+			* 	    /  \	 /  \ 	
+			* 	   5   13	19   25
+			*	   ^   ^    ^    ^
+			* delNode
+			*/
+			else if ((delNode->left == NULL || delNode->left == this->_lastElement) && (delNode->right == NULL || delNode->right == this->_lastElement))
 			{
 				tmpNode = delNode->parent;
 				
 				//Statement for min or max node, linking it with lastElement
-				Node* parentLink = NULL;
+				Node* lastElementLink = NULL;
 				if (delNode->left == this->_lastElement || delNode->right == this->_lastElement)
 				{
-					parentLink = this->_lastElement;
-					if (delNode.data.first < delNode->parent->data.first)
-						this->_lastElement->right = delNode->parent;
+					lastElementLink = this->_lastElement;
+					if (delNode->data.first < delNode->parent->data.first)
+						this->_lastElement->left = delNode->parent;			// veranderd naar left ipv right
 					else
-						this->_lastElement->left = delNode->parent;
+						this->_lastElement->right = delNode->parent;       // zie comment hierboven
 				}
 				if (delNode->data.first < delNode->parent->data.first)
-					delNode->parent->left = parentLink;
+					delNode->parent->left = lastElementLink;
 				else
-					delNode->parent->right = parentLink;
+					delNode->parent->right = lastElementLink;
 			}
-			// The case with only one son (only left son or only right son)
+			/* The case with only one son (only left son or only right son)
+			*	   		  15	
+			*	       /     \	
+			*	     10       20
+			* 	    /  \	 /  \ 	
+			* 	   D5   13	D18  D25
+			*	  /        /     /
+			*	 3		  17	24
+			* D = delNode
+			*/
 			else if ((delNode->left && delNode->left != this->_lastElement) && (delNode->right == NULL || delNode->right == this->_lastElement))
 			{
 				tmpNode = delNode->parent;
@@ -819,12 +873,23 @@ namespace ft
 				delNode->left->parent = delNode->parent;
 				
 				// Case the node we need to delete is the max node, we need to relink lastElement
+				// D25
 				if (delNode->right == this->_lastElement)
 				{
-					this->_lastElement->left = delNode->left;
+					this->_lastElement->right = delNode->left;
 					delNode->left->right = this->_lastElement;
 				}
 			}
+			/*/ Why is 
+			*	   		 15	
+			*	       /     \	
+			*	     10       20
+			* 	    /  \	 /  \ 	
+			* 	   D5  D13	D18  D25
+			*	    \   \     \    \  
+			*	     6   14    19   30
+			* D = delNode
+			*/
 			else if ((delNode->left == NULL || delNode->left == this->_lastElement) && (delNode->right && delNode->right != this->_lastElement))
 			{
 				tmpNode = delNode->parent;
@@ -835,22 +900,34 @@ namespace ft
 					delNode->parent->right = delNode->right;
 				delNode->right->parent = delNode->parent;
 
-				// Case the node we need to delete is the max node, we need to relink lastElement
+				// Case the node we need to delete is the max node, we need to relink lastElemen
+				// D5
 				if (delNode->left == this->_lastElement)
 				{
-					this->_lastElement->right = delNode->right;
+					this->_lastElement->left = delNode->right;
 					delNode->right->left = this->_lastElement;
 				}
 			}
-			// Statement if there are two sons, we need to switch the key of the delNode with the highest key_value in the left subtree
-			// after that deleting the node with this highest key_value in the left subtree
+			/* Statement if there are two sons, we need to switch the key of the delNode with the highest key_value in the left subtree
+			* after that deleting the node with this highest key_value in the left subtree
+			* 
+			*	   		 15	
+			*	       /     \	
+			*	     D10      D20
+			* 	    /  \	 /  \ 	
+			* 	   5   13	 18  25
+			*	    \   \     \    \  
+			*	     6   14    19   30
+			* D = delNode
+			*/
 			else
 			{
 				Node*	maxNodeLeftSubtree = getMaxNode(delNode->left);
 				
 				// Swapping key_value
-				delNode.data = maxNodeLeftSubtree.data;
-				return deleteNode(delNode->left, maxNodeLeftSubtree->data.first)
+				_alloc.destroy(&delNode->data);
+				_alloc.construct(&delNode->data, maxNodeLeftSubtree->data);
+				return deleteNode(delNode->left, maxNodeLeftSubtree->data.first);
 			}
 			//Balancing the tree from the tmpNode to root node
 			balance_tree(tmpNode);

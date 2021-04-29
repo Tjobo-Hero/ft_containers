@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/29 10:29:54 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/29 11:00:58 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1118,18 +1118,24 @@ TEST_CASE("list-unique version 2", "[list]")
 	own.push_back(2.72); real.push_back(2.72);
 	own.push_back(73.0); real.push_back(73.0);
 	own.push_back(12.77); real.push_back(12.77);
-	own.push_back(12.14); real.push_back(12.14);
+	own.push_back(3.14); real.push_back(3.14);
 	own.push_back(12.77); real.push_back(12.77);
 	own.push_back(73.35); real.push_back(73.35);
 	own.push_back(72.25); real.push_back(72.25);
-	own.push_back(72.3); real.push_back(72.3);
+	own.push_back(15.3); real.push_back(15.3);
 	own.push_back(72.25); real.push_back(72.25);
 
+	own.sort();
+	real.sort();
+	
+	own.unique();
+	real.unique();
+	
 	own.unique(same_integral_part);
 	real.unique(same_integral_part);
 	
 	ft::list<double>::iterator		own_it = own.begin();
-	std::list<double>::iterator	real_it = real.begin();
+	std::list<double>::iterator		real_it = real.begin();
 	REQUIRE(own.size() == real.size());
 	REQUIRE(own.empty() == real.empty());
 	REQUIRE(own.front() == real.front());
