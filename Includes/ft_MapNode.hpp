@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 08:46:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/26 13:29:24 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/29 17:25:22 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,35 @@ namespace ft
 			}
 			return *this;
 		}
-
+		
+		mapNode*		getNext()
+		{
+			mapNode* next = this;
+			mapNode* tmp = next->parent;			
+			if (next->right)
+			{
+				next = next->right;
+				std::cout << "Data: " << next->data.first << std::endl;
+				if (next->data.first == 6)
+				{
+					std::cout << "LE " << next->right->data.first << std::endl;
+				}
+				while(next->left)
+				{
+					next = next->left;
+					std::cout << "TEST3" << std::endl;
+				}
+				return next;	
+			}
+			while (tmp && next == tmp->right)
+			{
+				tmp = tmp->parent;
+				next = next->parent;
+				std::cout << "TEST5" << std::endl;
+			}
+			std::cout << "TEST" << std::endl;
+			return tmp; // what if !tmp in which case does this exist
+		}
 		// maybe getters
 
 	}; // end op MAPNODE class

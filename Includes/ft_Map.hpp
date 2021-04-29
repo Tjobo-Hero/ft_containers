@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/29 12:07:05 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/29 17:34:57 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ namespace ft
 
 		If the container is empty, the returned iterator 
 		value shall not be dereferenced. */
-		// iterator begin();
+		iterator begin() { return iterator(this->_lastElement->left); }
 		// const_iterator begin() const;
 
 		/* END--> Returns an iterator referring to the 
@@ -136,7 +136,7 @@ namespace ft
 
 		If the container is empty, this function returns 
 		the same as map::begin. */
-		// iterator end();
+		iterator end() { return iterator(this->_lastElementgit); }
 		// const_iterator end() const;
 
 		/* 	RBEGIN--> Returns a reverse iterator pointing 
@@ -452,7 +452,7 @@ namespace ft
 			// Recursive loop that will go trough the whole tree
 			if (root->data.first > key_value && root->left && root->left != this->_lastElement)
 				return searchNode(root->left, key_value);
-			if (root->data.first < key_value && root->left && root->left != this->_lastElement)
+			if (root->data.first < key_value && root->right && root->right != this->_lastElement)
 				return searchNode(root->right, key_value);
 			return 0;
 		
@@ -522,8 +522,6 @@ namespace ft
 			// Statement Y left son is NULL to prevent Segfault
 			if (Y->left)
 				Y->left->parent = X;
-			
-			
 
 			// Left Y son is now X
 			Y->left = X;
@@ -818,9 +816,9 @@ namespace ft
 				{
 					Node*	maxNodeLeftSubtree = getMaxNode(delNode->left);
 					
+					
 					_alloc.destroy(&delNode->data);
 					_alloc.construct(&delNode->data, maxNodeLeftSubtree->data);
-					// delNode->data = maxNodeLeftSubtree->data; 							// may cause problem with const variable;
 					return deleteNode(delNode->left, maxNodeLeftSubtree->data.first); // check if working
 				}
 			}
@@ -842,12 +840,12 @@ namespace ft
 				if (delNode->left == this->_lastElement || delNode->right == this->_lastElement)
 				{
 					lastElementLink = this->_lastElement;
-					if (delNode->data.first < delNode->parent->data.first)
+					if (delNode->data.first <= delNode->parent->data.first)
 						this->_lastElement->left = delNode->parent;			// veranderd naar left ipv right
 					else
 						this->_lastElement->right = delNode->parent;       // zie comment hierboven
 				}
-				if (delNode->data.first < delNode->parent->data.first)
+				if (delNode->data.first <= delNode->parent->data.first)
 					delNode->parent->left = lastElementLink;
 				else
 					delNode->parent->right = lastElementLink;
@@ -866,7 +864,7 @@ namespace ft
 			{
 				tmpNode = delNode->parent;
 				
-				if (delNode->data.first < delNode->parent->data.first)
+				if (delNode->data.first <= delNode->parent->data.first)
 					delNode->parent->left = delNode->left;
 				else
 					delNode->parent->right = delNode->left;
@@ -894,7 +892,7 @@ namespace ft
 			{
 				tmpNode = delNode->parent;
 				
-				if (delNode->data.first < delNode->parent->data.first)
+				if (delNode->data.first <= delNode->parent->data.first)
 					delNode->parent->left = delNode->right;
 				else
 					delNode->parent->right = delNode->right;
@@ -960,7 +958,7 @@ namespace ft
 				std::cout << std::endl; 
 				for (int i = COUNT; i < space; i++) 
 					std::cout<<" "; 
-				std::cout<<root->data.first <<"\n";			
+				std::cout << root->data.first <<"\n";			
 				// Process left child 
 				print2DUtil(root->left, space); 
 			}

@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:35:23 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/26 10:44:03 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/29 13:36:49 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ namespace ft
 				this->second = pr.second;
 			}
 			return *this;
-		}
+		} 
 	};
 
 	template <class T1, class T2>
