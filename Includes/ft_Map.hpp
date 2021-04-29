@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/28 15:26:48 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/29 10:01:16 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -783,7 +783,7 @@ namespace ft
 				{
 					Node*	maxNodeLeftSubtree = getMaxNode(delNode->left);
 					
-					delNode.data = maxNodeLeftSubtree.data;
+					delNode.data = maxNodeLeftSubtree.data; 							// may cause problem with const variable;
 					return deleteNode(delNode->left, maxNodeLeftSubtree->data.first); // check if working
 				}
 			}
@@ -797,7 +797,7 @@ namespace ft
 				if (delNode->left == this->_lastElement || delNode->right == this->_lastElement)
 				{
 					parentLink = this->_lastElement;
-					if (delNode.data.frist < delNode->parent->data.first)
+					if (delNode.data.first < delNode->parent->data.first)
 						this->_lastElement->right = delNode->parent;
 					else
 						this->_lastElement->left = delNode->parent;
@@ -825,7 +825,37 @@ namespace ft
 					delNode->left->right = this->_lastElement;
 				}
 			}
-			else if ((delNode->left && delNode->left != this->_lastElement) &&(delNode->right == NULL || delNode->right == this->_lastElement))
+			else if ((delNode->left == NULL || delNode->left == this->_lastElement) && (delNode->right && delNode->right != this->_lastElement))
+			{
+				tmpNode = delNode->parent;
+				
+				if (delNode->data.first < delNode->parent->data.first)
+					delNode->parent->left = delNode->right;
+				else
+					delNode->parent->right = delNode->right;
+				delNode->right->parent = delNode->parent;
+
+				// Case the node we need to delete is the max node, we need to relink lastElement
+				if (delNode->left == this->_lastElement)
+				{
+					this->_lastElement->right = delNode->right;
+					delNode->right->left = this->_lastElement;
+				}
+			}
+			// Statement if there are two sons, we need to switch the key of the delNode with the highest key_value in the left subtree
+			// after that deleting the node with this highest key_value in the left subtree
+			else
+			{
+				Node*	maxNodeLeftSubtree = getMaxNode(delNode->left);
+				
+				// Swapping key_value
+				delNode.data = maxNodeLeftSubtree.data;
+				return deleteNode(delNode->left, maxNodeLeftSubtree->data.first)
+			}
+			//Balancing the tree from the tmpNode to root node
+			balance_tree(tmpNode);
+			delete delNode;
+			return true;
 		}
 
 	
