@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:35:23 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/29 18:13:18 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/30 11:42:09 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ namespace ft
 		template<class U, class V> 
 		pair (const pair< U, V > &pr) : first(pr.first), second(pr.second) { return; }
 
+		pair (const pair &pr) : first(pr.first), second(pr.second) { return; }
+
 		/* INITIALIZATION CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */
 		pair (const first_type& a, const second_type& b) : first(a), second(b) { return; }
@@ -56,7 +58,7 @@ namespace ft
 				this->second = pr.second;
 			}
 			return *this;
-		} 
+		}
 	};
 
 	template <class T1, class T2>

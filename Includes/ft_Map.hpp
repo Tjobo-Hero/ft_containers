@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/29 18:08:45 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/30 12:06:58 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ namespace ft
 		private:
 
 			Node*		_root;
-			Node*		_lastElement;
+			Node*		_first;
+			Node*		_last;
 			size_t		_size;
 			Alloc		_alloc;
 			Compare		_compare;
@@ -79,12 +80,19 @@ namespace ft
 		/* EMPTY CONSTRUCTOR--> Constructs an empty 
 		container, with no elements. */
 		explicit map (const key_compare& comp = key_compare(),
-		const allocator_type& alloc = allocator_type()) : _lastElement(new Node), _size(0), _alloc(alloc), _compare(comp) 
+		const allocator_type& alloc = allocator_type()) : _root(new Node), _first(new Node), _last(new Node), _size(0), _alloc(alloc), _compare(comp) 
 		{
-			this->_root = this->_lastElement;
-			this->_lastElement->left = this->_lastElement;
-			this->_lastElement->right = this->_lastElement;
+			initialize_firstandlast();
 			return; 
+		}
+
+		void	initialize_firstandlast()
+		{
+			this->_root->left = this->_first;
+			this->_root->right = this->_last;
+
+			this->_first->parent = this->_root;
+			this->_last->parent = this->_root;
 		}
 
 		/* RANGE CONSTRUCTOR--> Constructs a container 
@@ -117,7 +125,7 @@ namespace ft
 
 		If the container is empty, the returned iterator 
 		value shall not be dereferenced. */
-		iterator begin() { return iterator(this->_lastElement->left); }
+		iterator begin() { return iterator(this->_first->parent); }
 		// const_iterator begin() const;
 
 		/* END--> Returns an iterator referring to the 
@@ -136,7 +144,7 @@ namespace ft
 
 		If the container is empty, this function returns 
 		the same as map::begin. */
-		iterator end() { return iterator(this->_lastElement); }
+		iterator end() { return iterator(this->_last); }
 		// const_iterator end() const;
 
 		/* 	RBEGIN--> Returns a reverse iterator pointing 
@@ -440,7 +448,7 @@ namespace ft
 		Node*					searchNode(Node* root, key_type key_value)
 		{
 			// Statement if we've reached a max or min node or a leaf node
-			if (root == NULL || root == this->_lastElement)
+			if (root == NULL || root == this->_first || root == this->_last) // hier stond root == this->_lastElement
 				return 0;
 
 			// Statement if the key_value are equal the key_value already exist in the tree
@@ -450,9 +458,9 @@ namespace ft
 			// 	return root;
 
 			// Recursive loop that will go trough the whole tree
-			if (root->data.first > key_value && root->left && root->left != this->_lastElement)
+			if (root->data.first > key_value && root->left && root->left != this->_first)
 				return searchNode(root->left, key_value);
-			if (root->data.first < key_value && root->right && root->right != this->_lastElement)
+			if (root->data.first < key_value && root->right && root->right != this->_last)
 				return searchNode(root->right, key_value);
 			return 0;
 		
@@ -461,7 +469,7 @@ namespace ft
 		int					calheight(Node *root, int height)
 		{
 			// Reached NULL
-			if (root == NULL || root == this->_lastElement)
+			if (root == NULL || root == this->_last || root == this->_first) // hier stond root == this->_lastElement
 				return height -1;
 			
 			// Goint trough the left side of the node and after that the right side
@@ -649,13 +657,14 @@ namespace ft
 		Node*					insertNode(Node* move, const value_type &val)
 		{
 			// Statement for the first node of the tree
-			if (this->_root == this->_lastElement)
+			if (size() == 0)
 			{
 				this->_root = new Node(val);
-				_root->left = this->_lastElement;
-				_root->right = this->_lastElement;
-				this->_lastElement->left = this->_root;
-				this->_lastElement->right = this->_root;
+				initialize_firstandlast();
+				// _root->left = this->_lastElement;
+				// _root->right = this->_lastElement;
+				// this->_lastElement->left = this->_root;
+				// this->_lastElement->right = this->_root;
 				return this->_root;
 			}
 			
@@ -665,9 +674,9 @@ namespace ft
 												// function with searchNode
 			// Recursive loop that finds the position of the key_value in the tree
 			// either as a new leaf node or lastElement
-			if (move->data.first > val.first && move->left && move->left != this->_lastElement)
+			if (move->data.first > val.first && move->left && move->left != this->_first)
 				return insertNode(move->left, val);
-			else if (move->data.first < val.first && move->right && move->right != this->_lastElement)
+			else if (move->data.first < val.first && move->right && move->right != this->_last)
 				return insertNode(move->right, val);
 			
 			// When we arrive here the move pointer is at the position where we have to insert
@@ -691,16 +700,16 @@ namespace ft
 			// Min lastElement
 			else if (move->left && (move->data.first > new_node->data.first))
 			{
-				new_node->left = this->_lastElement;
-				this->_lastElement->left = new_node; // changed to left
+				new_node->left = this->_first;
+				this->_first->parent = new_node; // changed to left
 				move->left = new_node;
 				new_node->parent = move;
 			}
 			// Max lastElement
 			else if (move->right && (move->data.first < new_node->data.first))
 			{
-				new_node->right = this->_lastElement;
-				this->_lastElement->right = new_node; // changed to right
+				new_node->right = this->_last;
+				this->_last->parent = new_node; // changed to right
 				move->right = new_node;
 				new_node->parent = move;
 			}
@@ -716,7 +725,7 @@ namespace ft
 		*/
 		Node*		getMinNode(Node* root) const
 		{
-			if (root->left && root->left != this->_lastElement)
+			if (root->left && root->left != this->_first)
 				getMinNode(root->left);
 			return root;
 		}
@@ -727,8 +736,8 @@ namespace ft
 		*/
 		Node*		getMaxNode(Node* root) const
 		{
-			if (root->right && root->right != this->_lastElement)
-				getMaxNode(root->left);
+			if (root->right && root->right != this->_last)
+				getMaxNode(root->right);
 			return root;
 		}
 
@@ -760,11 +769,12 @@ namespace ft
 				*		   /  \	  
 				*       LE    LE   
 				*/						
-				if (delNode->left == this->_lastElement && delNode->right == this->_lastElement)
+				if (delNode->left == this->_first && delNode->right == this->_last)
 				{
-					this->_root = this->_lastElement;
-					this->_lastElement->left = this->_lastElement;
-					this->_lastElement->right = this->_lastElement;
+					_alloc.destory(&this->_root.data);
+					// this->_root = this->_lastElement;
+					// this->_lastElement->left = this->_lastElement;
+					// this->_lastElement->right = this->_lastElement;
 				}
 
 				/* Statement with only one son on the left						
@@ -774,7 +784,7 @@ namespace ft
 				*           /				
 				*         LE		
 				*/		
-				else if (delNode->left && delNode->right == this->_lastElement)
+				else if (delNode->left && delNode->right == this->_last)
 				{
 					tmpNode = delNode->parent;
 					this->_root = delNode->left;
@@ -782,8 +792,8 @@ namespace ft
 
 					// Tree is AVL _root has only one son and on the left it's linked to last element
 					//  but the right not. So we have to link the right side to the lastElement
-					this->_lastElement->left = delNode->left;
-					delNode->left->right = this->_lastElement;
+					this->_first->parent = delNode->left;
+					delNode->left->right = this->_last;
 				}
 				/* Statement with only one son on the right							
 				*			     6 <-- delNode
@@ -792,15 +802,15 @@ namespace ft
 				*	                \ 			
 				*					 LE
 				*/	
-				else if (delNode->right && delNode->left == this->_lastElement)
+				else if (delNode->right && delNode->left == this->_first)
 				{
 					tmpNode = delNode->parent;
 					this->_root = delNode->right;
 					delNode->right->parent = NULL;
 					// Tree is AVL _root has only one son and on the right it's linked to lastElement
 					// but the right not. So we have to link the left side to the lastElement
-					this->_lastElement->right = delNode->right;
-					delNode->right->left = this->_lastElement;
+					this->_last->parent = delNode->right;
+					delNode->right->left = this->_first;
 				}
 				/* Statement in the case of two sons. We need to switch the key_value of delNode
 				*  with the highest key_value of the left subtree, and to delete the node with this highest 
@@ -831,22 +841,25 @@ namespace ft
 			*	   ^   ^    ^    ^
 			* delNode
 			*/
-			else if ((delNode->left == NULL || delNode->left == this->_lastElement) && (delNode->right == NULL || delNode->right == this->_lastElement))
+			else if ((delNode->left == NULL || delNode->left == this->_first) && (delNode->right == NULL || delNode->right == this->_last))
 			{
 				tmpNode = delNode->parent;
 				
 				//Statement for min or max node, linking it with lastElement
 				Node* lastElementLink = NULL;
-				if (delNode->left == this->_lastElement || delNode->right == this->_lastElement)
+				Node* firstElementLink = NULL;
+
+				if (delNode->left == this->_first || delNode->right == this->_last)
 				{
-					lastElementLink = this->_lastElement;
+					lastElementLink = this->_last;
+					firstElementLink = this->_first;
 					if (delNode->data.first <= delNode->parent->data.first)
-						this->_lastElement->left = delNode->parent;			// veranderd naar left ipv right
+						this->_first->parent = delNode->parent;			// veranderd naar left ipv right
 					else
-						this->_lastElement->right = delNode->parent;       // zie comment hierboven
+						this->_last->parent = delNode->parent;       // zie comment hierboven
 				}
 				if (delNode->data.first <= delNode->parent->data.first)
-					delNode->parent->left = lastElementLink;
+					delNode->parent->left = firstElementLink;
 				else
 					delNode->parent->right = lastElementLink;
 			}
@@ -860,7 +873,7 @@ namespace ft
 			*	 3		  17	24
 			* D = delNode
 			*/
-			else if ((delNode->left && delNode->left != this->_lastElement) && (delNode->right == NULL || delNode->right == this->_lastElement))
+			else if ((delNode->left && delNode->left != this->_first) && (delNode->right == NULL || delNode->right == this->_last))
 			{
 				tmpNode = delNode->parent;
 				
@@ -872,10 +885,10 @@ namespace ft
 				
 				// Case the node we need to delete is the max node, we need to relink lastElement
 				// D25
-				if (delNode->right == this->_lastElement)
+				if (delNode->right == this->_last)
 				{
-					this->_lastElement->right = delNode->left;
-					delNode->left->right = this->_lastElement;
+					this->_last->parent = delNode->left;
+					delNode->left->right = this->_last;
 				}
 			}
 			/*/ Why is 
@@ -888,7 +901,7 @@ namespace ft
 			*	     6   14    19   30
 			* D = delNode
 			*/
-			else if ((delNode->left == NULL || delNode->left == this->_lastElement) && (delNode->right && delNode->right != this->_lastElement))
+			else if ((delNode->left == NULL || delNode->left == this->_first) && (delNode->right && delNode->right != this->_last))
 			{
 				tmpNode = delNode->parent;
 				
@@ -900,10 +913,10 @@ namespace ft
 
 				// Case the node we need to delete is the max node, we need to relink lastElemen
 				// D5
-				if (delNode->left == this->_lastElement)
+				if (delNode->left == this->_first)
 				{
-					this->_lastElement->left = delNode->right;
-					delNode->right->left = this->_lastElement;
+					this->_first->parent = delNode->right;
+					delNode->right->left = this->_first;
 				}
 			}
 			/* Statement if there are two sons, we need to switch the key of the delNode with the highest key_value in the left subtree
@@ -947,7 +960,7 @@ namespace ft
 			// Base case 
 			if (root == NULL) 
 				return; 
-			if (root != NULL && root != this->_lastElement)
+			if (root != NULL && root != this->_first && root != this->_last)
 			{
 				// Increase distance between levels 
 				space += COUNT;			

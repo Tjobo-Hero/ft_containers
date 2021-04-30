@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 10:10:11 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/29 17:19:59 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/30 12:08:29 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <iostream>
 
 #include "../INCLUDES/ft_Map.hpp"
-#include "../INCLUDES/ft_BiDirectionalIterator.hpp"
+// #include "../INCLUDES/ft_BiDirectionalIterator.hpp"
 
 // TEST_CASE("map-Empty container constructor", "[map]")
 // {
@@ -43,6 +43,7 @@ TEST_CASE("map-iterator", "[map]")
 	ft::map<int, int>	own;
 
 	int sum = 1;
+
 	for (int i = 0; i < 6; ++i)
 	{
 		own.insert(ft::pair<int, int>(sum, sum));
@@ -56,7 +57,7 @@ TEST_CASE("map-iterator", "[map]")
 	
 	while (it != own.end())
 	{
-		// std::cout << it->first << std::endl;
+		std::cout << it->first << std::endl;
 		++it;
 	}
 }
