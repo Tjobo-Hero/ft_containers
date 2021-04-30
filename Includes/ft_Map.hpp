@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/30 12:06:58 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/04/30 12:18:02 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -771,7 +771,7 @@ namespace ft
 				*/						
 				if (delNode->left == this->_first && delNode->right == this->_last)
 				{
-					_alloc.destory(&this->_root.data);
+					this->_root = NULL;
 					// this->_root = this->_lastElement;
 					// this->_lastElement->left = this->_lastElement;
 					// this->_lastElement->right = this->_lastElement;
@@ -958,7 +958,7 @@ namespace ft
 		void print2DUtil(Node *root, int space) 
 		{ 
 			// Base case 
-			if (root == NULL) 
+			if (root == NULL || !root) 
 				return; 
 			if (root != NULL && root != this->_first && root != this->_last)
 			{
