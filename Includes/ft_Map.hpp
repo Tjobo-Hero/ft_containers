@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/04 16:32:52 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/04 20:06:41 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,10 @@ namespace ft
 		able to reach that size: it can still fail 
 		to allocate storage at any point before that 
 		size is reached. */
-		// size_type max_size() const;
+		size_type max_size() const
+		{
+			return (std::numeric_limits<size_type>::max() / sizeof(Node)); 
+		}
 
 		/* ------------ ELEMENT ACCESS ------------ */
 		/* OPERATOR[]--> If k matches the key of an 

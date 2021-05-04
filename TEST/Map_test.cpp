@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 10:10:11 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/04 17:06:41 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/04 20:08:16 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ TEST_CASE("map-Range constructor", "[map]")
 	while (own_it != own.end())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -63,6 +64,7 @@ TEST_CASE("map-Range constructor", "[map]")
 	while (own_it != own2.end())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -90,6 +92,7 @@ TEST_CASE("map-copy constructor", "[map]")
 	while (own_it != own.end())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -105,6 +108,7 @@ TEST_CASE("map-copy constructor", "[map]")
 	while (own_it != own2.end())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -132,6 +136,7 @@ TEST_CASE("map-assign content", "[map]")
 	while (own_it != own.end())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -150,6 +155,7 @@ TEST_CASE("map-assign content", "[map]")
 	while (own_it != own2.end())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -178,6 +184,7 @@ TEST_CASE("map-begin function", "[map]")
 	while (own_it != own.end())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -207,6 +214,7 @@ TEST_CASE("map-end function", "[map]")
 	while (own_it != own.end())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -223,6 +231,7 @@ TEST_CASE("map-end function", "[map]")
 	while (real_it != real_ite)
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -255,6 +264,7 @@ TEST_CASE("map-rbegin function", "[map]")
 	while (own_it != own.rend())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -284,6 +294,7 @@ TEST_CASE("map-rend function", "[map]")
 	while (own_it != own.rend())
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -300,6 +311,7 @@ TEST_CASE("map-rend function", "[map]")
 	while (real_it != real_ite)
 	{
 		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
 		++own_it;
 		++real_it;
 	}
@@ -319,15 +331,65 @@ TEST_CASE("map-empty function", "[map]")
 	REQUIRE(own.empty() == real.empty());
 }
 
-// TEST_CASE("map-size function", "[map]")
-// {
-	
-// }
+TEST_CASE("map-size function", "[map]")
+{
+	ft::map<std::string, int>	own;
+	std::map<std::string, int>	real;
 
-// TEST_CASE("map-max_size function", "[map]")
-// {
+	own.insert(ft::pair<std::string, int>("try", 1));
+	own.insert(ft::pair<std::string, int>("to", 1));
+	own.insert(ft::pair<std::string, int>("do", 1));
+	own.insert(ft::pair<std::string, int>("this", 1));
+
+	real.insert(std::pair<std::string, int>("try", 1));
+	real.insert(std::pair<std::string, int>("to", 1));
+	real.insert(std::pair<std::string, int>("do", 1));
+	real.insert(std::pair<std::string, int>("this", 1));
 	
-// }
+	REQUIRE(own.size() == real.size());
+
+	std::map<std::string, int>::iterator	real_it = real.begin();
+	ft::map<std::string, int>::iterator		own_it = own.begin();
+	
+	while (own_it != own.end())
+	{
+		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
+		++own_it;
+		++real_it;
+	}
+	
+	own.erase("try");
+	real.erase("try");
+
+	REQUIRE(own.size() == real.size());
+
+	own.erase("to");
+	real.erase("to");
+
+	REQUIRE(own.size() == real.size());
+
+	own.erase("do");
+	real.erase("do");
+
+	REQUIRE(own.size() == real.size());
+
+	own.erase("this");
+	real.erase("this");
+
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+
+}
+
+TEST_CASE("map-max_size function", "[map]")
+{
+	ft::map<int, int>	own;
+	std::map<int, int>	real;
+
+	// REQUIRE(own.max_size() == real.max_size());
+}
+
 
 // /*-----------------ELEMENT ACCES-----------------*/
 // TEST_CASE("map-operator[] function", "[map]")
