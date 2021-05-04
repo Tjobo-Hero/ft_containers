@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/30 12:18:02 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/04 13:18:01 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,45 @@ namespace ft
 		with as many elements as the range [first,last), 
 		with each element constructed from its corresponding 
 		element in that range. */
-		// template <class InputIterator>
-		// map (InputIterator first, InputIterator last,
-		// 	const key_compare& comp = key_compare(),
-		// 	const allocator_type& alloc = allocator_type());
+		template <class InputIterator>
+		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(new Node), _first(new Node), _last(new Node), _size(0), _alloc(alloc), _compare(comp)
+		{
+			initialize_firstandlast();
+			insert(first, last);
+		}
 
 		/* COPY CONSTRUCTOR--> Constructs a container with 
 		a copy of each of the elements in x. */
-		// map (const map& x);
-
+		map (const map& x) : _root(new Node), _first(new Node), _last(new Node), _size(0), _alloc(x._alloc), _compare(x._compare)
+		{
+			initialize_firstandlast();
+			insert(x.begin(), x.end());
+		}
+		
 		/* MAP DESTRUCTOR--> Destroys the container object. */
-		// ~map();
+		~map()
+		{
+			this->clear();
+			delete this->_first;
+			delete this->_last;
+			delete this->_root;
+			return;
+		}
 
 		/* COPY CONTAINER CONTENT--> Assigns new contents to
 		the container, replacing its current content. */
-		// map& operator= (const map& x);
+		map& operator= (const map& x)
+		{
+			if (this != &x)
+			{
+				this->clear();
+				this->_alloc = x._alloc;
+				this->_compare = x._compare;
+				this->_size = 0;
+				insert(x.begin(), x.end());
+			}
+			return *this;
+		}
 		
 		/* ------------ ITERATORS ------------ */
 		/* BEGIN--> Returns an iterator referring to the first 
@@ -126,7 +150,7 @@ namespace ft
 		If the container is empty, the returned iterator 
 		value shall not be dereferenced. */
 		iterator begin() { return iterator(this->_first->parent); }
-		// const_iterator begin() const;
+		const_iterator begin() const { return const_iterator(this->_first->parent);}
 
 		/* END--> Returns an iterator referring to the 
 		past-the-end element in the map container.
@@ -145,7 +169,7 @@ namespace ft
 		If the container is empty, this function returns 
 		the same as map::begin. */
 		iterator end() { return iterator(this->_last); }
-		// const_iterator end() const;
+		const_iterator end() const { return const_iterator(this->_last); }
 
 		/* 	RBEGIN--> Returns a reverse iterator pointing 
 		*	to the last element in the container (i.e., its reverse beginning).
@@ -156,8 +180,8 @@ namespace ft
 		*	rbegin points to the element preceding the one 
 		*	that would be pointed to by member end. 
 		*/
-		// reverse_iterator rbegin();
-		// const_reverse_iterator rbegin() const;
+		reverse_iterator rbegin() { return reverse_iterator(this->_last->parent); }
+		const_reverse_iterator rbegin() const {return const_reverse_iterator(this->_last->parent); }
 
 		/* REND--> Returns a reverse iterator pointing 
 		* to the theoretical element right before the first 
@@ -166,8 +190,8 @@ namespace ft
 		* The range between map::rbegin and map::rend 
 		* contains all the elements of the container (in reverse order).
 		*/
-		// reverse_iterator rend();
-		// const_reverse_iterator rend() const;
+		reverse_iterator rend() { return reverse_iterator(this->_first); }
+		const_reverse_iterator rend() const { const_reverse_iterator(this->_first); }
 
 		/* ------------ CAPACITY ------------ */
 		/* EMPTY--> Returns whether the map 
@@ -245,11 +269,51 @@ namespace ft
 		}
 
 		/* With Hint */	
-		// iterator insert (iterator position, const value_type& val);
+		iterator insert (iterator position, const value_type& val)
+		{
+			Node*	return_node;
+			// If position key is higher than val, we need to decrease position 
+            // until we find the closest highest key from val in the tree
+			if (position->first > val->first)
+			{
+				iterator prev(position);
+				--prev;
+				while (prev != this->end() && prev->first >= val.first)
+				{
+					--position;
+					--prev;
+				}
+			}
+			// If position key is lower than val, we need to increase position 
+            // until we find the closest lowest key from val in the tree
+			else if (position->first < val->first)
+			{
+				iterator next(position);
+				++next;
+				while (next != this->end() && next->parent <= val.first)
+				{
+					++position;
+					++next;
+				}
+			}
+			// If the value already exist, and the tree isn't empty
+			if (position != end() && val.first == position.first)
+				return ft::make_pair(iterator(position), false);
+			return_node = insertNode(position, val);
+			this->_size += 1;
+			return ft::make_pair(iterator(return_node), true);
+		}
 		
 		/* Range */	
-		// template <class InputIterator>
-		// void insert (InputIterator first, InputIterator last);
+		template <class InputIterator>
+		void insert (typename enable_if<is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last)
+		{
+			while (first != last)
+			{
+				insert(*first);
+				++first;
+			}
+		}
 
 		/* ERASE--> Removes from the map container either 
 		a single element or a range of elements ([first,last)).
@@ -258,7 +322,11 @@ namespace ft
 		the number of elements removed, which are destroyed. */
 		
 		/* Version 1 */
-		// void erase (iterator position);
+		void erase (iterator position)
+		{
+			this->deleteNode(position.get_ptr(), position->first);
+			this->_size -= 1;
+		}
 
 		/* Version 2 */
 		size_type erase (const key_type& k)
@@ -277,7 +345,16 @@ namespace ft
 		}
 
 		/* Version 3 */
-		// void erase (iterator first, iterator last);
+		void erase (iterator first, iterator last)
+		{
+			while (first != last)
+			{
+				iterator tmp(first);
+				++first;
+				erase(tmp);
+			}
+		}
+		
 
 		/* SWAP--> Exchanges the content of the container 
 		by the content of x, which is another map of 
@@ -297,7 +374,11 @@ namespace ft
 		/* CLEAR--> Removes all elements from the map 
 		container (which are destroyed), leaving the 
 		container with a size of 0. */
-		// void clear();
+		void clear()
+		{
+			erase(this->begin(), this->end());
+			return;
+		}
 
 		/* ------------ OBSERVERS ------------ */
 		/* KEY_COMP--> Returns a copy of the comparison 
@@ -438,9 +519,47 @@ namespace ft
 		/* GET_ALLOCATOR--> Returns a copy of 
 		the allocator object associated with the map. */
 		// allocator_type get_allocator() const;
+
+		
+		/*
+		*	FUNCTION: getRoot returns root
+		*/
+		Node*	getRoot()
+		{
+			return this->_root;
+		}
+
+		void print2DUtil(Node *root, int space) 
+		{ 
+			// Base case 
+			if (root == NULL || !root) 
+				return; 
+			if (root != NULL && root != this->_first && root != this->_last)
+			{
+				// Increase distance between levels 
+				space += COUNT;			
+				// Process right child first 
+				print2DUtil(root->right, space);			
+				// Print current node after space 
+				// count 
+				std::cout << std::endl; 
+				for (int i = COUNT; i < space; i++) 
+					std::cout<<" "; 
+				std::cout << root->data.first <<"\n";			
+				// Process left child 
+				print2DUtil(root->left, space); 
+			}
+		}
+		
+		void print_tree(Node* root)
+		{
+			// std::cout << "-----------------------------------" << std::endl;
+			print2DUtil(root, 0);
+			std::cout << "-----------------------------------" << std::endl;
+		}
 		
 		/* ------------ PRIVATE MEMBER FUNCTIONS ------------ */
-
+		private:
 		/*
 		*	FUNCTION: searchNode searches the key_value in the three and returns it
 		*	if it will find the key.
@@ -659,6 +778,7 @@ namespace ft
 			// Statement for the first node of the tree
 			if (size() == 0)
 			{
+				delete this->_root;
 				this->_root = new Node(val);
 				initialize_firstandlast();
 				// _root->left = this->_lastElement;
@@ -771,6 +891,10 @@ namespace ft
 				*/						
 				if (delNode->left == this->_first && delNode->right == this->_last)
 				{
+					this->_first->parent = this->_last;
+					this->_last->parent = this->_first;
+					
+					_alloc.destroy(&delNode->data);
 					this->_root = NULL;
 					// this->_root = this->_lastElement;
 					// this->_lastElement->left = this->_lastElement;
@@ -891,7 +1015,7 @@ namespace ft
 					delNode->left->right = this->_last;
 				}
 			}
-			/*/ Why is 
+			/*
 			*	   		 15	
 			*	       /     \	
 			*	     10       20
@@ -947,54 +1071,18 @@ namespace ft
 		}
 
 	
-		/*
-		*	FUNCTION: getRoot returns root
-		*/
-		Node*	getRoot()
-		{
-			return this->_root;
-		}
-
-		void print2DUtil(Node *root, int space) 
-		{ 
-			// Base case 
-			if (root == NULL || !root) 
-				return; 
-			if (root != NULL && root != this->_first && root != this->_last)
-			{
-				// Increase distance between levels 
-				space += COUNT;			
-				// Process right child first 
-				print2DUtil(root->right, space);			
-				// Print current node after space 
-				// count 
-				std::cout << std::endl; 
-				for (int i = COUNT; i < space; i++) 
-					std::cout<<" "; 
-				std::cout << root->data.first <<"\n";			
-				// Process left child 
-				print2DUtil(root->left, space); 
-			}
-		}
-		
-		void print_tree(Node* root)
-		{
-			// std::cout << "-----------------------------------" << std::endl;
-			print2DUtil(root, 0);
-			std::cout << "-----------------------------------" << std::endl;
-		}
 		
 		void    print_node(std::string root_path) {
             Node* tmp = _root;
             std::cout << ".";
             for (int i = 0; root_path[i]; ++i){
                 if (root_path[i] == 'L'){
-                    if (tmp->left == NULL || tmp->left == this->_lastElement)
+                    if (tmp->left == NULL || tmp->left == this->_first)
                         return ;
                     tmp = tmp->left;
                 }
                 if (root_path[i] == 'R'){
-                    if (tmp->right == NULL || tmp->right == this->_lastElement)
+                    if (tmp->right == NULL || tmp->right == this->_last)
                         return ;
                     tmp = tmp->right;
                 }

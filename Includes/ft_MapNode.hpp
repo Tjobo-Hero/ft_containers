@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 08:46:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/30 12:08:05 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/04 13:03:50 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ namespace ft
 			return *this;
 		}
 		
+		mapNode*		getNode() { return this->data; }
 		mapNode*		getNext()
 		{
 			mapNode* next = this;
@@ -67,6 +68,44 @@ namespace ft
 				next = next->parent;
 				// std::cout << "TEST5" << std::endl;
 			}
+			if (!tmp) {
+                while (next->left != NULL)
+                    next = next->left;
+                tmp = next->left;
+            }
+			// std::cout << "TEST" << std::endl;
+			return tmp; // what if !tmp in which case does this exist
+		}
+		mapNode*		getPrevious()
+		{
+			mapNode* next = this;
+			mapNode* tmp = next->parent;			
+			if (next->left)
+			{
+				next = next->left;
+				// std::cout << "Data: " << next->data.first << std::endl;
+				// if (next->data.first == 6)
+				// {
+					// std::cout << "LE " << next->right->data.first << std::endl;
+				// }
+				while (next->right)
+				{
+					next = next->right;
+					// std::cout << "TEST3" << std::endl;
+				}
+				return next;	
+			}
+			while (tmp && next == tmp->left)
+			{
+				tmp = tmp->parent;
+				next = next->parent;
+				// std::cout << "TEST5" << std::endl;
+			}
+			if (!tmp) {
+                while (next->right != NULL)
+                    next = next->right;
+                tmp = next->right;
+            }
 			// std::cout << "TEST" << std::endl;
 			return tmp; // what if !tmp in which case does this exist
 		}
