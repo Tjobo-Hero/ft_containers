@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/29 11:00:58 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/04 16:52:15 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1109,63 +1109,63 @@ struct is_near {
   { return (fabs(first-second)<5.0); }
 };
 
-TEST_CASE("list-unique version 2", "[list]")
-{
-	ft::list<double>	own;
-	std::list<double>	real;
+// TEST_CASE("list-unique version 2", "[list]")
+// {
+// 	ft::list<double>	own;
+// 	std::list<double>	real;
 
-	own.push_back(12.15); real.push_back(12.15);
-	own.push_back(2.72); real.push_back(2.72);
-	own.push_back(73.0); real.push_back(73.0);
-	own.push_back(12.77); real.push_back(12.77);
-	own.push_back(3.14); real.push_back(3.14);
-	own.push_back(12.77); real.push_back(12.77);
-	own.push_back(73.35); real.push_back(73.35);
-	own.push_back(72.25); real.push_back(72.25);
-	own.push_back(15.3); real.push_back(15.3);
-	own.push_back(72.25); real.push_back(72.25);
+// 	own.push_back(12.15); real.push_back(12.15);
+// 	own.push_back(2.72); real.push_back(2.72);
+// 	own.push_back(73.0); real.push_back(73.0);
+// 	own.push_back(12.77); real.push_back(12.77);
+// 	own.push_back(3.14); real.push_back(3.14);
+// 	own.push_back(12.77); real.push_back(12.77);
+// 	own.push_back(73.35); real.push_back(73.35);
+// 	own.push_back(72.25); real.push_back(72.25);
+// 	own.push_back(15.3); real.push_back(15.3);
+// 	own.push_back(72.25); real.push_back(72.25);
 
-	own.sort();
-	real.sort();
+// 	own.sort();
+// 	real.sort();
 	
-	own.unique();
-	real.unique();
+// 	own.unique();
+// 	real.unique();
 	
-	own.unique(same_integral_part);
-	real.unique(same_integral_part);
+// 	own.unique(same_integral_part);
+// 	real.unique(same_integral_part);
 	
-	ft::list<double>::iterator		own_it = own.begin();
-	std::list<double>::iterator		real_it = real.begin();
-	REQUIRE(own.size() == real.size());
-	REQUIRE(own.empty() == real.empty());
-	REQUIRE(own.front() == real.front());
-	REQUIRE(own.back() == real.back());
+// 	ft::list<double>::iterator		own_it = own.begin();
+// 	std::list<double>::iterator		real_it = real.begin();
+// 	REQUIRE(own.size() == real.size());
+// 	REQUIRE(own.empty() == real.empty());
+// 	REQUIRE(own.front() == real.front());
+// 	REQUIRE(own.back() == real.back());
 
-	while (own_it != own.end())
-	{
-		REQUIRE(*own_it == *real_it);
-		++own_it;
-		++real_it;
-	}
+// 	while (own_it != own.end())
+// 	{
+// 		REQUIRE(*own_it == *real_it);
+// 		++own_it;
+// 		++real_it;
+// 	}
 	
-	own.unique(is_near());
-	real.unique(is_near());
+// 	own.unique(is_near());
+// 	real.unique(is_near());
 
-	own_it = own.begin();
-	real_it = real.begin();
-	REQUIRE(own.size() == real.size());
-	REQUIRE(own.empty() == real.empty());
-	REQUIRE(own.front() == real.front());
-	REQUIRE(own.back() == real.back());
+// 	own_it = own.begin();
+// 	real_it = real.begin();
+// 	REQUIRE(own.size() == real.size());
+// 	REQUIRE(own.empty() == real.empty());
+// 	REQUIRE(own.front() == real.front());
+// 	REQUIRE(own.back() == real.back());
 
-	while (own_it != own.end())
-	{
-		REQUIRE(*own_it == *real_it);
-		++own_it;
-		++real_it;
-	}
+// 	while (own_it != own.end())
+// 	{
+// 		REQUIRE(*own_it == *real_it);
+// 		++own_it;
+// 		++real_it;
+// 	}
 	
-}
+// }
 
 TEST_CASE("list-merge version 1", "[list]")
 {

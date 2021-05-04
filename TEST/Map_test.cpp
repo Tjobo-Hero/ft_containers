@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 10:10:11 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/04 13:19:39 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/04 17:06:41 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,11 +189,13 @@ TEST_CASE("map-end function", "[map]")
 	std::map<int, int>	real;
 
 	int sum = 1;
+	int random = 1;
 	for (int i = 0; i < 6; ++i)
 	{
-		own.insert(ft::pair<int, int>(sum, sum));
-		real.insert(std::pair<int, int>(sum, sum));
+		own.insert(ft::pair<int, int>(random, sum));
+		real.insert(std::pair<int, int>(random, sum));
 		sum += 1;
+		random % 2 == 0 ? random += 4 : random *= 2;
 	}
 	
 	REQUIRE(own.size() == real.size());
@@ -208,23 +210,114 @@ TEST_CASE("map-end function", "[map]")
 		++own_it;
 		++real_it;
 	}
+
+	std::map<int, int>::iterator	real_ite = real.end();
+	ft::map<int, int>::iterator		own_ite = own.end();
+	
+	--real_ite;
+	--own_ite;
+	--real_ite;
+	--own_ite;
+	own_it = own.begin();
+	real_it = real.begin();
+	while (real_it != real_ite)
+	{
+		REQUIRE(own_it->first == real_it->first);
+		++own_it;
+		++real_it;
+	}
 }
 
-// TEST_CASE("map-rbegin function", "[map]")
-// {
-	
-// }
+TEST_CASE("map-rbegin function", "[map]")
+{
+	ft::map<int, int>	own;
+	std::map<int, int>	real;
 
-// TEST_CASE("map-rend function", "[map]")
-// {
+	int sum = 1;
+	for (int i = 0; i < 6; ++i)
+	{
+		own.insert(ft::pair<int, int>(sum, sum));
+		real.insert(std::pair<int, int>(sum, sum));
+		sum += 1;
+	}
 	
-// }
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	
+	std::map<int, int>::reverse_iterator	real_it = real.rbegin();
+	ft::map<int, int>::reverse_iterator		own_it = own.rbegin();
+	
+	++real_it;
+	++own_it;
+	REQUIRE(real_it->first == own_it->first);
+	REQUIRE(real_it->second == own_it->second);
+	
+	while (own_it != own.rend())
+	{
+		REQUIRE(own_it->first == real_it->first);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("map-rend function", "[map]")
+{
+	ft::map<int, int>	own;
+	std::map<int, int>	real;
+
+	int sum = 1;
+	int random = 1;
+	for (int i = 0; i < 6; ++i)
+	{
+		own.insert(ft::pair<int, int>(random, sum));
+		real.insert(std::pair<int, int>(random, sum));
+		sum += 1;
+		random % 2 == 0 ? random += 4 : random *= 2;
+	}
+	
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	
+	std::map<int, int>::reverse_iterator	real_it = real.rbegin();
+	ft::map<int, int>::reverse_iterator		own_it = own.rbegin();
+	
+	while (own_it != own.rend())
+	{
+		REQUIRE(own_it->first == real_it->first);
+		++own_it;
+		++real_it;
+	}
+
+	std::map<int, int>::reverse_iterator	real_ite = real.rend();
+	ft::map<int, int>::reverse_iterator		own_ite = own.rend();
+	
+	--real_ite;
+	--own_ite;
+	--real_ite;
+	--own_ite;
+	own_it = own.rbegin();
+	real_it = real.rbegin();
+	while (real_it != real_ite)
+	{
+		REQUIRE(own_it->first == real_it->first);
+		++own_it;
+		++real_it;
+	}
+}
 
 // /*-----------------CAPACITY-----------------*/
-// TEST_CASE("map-empty function", "[map]")
-// {
-	
-// }
+TEST_CASE("map-empty function", "[map]")
+{
+	ft::map<std::string, int>	own;
+	std::map<std::string, int>	real;
+
+	REQUIRE(own.empty() == real.empty());
+
+	own.insert(ft::pair<std::string, int>("test", 1));
+	real.insert(std::pair<std::string, int>("test", 1));
+
+	REQUIRE(own.empty() == real.empty());
+}
 
 // TEST_CASE("map-size function", "[map]")
 // {

@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 08:46:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/04 13:03:50 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/04 16:36:21 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ namespace ft
 	{
 		public:
 
-			mapNode*	left;
-			mapNode*	right;
-			mapNode*	parent;
-			T			data;
+			mapNode*		left;
+			mapNode*		right;
+			mapNode*		parent;
+			T				data;
 		
 		explicit mapNode() : left(NULL), right(NULL), parent(NULL), data() { return; }
 		explicit mapNode(const T &data) : left(NULL), right(NULL), parent(NULL), data(data) { return; }
@@ -41,8 +41,7 @@ namespace ft
 			}
 			return *this;
 		}
-		
-		mapNode*		getNode() { return this->data; }
+
 		mapNode*		getNext()
 		{
 			mapNode* next = this;

@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/04 13:18:01 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/04 16:32:52 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ namespace ft
 			typedef T															mapped_type;
 			typedef Compare														key_compare;
 			typedef Alloc														allocator_type;
-			typedef ft::pair<const key_type, mapped_type>						value_type;
+			typedef ft::pair<const Key, T>										value_type;
 			typedef mapNode<value_type>											Node;
 			typedef T&															reference;
 			typedef const T&													const_reference;
@@ -59,7 +59,7 @@ namespace ft
 		/* Returns a comparison object that can be used to 
 		compare two elements to get whether the key of the 
 		first one goes before the second. */
-		class value_compare
+		class value_compare : std::binary_function<value_type, value_type,bool>
 		{
 			friend class map;
 			protected:
@@ -84,15 +84,6 @@ namespace ft
 		{
 			initialize_firstandlast();
 			return; 
-		}
-
-		void	initialize_firstandlast()
-		{
-			this->_root->left = this->_first;
-			this->_root->right = this->_last;
-
-			this->_first->parent = this->_root;
-			this->_last->parent = this->_root;
 		}
 
 		/* RANGE CONSTRUCTOR--> Constructs a container 
@@ -354,7 +345,6 @@ namespace ft
 				erase(tmp);
 			}
 		}
-		
 
 		/* SWAP--> Exchanges the content of the container 
 		by the content of x, which is another map of 
@@ -560,6 +550,20 @@ namespace ft
 		
 		/* ------------ PRIVATE MEMBER FUNCTIONS ------------ */
 		private:
+		
+		/*
+		*	FUNCTION: initialize_firstandlast will set the pointers from _root
+		*	to _first and _last and will set the pointers from _first and _last
+		*	to _root.
+		*/
+		void	initialize_firstandlast()
+		{
+			this->_root->left = this->_first;
+			this->_root->right = this->_last;
+
+			this->_first->parent = this->_root;
+			this->_last->parent = this->_root;
+		}
 		/*
 		*	FUNCTION: searchNode searches the key_value in the three and returns it
 		*	if it will find the key.
@@ -639,8 +643,6 @@ namespace ft
 		*/
 		void	leftRotation(Node* X)
 		{
-			std::cout << "Left rotation" << std::endl;
-
 			Node*	Y = X->right;
 			
 			// Right X son becomes left Y son
@@ -702,7 +704,6 @@ namespace ft
 		*/
 		void	rightRotation(Node* X)
 		{
-			std::cout << "Right rotation" << std::endl;
 			Node*	Y = X->left;
 			
 			// Left X son becomes right Y son

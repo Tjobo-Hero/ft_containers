@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:35:23 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/04/30 11:42:09 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/04 16:37:56 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ namespace ft
 
 		/* EMPTY CONTAINER CONSTRUCTOR--> Constructs an empty 
 		container, with no elements. */
-		pair() : first(), second() { return; }
+		pair() : first(first_type()), second(second_type()) { return; }
 
 		/* COPY CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */
 		template<class U, class V> 
 		pair (const pair< U, V > &pr) : first(pr.first), second(pr.second) { return; }
 
+		template<class U, class V>
+		pair (pair< U, V > &pr) : first(pr.first), second(pr.second) { return; }
+		
 		pair (const pair &pr) : first(pr.first), second(pr.second) { return; }
 
 		/* INITIALIZATION CONSTRUCTOR--> Constructs a container with a 
@@ -62,7 +65,7 @@ namespace ft
 	};
 
 	template <class T1, class T2>
-	pair<T1,T2> make_pair (T1 x, T2 y)
+	pair<T1, T2> make_pair (T1 x, T2 y)
 	{
 		pair<T1, T2> new_pair;
 
@@ -73,34 +76,32 @@ namespace ft
 	}
 
 	template <class T1, class T2>
-	bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	bool operator== (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
 	{
-		if (lhs.first == rhs.first && lhs.second == rhs.second)
-			return true;
-		else
-			return false;
+		return lhs.first == rhs.first && lhs.second == rhs.second;
 	}
 
 	template <class T1, class T2>
-	bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{ return !(lhs==rhs); }
+	bool operator!= (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
+	{
+		return lhs.first != rhs.first && lhs.second != rhs.second;
+	}
 
 	template <class T1, class T2>
-	bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{ return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second); }
+	bool operator<  (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
+	{
+		return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second); 
+	}
 
 	template <class T1, class T2>
-	bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{ return !(rhs < lhs); }
+	bool operator<= (const pair<T1, T2>& lhs, const pair<T1,T2>& rhs) { return !(rhs < lhs); }
 
 	template <class T1, class T2>
-	bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{ return rhs < lhs; }
+	bool operator>  (const pair<T1, T2>& lhs, const pair<T1,T2>& rhs) { return (rhs < lhs); }
 
 	template <class T1, class T2>
-	bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{ return !(lhs < rhs); }
-    
+	bool operator>= (const pair<T1, T2>& lhs, const pair<T1,T2>& rhs) { return !(lhs < rhs); }
+
 } // end of namespac ft
 
 #endif
