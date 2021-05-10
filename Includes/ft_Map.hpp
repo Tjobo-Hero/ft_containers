@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/10 13:10:29 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/10 13:48:43 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,7 +409,10 @@ namespace ft
 		Two keys are considered equivalent if key_comp 
 		returns false reflexively (i.e., no matter the 
 		order in which the keys are passed as arguments). */
-		// key_compare key_comp() const;
+		key_compare key_comp() const
+		{
+			return this->_compare;
+		}
 
 		/* VALUE_COMP--> Returns a comparison object that 
 		can be used to compare two elements to get whether 

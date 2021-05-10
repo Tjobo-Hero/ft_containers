@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 10:10:11 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/10 13:15:12 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/10 13:59:22 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -869,16 +869,75 @@ TEST_CASE("map-swap function", "[map]")
 	}
 }
 
-// TEST_CASE("map-clear function", "[map]")
-// {
+TEST_CASE("map-clear function", "[map]")
+{
+	std::map<char,int>	real;
+	ft::map<char,int>	own;
+
+
+	own['x'] = 100;
+	own['y'] = 200;
+	own['z'] = 300;
+
+	real['x'] = 100;
+	real['y'] = 200;
+	real['z'] = 300;	
 	
-// }
+	REQUIRE(own.size() == real.size());
+
+	std::map<char, int>::iterator		real_it = real.begin();
+	ft::map<char, int>::iterator		own_it = own.begin();
+	
+	while (own_it != own.end())
+	{
+		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
+		++own_it;
+		++real_it;
+	}
+	
+	own.clear();
+	real.clear();
+	
+	own['a'] = 1101;
+	own['b'] = 2202;
+	
+	real['a'] = 1101;
+	real['b'] = 2202;	
+	
+	REQUIRE(own.size() == real.size());
+
+	real_it = real.begin();
+	own_it = own.begin();
+
+	while (own_it != own.end())
+	{
+		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
+		++own_it;
+		++real_it;
+	}
+}
 
 // /*-----------------OBSERVERS-----------------*/
-// TEST_CASE("map-key_comp function", "[map]")
-// {
-	
-// }
+TEST_CASE("map-key_comp function", "[map]")
+{
+	ft::map<char,int> own;
+	std::map<char,int> real;
+
+
+   
+    ft::map<char,int>::key_compare mycomp = mymap.key_comp(); 
+	std::map<char,int>::key_compare mycomp = mymap.key_comp();
+
+    mymap['a']=100;
+    mymap['b']=200;
+    mymap['c']=300;
+
+    char highest = mymap.rbegin()->first;     // key value of last element
+
+    REQUIRE(mycomp(mymap.begin()->first, highest) == true );
+}
 
 // TEST_CASE("map-value_comp function", "[map]")
 // {
