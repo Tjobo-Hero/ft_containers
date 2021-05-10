@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/04 20:06:41 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/10 13:10:29 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,16 @@ namespace ft
 		A similar member function, map::at, has the same 
 		behavior when an element with the key exists, 
 		but throws an exception when it does not. */
-		// mapped_type& operator[] (const key_type& k);
+		mapped_type& operator[] (const key_type& key_value)
+		{
+			if (searchNode(this->_root, key_value) == NULL)
+			{
+				this->insertNode(this->_root, ft::pair<key_type, mapped_type>(key_value, mapped_type()));
+				this->_size += 1;
+			}
+			return searchNode(this->_root, key_value)->data.second;
+				
+		}
 
 		/* ------------ MODIFIERS ------------ */
 		/* INSERT--> Extends the container 
@@ -268,7 +277,7 @@ namespace ft
 			Node*	return_node;
 			// If position key is higher than val, we need to decrease position 
             // until we find the closest highest key from val in the tree
-			if (position->first > val->first)
+			if (position->first > val.first)
 			{
 				iterator prev(position);
 				--prev;
@@ -280,22 +289,22 @@ namespace ft
 			}
 			// If position key is lower than val, we need to increase position 
             // until we find the closest lowest key from val in the tree
-			else if (position->first < val->first)
+			else if (position->first < val.first)
 			{
 				iterator next(position);
 				++next;
-				while (next != this->end() && next->parent <= val.first)
+				while (next != this->end() && next->first <= val.first)
 				{
 					++position;
 					++next;
 				}
 			}
 			// If the value already exist, and the tree isn't empty
-			if (position != end() && val.first == position.first)
-				return ft::make_pair(iterator(position), false);
-			return_node = insertNode(position, val);
+			if (position != end() && val.first == position->first)
+				return position;
+			return_node = insertNode(position.get_ptr(), val);
 			this->_size += 1;
-			return ft::make_pair(iterator(return_node), true);
+			return iterator(return_node);
 		}
 		
 		/* Range */	
@@ -362,7 +371,13 @@ namespace ft
 		Notice that a non-member function exists with the 
 		same name, swap, overloading that algorithm with 
 		an optimization that behaves like this member function. */
-		// void swap (map& x);
+		void swap (map& x)
+		{
+			map tmp(x);
+			
+			x = *this;
+			*this = tmp;
+		}
 
 		/* CLEAR--> Removes all elements from the map 
 		container (which are destroyed), leaving the 
@@ -421,8 +436,23 @@ namespace ft
 		Another member function, map::count, can be 
 		used to just check whether a particular key 
 		exists. */
-		// iterator find (const key_type& k);
-		// const_iterator find (const key_type& k) const;
+		iterator find (const key_type& key_value)
+		{
+			Node*	return_node = searchNode(this->_root, key_value);
+			if (return_node)
+				return iterator(return_node);
+			else
+				return this->end();
+		}
+		
+		const_iterator find (const key_type& key_value) const
+		{
+			Node*	return_node = searchNode(this->_root, key_value);
+			if (return_node)
+				return const_iterator(return_node);
+			else
+				return this->end();
+		}
 
 		/* COUNT--> Searches the container for elements 
 		with a key equivalent to k and returns the number 
@@ -1074,35 +1104,38 @@ namespace ft
 			return true;
 		}
 
-	
-		
-		void    print_node(std::string root_path) {
-            Node* tmp = _root;
-            std::cout << ".";
-            for (int i = 0; root_path[i]; ++i){
-                if (root_path[i] == 'L'){
-                    if (tmp->left == NULL || tmp->left == this->_first)
-                        return ;
-                    tmp = tmp->left;
-                }
-                if (root_path[i] == 'R'){
-                    if (tmp->right == NULL || tmp->right == this->_last)
-                        return ;
-                    tmp = tmp->right;
-                }
-            }
-            if (tmp->data.first)
-                std::cout << tmp->data.first << std::endl;
-        }
+		void	print_node(std::string root_path)
+		{
+			Node* tmp = _root;
+			std::cout << ".";
+			for (int i = 0; root_path[i]; ++i)
+			{
+				if (root_path[i] == 'L')
+				{
+					if (tmp->left == NULL || tmp->left == this->_first)
+						return ;
+					tmp = tmp->left;
+				}
+				if (root_path[i] == 'R')
+				{
+					if (tmp->right == NULL || tmp->right == this->_last)
+						return ;
+					tmp = tmp->right;
+				}
+			}
+			if (tmp->data.first)
+				std::cout << tmp->data.first << std::endl;
+		}
 
-        void    print_Tree() {
-            std::string root_path;
-            int layer = 0;
-            root_path = "";
-            int starting_tabs = 16;
-            int starting_gap = 16;
-            while (layer < 5)
-            {
+		void	print_Tree() 
+		{
+			std::string root_path;
+			int layer = 0;
+			root_path = "";
+			int starting_tabs = 16;
+			int starting_gap = 16;
+			while (layer < 5)
+			{
                 root_path.clear();
                 int tmp_tabs = starting_tabs;
                 int tmp_gap = starting_gap;

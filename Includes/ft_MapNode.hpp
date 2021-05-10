@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 08:46:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/04 16:36:21 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/10 12:12:54 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,10 @@ namespace ft
             }
 			// std::cout << "TEST" << std::endl;
 			return tmp; // what if !tmp in which case does this exist
+		}
+		mapNode&	getNode()
+		{
+			return *this;
 		}
 		// maybe getters
 
