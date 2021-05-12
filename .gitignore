@@ -43,4 +43,4 @@ ft_containers.dSYM
 ft_containers
 
 # testing directories
-**/play_around
+ft_containers/play_around
