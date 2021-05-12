@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/22 11:03:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/22 16:43:41 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 13:02:59 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,17 @@
 
 TEST_CASE( "RandomAccesIterator-tests", "[RandomAccesIterator]") 
 {
-	ft::vector<std::string> own_vector_string;
-	std::vector<std::string> real_vector_string;
+	ft::vector<std::string>		own_vector_string;
+	std::vector<std::string>	real_vector_string;
 
 	own_vector_string.push_back("my");
-	real_vector_string.push_back("my");
 	own_vector_string.push_back("name");
-	real_vector_string.push_back("name");
 	own_vector_string.push_back("is");
-	real_vector_string.push_back("is");
 	own_vector_string.push_back("Tim");
+	
+	real_vector_string.push_back("my");
+	real_vector_string.push_back("name");
+	real_vector_string.push_back("is");
 	real_vector_string.push_back("Tim");
 
 	ft::vector<std::string>::iterator own_it = own_vector_string.begin();
@@ -49,7 +50,6 @@ TEST_CASE( "RandomAccesIterator-tests", "[RandomAccesIterator]")
 	ft::vector<int>::iterator own_it2 = own_vector_int.begin();
 	ft::vector<int>::iterator own_it2_plus = own_vector_int.begin() + 2;
 	ft::vector<int>::iterator own_ite2 = own_vector_int.end();
-	
 
 	std::vector<int>::iterator real_it2 = real_vector_int.begin();
 	std::vector<int>::iterator real_it2_plus = real_vector_int.begin() +2;
@@ -255,12 +255,13 @@ TEST_CASE( "ConstRandomAccesIterator-tests", "[ConstRandomAccesIterator]")
 	std::vector<std::string> real_vector_string;
 
 	own_vector_string.push_back("my");
-	real_vector_string.push_back("my");
 	own_vector_string.push_back("name");
-	real_vector_string.push_back("name");
 	own_vector_string.push_back("is");
-	real_vector_string.push_back("is");
 	own_vector_string.push_back("Tim");
+	
+	real_vector_string.push_back("my");
+	real_vector_string.push_back("name");
+	real_vector_string.push_back("is");
 	real_vector_string.push_back("Tim");
 
 	ft::vector<std::string>::const_iterator own_it = own_vector_string.begin();
@@ -965,15 +966,15 @@ TEST_CASE( "ConstructorRandomAccesIterator-tests", "[ConstructorRandomAccesItera
 	ft::vector<std::string> own_vector_string;
 	std::vector<std::string> real_vector_string;
 
-	real_vector_string.push_back("my");
-	real_vector_string.push_back("name");
-	real_vector_string.push_back("is");
-	real_vector_string.push_back("Tim");
-
 	own_vector_string.push_back("my");
 	own_vector_string.push_back("name");
 	own_vector_string.push_back("is");
 	own_vector_string.push_back("Tim");
+	
+	real_vector_string.push_back("my");
+	real_vector_string.push_back("name");
+	real_vector_string.push_back("is");
+	real_vector_string.push_back("Tim");
 
 	ft::vector<std::string>::iterator 				own_it = own_vector_string.begin();
 	ft::vector<std::string>::const_iterator 			own_it_const(own_it);

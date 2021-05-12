@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/12 11:58:38 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 13:19:14 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -587,11 +587,37 @@ namespace ft
 		comparison object returns false reflexively 
 		(i.e., no matter the order in which the keys 
 		are passed as arguments). */
-		pair<const_iterator,const_iterator>	equal_range (const key_type& k) const
+		pair<const_iterator,const_iterator>	equal_range (const key_type& key_value) const
 		{
+			const_iterator it = upper_bound(key_value);
 			
+			if (it != this->begin())
+			{
+				--it;
+				if (this->_compare(it->first, key_value) || this->_compare(key_value, it->first))
+					++it;
+			}
+			const_iterator next(it);
+			if (it != this->end())
+				++next;
+			return ft::make_pair<const_iterator, const_iterator(it, next);
 		}
-		// pair<iterator,iterator>				equal_range (const key_type& k);
+		
+		pair<iterator,iterator>				equal_range (const key_type& k)
+		{
+			iterator it = upper_bound(key_value);
+			
+			if (it != this->begin())
+			{
+				--it;
+				if (this->_compare(it->first, key_value) || this->_compare(key_value, it->first))
+					++it;
+			}
+			iterator next(it);
+			if (it != this->end())
+				++next;
+			return ft::make_pair<iterator, iterator(it, next);
+		}
 		
 		/* ------------ ALLOCATOR ------------ */
 		/* GET_ALLOCATOR--> Returns a copy of 

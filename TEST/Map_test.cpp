@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 10:10:11 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/12 11:42:05 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 13:20:01 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1054,13 +1054,16 @@ TEST_CASE("map-count function", "[map]")
 
 	REQUIRE(own.count('a') == real.count('a'));
 	REQUIRE(own.count('b') == real.count('b'));
+	
 	own_it = own.find('b');
 	real_it = real.find('b');
+
 	if (own_it != own.end() && real_it != real.end())
 	{
 		real.erase(real_it);
 		own.erase(own_it);
 	}
+
 	REQUIRE(own.count('b') == real.count('b'));
 	REQUIRE(own.count('z') == real.count('z'));
 
@@ -1150,8 +1153,21 @@ TEST_CASE("map-upper_bound function", "[map]")
 	
 }
 
-// TEST_CASE("map-equal range function", "[map]")
-// {
-	
-// }
+TEST_CASE("map-equal range function", "[map]")
+{
+	std::map<char,int> mymap;
+
+  mymap['a']=10;
+  mymap['b']=20;
+  mymap['c']=30;
+
+  std::pair<std::map<char,int>::iterator,std::map<char,int>::iterator> ret;
+  ret = mymap.equal_range('b');
+
+  std::cout << "lower bound points to: ";
+  std::cout << ret.first->first << " => " << ret.first->second << '\n';
+
+  std::cout << "upper bound points to: ";
+  std::cout << ret.second->first << " => " << ret.second->second << '\n';
+}
 
