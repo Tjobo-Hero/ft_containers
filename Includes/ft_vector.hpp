@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_vector.hpp                                      :+:    :+:            */
+/*   ft_Vector.hpp                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/22 14:36:14 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 12:23:33 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ namespace ft
 			typedef const_random_access_iterator<T>			const_iterator;
 			typedef reverse_random_access_iterator<T>		reverse_iterator;
 			typedef const_reverse_random_access_iterator<T>	const_reverse_iterator;
-        	typedef std::ptrdiff_t                      	difference_type;
-        	typedef size_t                              	size_type;
-        	typedef Alloc                               	allocator_type;
+			typedef std::ptrdiff_t                      	difference_type;
+			typedef size_t                              	size_type;
+			typedef Alloc                               	allocator_type;
 			typedef T                                   	value_type;
-        	typedef T&                                  	reference;
-        	typedef const T&                            	const_reference;
-        	typedef T*                                  	pointer;
-        	typedef const T*                            	const_pointer;
-			
+			typedef T&                                  	reference;
+			typedef const T&                            	const_reference;
+			typedef T*                                  	pointer;
+			typedef const T*                            	const_pointer;
+
 		private:
 
 			T*		_data;
@@ -71,7 +71,7 @@ namespace ft
 					i++;
 				return i;
 			}
-			
+
 		public:
 		 
 		/* ------------ MEMBER FUNCTIONS ------------ */
@@ -112,7 +112,7 @@ namespace ft
 				++first;
 			}
 		}
-		
+
 		/* COPY CONSTRUCTOR--> Constructs a container with a 
 		copy of each of the elements in x, in the same order. */
 		vector(const vector& x) : 
@@ -124,7 +124,7 @@ namespace ft
 			for (size_t i = 0; i < x._size; i++)
 				this->_data[i] = x._data[i];
 		}
-		
+
 		/* DESTRUCTOR--> Vector Destructor */ 
 		~vector()
 		{

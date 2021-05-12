@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/10 13:48:43 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 11:58:38 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,7 +423,10 @@ namespace ft
 		as an alias of pair<const key_type,mapped_type>), 
 		but the mapped_type part of the value is not taken 
 		into consideration in this comparison. */
-		// value_compare value_comp() const;
+		value_compare value_comp() const
+		{
+			return this->_compare;
+		}
 
 		/* ------------ OPERATIONS ------------ */
 		/* FIND--> Searches the container for an 
@@ -469,7 +472,15 @@ namespace ft
 		container's comparison object returns false 
 		reflexively (i.e., no matter the order 
 		in which the keys are passed as arguments). */
-		// size_type count (const key_type& k) const;
+		size_type count (const key_type& key_value) const
+		{
+			Node*	checkifexist = searchNode(this->_root, key_value);
+
+			if (checkifexist)
+				return 1;
+			else
+				return 0;
+		}
 
 		/* LOWER_BOUND--> Returns an iterator pointing 
 		to the first element in the container whose 
@@ -493,8 +504,26 @@ namespace ft
 		lower_bound returns an iterator pointing 
 		to that element, whereas upper_bound returns 
 		an iterator pointing to the next element. */
-		// iterator lower_bound (const key_type& k);
-		// const_iterator lower_bound (const key_type& k) const;
+		iterator lower_bound (const key_type& key_value)
+		{
+			iterator it = this->begin();
+			for (; it != this->end(); it++)
+			{
+				if (!this->_compare(it->first, key_value))
+					break ;
+			}
+			return it;
+		}
+		const_iterator lower_bound (const key_type& key_value) const
+		{
+			const_iterator it = this->begin();
+			for (; it != this->end(); it++)
+			{
+				if (!this->_compare(it->first, key_value))
+					break ;
+			}
+			return it;
+		}
 
 		/* UPPER_BOUND--> Returns an iterator pointing 
 		to the first element in the container whose key 
@@ -517,8 +546,28 @@ namespace ft
 		In this case lower_bound returns an iterator 
 		pointing to that element, whereas upper_bound 
 		returns an iterator pointing to the next element. */
-		// iterator upper_bound (const key_type& k);
-		// const_iterator upper_bound (const key_type& k) const;
+		iterator upper_bound (const key_type& key_value)
+		{
+			iterator it = this->begin();
+			
+			for (; it != this->end(); it++)
+			{
+				if (this->_compare(key_value, it->first))
+					break ;
+			}
+			return it;
+		}		
+		const_iterator upper_bound (const key_type& key_value) const
+		{
+			const_iterator it = this->begin();
+
+			for (; it != this->end(); it++)
+			{
+				if (this->_compare(key_value, it->first))
+					break ;
+			}
+			return it;
+		}
 		
 		/* EQUAL_RANGE--> Returns the bounds of a range 
 		that includes all the elements in the container 
@@ -538,13 +587,19 @@ namespace ft
 		comparison object returns false reflexively 
 		(i.e., no matter the order in which the keys 
 		are passed as arguments). */
-		// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-		// pair<iterator,iterator>             equal_range (const key_type& k);
+		pair<const_iterator,const_iterator>	equal_range (const key_type& k) const
+		{
+			
+		}
+		// pair<iterator,iterator>				equal_range (const key_type& k);
 		
 		/* ------------ ALLOCATOR ------------ */
 		/* GET_ALLOCATOR--> Returns a copy of 
 		the allocator object associated with the map. */
-		// allocator_type get_allocator() const;
+		allocator_type get_allocator() const
+		{
+			return this->_alloc;
+		}
 
 		
 		/*
@@ -604,7 +659,7 @@ namespace ft
 		*	FUNCTION: searchNode searches the key_value in the three and returns it
 		*	if it will find the key.
 		*/
-		Node*					searchNode(Node* root, key_type key_value)
+		Node*					searchNode(Node* root, key_type key_value) const
 		{
 			// Statement if we've reached a max or min node or a leaf node
 			if (root == NULL || root == this->_first || root == this->_last) // hier stond root == this->_lastElement
@@ -924,7 +979,7 @@ namespace ft
 				/* Statement if there is only one Node in the tree
 				*			6 <--Root == delNode 
 				*		   /  \	  
-				*       LE    LE   
+				*       LE     LE   
 				*/						
 				if (delNode->left == this->_first && delNode->right == this->_last)
 				{

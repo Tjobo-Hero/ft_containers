@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 10:10:11 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/10 13:59:22 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 11:42:05 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -925,45 +925,230 @@ TEST_CASE("map-key_comp function", "[map]")
 	ft::map<char,int> own;
 	std::map<char,int> real;
 
+	ft::map<char,int>::key_compare own_compare = own.key_comp(); 
+	std::map<char,int>::key_compare real_compare = real.key_comp();
 
-   
-    ft::map<char,int>::key_compare mycomp = mymap.key_comp(); 
-	std::map<char,int>::key_compare mycomp = mymap.key_comp();
+	own['a'] = 100;
+	own['b'] = 200;
+	own['c'] = 300;
 
-    mymap['a']=100;
-    mymap['b']=200;
-    mymap['c']=300;
+	real['a'] = 100;
+	real['b'] = 200;
+	real['c'] = 300;
+	char highest_own = own.rbegin()->first;     // key value of last element
+	char highest_real = real.rbegin()->first;     // key value of last element	
 
-    char highest = mymap.rbegin()->first;     // key value of last element
-
-    REQUIRE(mycomp(mymap.begin()->first, highest) == true );
+	REQUIRE(own_compare(own.begin()->first, highest_own) == real_compare(real.begin()->first, highest_real) );
 }
 
-// TEST_CASE("map-value_comp function", "[map]")
-// {
-	
-// }
+TEST_CASE("map-value_comp function", "[map]")
+{
+	ft::map<char,int> own;
+	std::map<char,int> real;
+
+	ft::map<char,int>::iterator own_it = own.begin(); 
+	std::map<char,int>::iterator real_it = real.begin();
+
+	own['a'] = 100;
+	own['b'] = 200;
+	own['c'] = 300;
+
+	real['a'] = 100;
+	real['b'] = 200;
+	real['c'] = 300;
+	ft::pair<char, int> highest_own = *own.rbegin();    // key value of last element
+	std::pair<char, int> highest_real = *real.rbegin();     // key value of last element	
+
+	REQUIRE(own.value_comp()(*own_it, highest_own) == real.value_comp()(*real_it, highest_real) );
+}
 
 // /*-----------------OPERATIONS-----------------*/
-// TEST_CASE("map-find function", "[map]")
-// {
-	
-// }
+TEST_CASE("map-find function", "[map]")
+{
+	ft::map<char,int> own;
+	std::map<char,int> real;
 
-// TEST_CASE("map-count function", "[map]")
-// {
+	ft::map<char,int>::iterator own_it;
+	std::map<char,int>::iterator real_it;
 	
-// }
+	own['a'] = 50;
+	own['b'] = 100;
+	own['c'] = 150;
+	own['d'] = 1233;
+	own['e'] = 533;
+	own['f'] = 1876;
+	own['g'] = 1928;
+	own['h'] = 4887;
 
-// TEST_CASE("map-lower_bound function", "[map]")
-// {
+	real['a'] = 50;
+	real['b'] = 100;
+	real['c'] = 150;
+	real['d'] = 1233;
+	real['e'] = 533;
+	real['f'] = 1876;
+	real['g'] = 1928;
+	real['h'] = 4887;
 	
-// }
+	own_it = own.find('b');
+	real_it = real.find('b');
+	if (own_it != own.end() && real_it != real.end())
+	{
+		real.erase(real_it);
+		own.erase(own_it);
+	}
+	own_it = own.find('f');
+	real_it = real.find('f');
 
-// TEST_CASE("map-upper_bound function", "[map]")
-// {
+	own.erase(own_it, own.end());
+	real.erase(real_it, real.end());
+
+	real_it = real.begin();
+	own_it = own.begin();
 	
-// }
+	REQUIRE(own.size() == real.size());
+
+	while (real_it != real.end())
+	{
+		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
+		++own_it;
+		++real_it;
+	}
+}
+
+TEST_CASE("map-count function", "[map]")
+{
+	ft::map<char,int> own;
+	std::map<char,int> real;
+	
+	own['a'] = 50;
+	own['b'] = 100;
+	own['c'] = 150;
+	own['d'] = 1233;
+	own['e'] = 533;
+	own['f'] = 1876;
+	own['g'] = 1928;
+	own['h'] = 4887;
+
+	real['a'] = 50;
+	real['b'] = 100;
+	real['c'] = 150;
+	real['d'] = 1233;
+	real['e'] = 533;
+	real['f'] = 1876;
+	real['g'] = 1928;
+	real['h'] = 4887;
+
+	ft::map<char,int>::iterator own_it = own.begin();
+	std::map<char,int>::iterator real_it = real.begin();
+
+	REQUIRE(own.size() == real.size());
+
+	while (real_it != real.end())
+	{
+		REQUIRE(own_it->first == real_it->first);
+		REQUIRE(own_it->second == real_it->second);
+		++own_it;
+		++real_it;
+	}
+
+	REQUIRE(own.count('a') == real.count('a'));
+	REQUIRE(own.count('b') == real.count('b'));
+	own_it = own.find('b');
+	real_it = real.find('b');
+	if (own_it != own.end() && real_it != real.end())
+	{
+		real.erase(real_it);
+		own.erase(own_it);
+	}
+	REQUIRE(own.count('b') == real.count('b'));
+	REQUIRE(own.count('z') == real.count('z'));
+
+}
+
+TEST_CASE("map-lower_bound function", "[map]")
+{
+	ft::map<char,int> own;
+	std::map<char,int> real;
+	
+	ft::map<char,int>::iterator			own_itlow;
+	ft::map<char,int>::const_iterator	own_itlow_const;
+	std::map<char,int>::iterator		real_itlow;
+	std::map<char,int>::const_iterator	real_itlow_const;
+	
+	own['a'] = 20;
+	own['b'] = 40;
+	own['c'] = 60;
+	own['d'] = 80;
+	own['e'] = 100;
+
+	real['a'] = 20;
+	real['b'] = 40;
+	real['c'] = 60;
+	real['d'] = 80;
+	real['e'] = 100;
+
+	own_itlow = own.lower_bound('b');
+	real_itlow = real.lower_bound('b');
+
+	REQUIRE(own_itlow->first == real_itlow->first);
+	REQUIRE(own_itlow->second == real_itlow->second);
+
+	own_itlow = own.lower_bound('c');
+	real_itlow = real.lower_bound('c');
+
+	REQUIRE(own_itlow->first == real_itlow->first);
+	REQUIRE(own_itlow->second == real_itlow->second);
+
+	own_itlow_const = own.lower_bound('a');
+	real_itlow_const = real.lower_bound('a');
+
+	REQUIRE(own_itlow_const->first == real_itlow_const->first);
+	REQUIRE(own_itlow_const->second == real_itlow_const->second);
+}
+
+TEST_CASE("map-upper_bound function", "[map]")
+{
+
+	ft::map<char,int> own;
+	std::map<char,int> real;
+	
+	ft::map<char,int>::iterator			own_itup;
+	ft::map<char,int>::const_iterator	own_itup_const;
+	std::map<char,int>::iterator		real_itup;
+	std::map<char,int>::const_iterator	real_itup_const;
+	
+	own['a'] = 20;
+	own['b'] = 40;
+	own['c'] = 60;
+	own['d'] = 80;
+	own['e'] = 100;
+
+	real['a'] = 20;
+	real['b'] = 40;
+	real['c'] = 60;
+	real['d'] = 80;
+	real['e'] = 100;
+
+	own_itup = own.upper_bound('b');
+	real_itup = real.upper_bound('b');
+
+	REQUIRE(own_itup->first == real_itup->first);
+	REQUIRE(own_itup->second == real_itup->second);
+
+	own_itup = own.upper_bound('c');
+	real_itup = real.upper_bound('c');
+
+	REQUIRE(own_itup->first == real_itup->first);
+	REQUIRE(own_itup->second == real_itup->second);
+
+	own_itup_const = own.upper_bound('a');
+	real_itup_const = real.upper_bound('a');
+
+	REQUIRE(own_itup_const->first == real_itup_const->first);
+	REQUIRE(own_itup_const->second == real_itup_const->second);
+	
+}
 
 // TEST_CASE("map-equal range function", "[map]")
 // {
