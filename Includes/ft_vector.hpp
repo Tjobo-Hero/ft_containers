@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/12 12:23:33 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 16:21:10 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,6 @@ namespace ft
 			size_t	_capacity;
 			size_t	_size;
 			Alloc	_allocator;
-			
-			void	reallocate(size_t NewCapacity)
-			{
-				if (NewCapacity == 0)
-					NewCapacity = 1;
-				T*	new_data = this->_allocator.allocate(NewCapacity);
-				for (size_t i = 0; i < this->size(); ++i)
-				{
-					this->_allocator.construct(new_data + i, this->_data[i]);
-					this->_allocator.destroy(this->_data + i);
-				}
-				this->_allocator.deallocate(this->_data, this->capacity());
-				this->_data = new_data;
-				this->_capacity = NewCapacity;
-			}
-			
-			template <class InputIterator>
-			size_t	distance(InputIterator first, InputIterator second)
-			{
-				size_t i = 0;
-				for (InputIterator it = first; it != second; ++it)
-					i++;
-				return i;
-			}
 
 		public:
 		 
@@ -349,10 +325,10 @@ namespace ft
 		/* SWAP--> Swap content */
 		void swap (vector& x)
 		{
-			vector<T> tmp(*this);
-
-			*this = x;
-			x = tmp;
+			swap(_allocator, x._allocator);
+			swap(_data, x._data);
+			swap(_size, x._size);
+			swap(_capacity, x._capacity);
 		}
 		
 		/* CLEAR--> Clear content */
@@ -396,6 +372,40 @@ namespace ft
 				return "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size";
 			}
 		};
+	
+	private:
+
+		void	reallocate(size_t NewCapacity)
+			{
+				if (NewCapacity == 0)
+					NewCapacity = 1;
+				T*	new_data = this->_allocator.allocate(NewCapacity);
+				for (size_t i = 0; i < this->size(); ++i)
+				{
+					this->_allocator.construct(new_data + i, this->_data[i]);
+					this->_allocator.destroy(this->_data + i);
+				}
+				this->_allocator.deallocate(this->_data, this->capacity());
+				this->_data = new_data;
+				this->_capacity = NewCapacity;
+			}
+			
+			template <class InputIterator>
+			size_t	distance(InputIterator first, InputIterator second)
+			{
+				size_t i = 0;
+				for (InputIterator it = first; it != second; ++it)
+					i++;
+				return i;
+			}
+
+			template <typename U>
+			void swap(U& a, U& b)
+			{
+				U tmp = a;
+				a = b;
+				b = tmp;
+			}
 
 	}; // end of VECTOR class
 	
@@ -403,9 +413,8 @@ namespace ft
 	template <typename T>
 	void swap(vector<T> &x, vector<T> &y)
 	{
-		vector<T> temp(y);
-		y = x;
-		x = temp;
+		x.swap(y);
+		return;
 	}
 	
 	/* The equality comparison (operator==) is performed by first 

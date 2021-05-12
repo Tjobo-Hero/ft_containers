@@ -6,7 +6,7 @@
 #    By: timvancitters <timvancitters@student.co      +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/03/26 16:27:02 by timvancitte   #+#    #+#                  #
-#    Updated: 2021/05/04 19:53:29 by timvancitte   ########   odam.nl          #
+#    Updated: 2021/05/12 14:52:58 by timvancitte   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,12 @@ NAME			=	ft_containers
 SOURCES			= 	TEST/main.cpp \
 					TEST/catch.cpp \
 					TEST/Map_test.cpp \
-					# TEST/List_test.cpp \
-					# TEST/Queue_test.cpp \
-					# TEST/Stack_test.cpp \
-					# TEST/Vector_test.cpp \
-					# TEST/RandomAccesIterator_test.cpp \
-					# TEST/BiDirectionalIterator_test.cpp \
+					TEST/List_test.cpp \
+					TEST/Queue_test.cpp \
+					TEST/Stack_test.cpp \
+					TEST/Vector_test.cpp \
+					TEST/RandomAccesIterator_test.cpp \
+					TEST/BiDirectionalIterator_test.cpp \
 
 OBJECTS 		=	${SOURCES:%.c=%.o}
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   vector_test.cpp                                    :+:    :+:            */
+/*   Vector_test.cpp                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/29 13:05:30 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/15 12:31:54 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 16:22:47 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -592,8 +592,10 @@ TEST_CASE("vector-swap function", "[vector]")
 {
 	ft::vector<int> 	own(4, 100);
 	ft::vector<int> 	own2(5, 300);
+	ft::vector<int>		own3;
 	std::vector<int> 	real(4, 100);
 	std::vector<int>	real2(5, 300);
+	std::vector<int>	real3;
 	
 	own.swap(own2);
 	real.swap(real2);
@@ -603,6 +605,16 @@ TEST_CASE("vector-swap function", "[vector]")
 	REQUIRE(own[0] == real[0]);
 	REQUIRE(own[1] == real[1]);
 	REQUIRE(own[2] == real[2]);
+
+	ft::swap(own3, own2);
+	std::swap(real3, real2);
+
+	REQUIRE(own3.size() == real3.size());
+	REQUIRE(own3.capacity() == real3.capacity());
+	REQUIRE(own3[0] == real3[0]);
+	REQUIRE(own3[1] == real3[1]);
+	REQUIRE(own3[2] == real3[2]);
+
 }
 
 TEST_CASE("vector-clear function", "[vector]")

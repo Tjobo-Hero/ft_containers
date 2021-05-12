@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 10:10:11 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/12 13:20:01 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 16:42:49 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -835,8 +835,11 @@ TEST_CASE("map-swap function", "[map]")
 {
 	ft::map<char,int> own;
 	ft::map<char,int> own2;
+	ft::map<char,int> own3;
+
 	std::map<char,int> real;
 	std::map<char,int> real2;
+	std::map<char,int> real3;
 
 	own['x']=100;
 	own['y']=200;
@@ -1108,6 +1111,23 @@ TEST_CASE("map-lower_bound function", "[map]")
 
 	REQUIRE(own_itlow_const->first == real_itlow_const->first);
 	REQUIRE(own_itlow_const->second == real_itlow_const->second);
+
+	own.erase('b');
+	real.erase('b');
+
+	own_itlow = own.lower_bound('b');
+	real_itlow = real.lower_bound('b');
+
+
+	REQUIRE(own_itlow->first == real_itlow->first);
+	REQUIRE(own_itlow->second == real_itlow->second);
+
+	own_itlow_const = own.lower_bound('b');
+	real_itlow_const = real.lower_bound('b');
+	
+	REQUIRE(own_itlow_const->first == real_itlow_const->first);
+	REQUIRE(own_itlow_const->second == real_itlow_const->second);
+	
 }
 
 TEST_CASE("map-upper_bound function", "[map]")
@@ -1150,24 +1170,74 @@ TEST_CASE("map-upper_bound function", "[map]")
 
 	REQUIRE(own_itup_const->first == real_itup_const->first);
 	REQUIRE(own_itup_const->second == real_itup_const->second);
+
+	own.erase('d');
+	real.erase('d');
+
+	own_itup = own.upper_bound('c');
+	real_itup = real.upper_bound('c');
+
+	REQUIRE(own_itup->first == real_itup->first);
+	REQUIRE(own_itup->second == real_itup->second);
+
+	own_itup_const = own.upper_bound('c');
+	real_itup_const = real.upper_bound('c');
+
+	REQUIRE(own_itup_const->first == real_itup_const->first);
+	REQUIRE(own_itup_const->second == real_itup_const->second);
 	
 }
 
 TEST_CASE("map-equal range function", "[map]")
 {
-	std::map<char,int> mymap;
+	std::map<char,int>	real;
+	ft::map<char,int>	own;
 
-  mymap['a']=10;
-  mymap['b']=20;
-  mymap['c']=30;
 
-  std::pair<std::map<char,int>::iterator,std::map<char,int>::iterator> ret;
-  ret = mymap.equal_range('b');
+	own['a'] = 20;
+	own['b'] = 40;
+	own['c'] = 60;
+	own['d'] = 80;
+	own['e'] = 100;
 
-  std::cout << "lower bound points to: ";
-  std::cout << ret.first->first << " => " << ret.first->second << '\n';
+	real['a'] = 20;
+	real['b'] = 40;
+	real['c'] = 60;
+	real['d'] = 80;
+	real['e'] = 100;
 
-  std::cout << "upper bound points to: ";
-  std::cout << ret.second->first << " => " << ret.second->second << '\n';
+	std::pair<std::map<char,int>::iterator,std::map<char,int>::iterator>	real_ret;
+	ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator>		own_ret;
+
+	std::pair<std::map<char,int>::iterator,std::map<char,int>::iterator>	real_ret_const;
+	ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator>		own_ret_const;
+
+	own_ret = own.equal_range('b');
+	real_ret = real.equal_range('b');
+
+	REQUIRE(own_ret.first->first == real_ret.first->first);
+	REQUIRE(own_ret.first->second == real_ret.first->second);
+	REQUIRE(own_ret.second->first == real_ret.second->first);
+	REQUIRE(own_ret.second->second == real_ret.second->second);
+
+
+	real_ret_const = real.equal_range('d');
+	own_ret_const = own.equal_range('d');
+
+	REQUIRE(own_ret_const.first->first == real_ret_const.first->first);
+	REQUIRE(own_ret_const.first->second == real_ret_const.first->second);
+	REQUIRE(own_ret_const.second->first == real_ret_const.second->first);
+	REQUIRE(own_ret_const.second->second == real_ret_const.second->second);
+
+	own.erase('b');
+	real.erase('b');
+
+	own_ret = own.equal_range('b');
+	real_ret = real.equal_range('b');
+
+	REQUIRE(own_ret.first->first == real_ret.first->first);
+	REQUIRE(own_ret.first->second == real_ret.first->second);
+	REQUIRE(own_ret.second->first == real_ret.second->first);
+	REQUIRE(own_ret.second->second == real_ret.second->second);
 }
 

@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 13:31:52 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/04 16:52:15 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 16:09:38 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -686,8 +686,10 @@ TEST_CASE("list-swap ", "[list]")
 {
 	ft::list<int>	own;
 	ft::list<int>	own2;
+	ft::list<int>	own3;
 	std::list<int>	real;
 	std::list<int>	real2;
+	std::list<int>	real3;
 	int sum = 10;
 	for (int i = 0; i < 10; ++i)
 	{
@@ -701,6 +703,16 @@ TEST_CASE("list-swap ", "[list]")
 	REQUIRE(own2.empty() == real2.empty());
 	REQUIRE(own2.front() == real2.front());
 	REQUIRE(own2.back() == real2.back());
+
+	ft::swap(own3, own2);
+	std::swap(real3, real2);
+
+	REQUIRE(own3.size() == own3.size());
+	REQUIRE(own3.empty() == own3.empty());
+	REQUIRE(own3.front() == own3.front());
+	REQUIRE(own3.back() == own3.back());
+
+	
 }
 
 TEST_CASE("list-resize", "[list]")
@@ -1104,68 +1116,83 @@ bool same_integral_part (double first, double second)
 { return ( int(first) == int(second) ); }
 
 // a binary predicate implemented as a class:
-struct is_near {
-  bool operator() (double first, double second)
-  { return (fabs(first-second)<5.0); }
+struct is_near
+{
+	bool operator() (double first, double second)
+	{
+		return (fabs(first-second)<5.0);
+	}
 };
 
-// TEST_CASE("list-unique version 2", "[list]")
-// {
-// 	ft::list<double>	own;
-// 	std::list<double>	real;
+TEST_CASE("list-unique version 2", "[list]")
+{
+	ft::list<double>	own;
+	std::list<double>	real;
 
-// 	own.push_back(12.15); real.push_back(12.15);
-// 	own.push_back(2.72); real.push_back(2.72);
-// 	own.push_back(73.0); real.push_back(73.0);
-// 	own.push_back(12.77); real.push_back(12.77);
-// 	own.push_back(3.14); real.push_back(3.14);
-// 	own.push_back(12.77); real.push_back(12.77);
-// 	own.push_back(73.35); real.push_back(73.35);
-// 	own.push_back(72.25); real.push_back(72.25);
-// 	own.push_back(15.3); real.push_back(15.3);
-// 	own.push_back(72.25); real.push_back(72.25);
+	own.push_back(12.15); real.push_back(12.15);
+	own.push_back(2.72); real.push_back(2.72);
+	own.push_back(73.0); real.push_back(73.0);
+	own.push_back(12.77); real.push_back(12.77);
+	own.push_back(3.14); real.push_back(3.14);
+	own.push_back(12.77); real.push_back(12.77);
+	own.push_back(73.35); real.push_back(73.35);
+	own.push_back(72.25); real.push_back(72.25);
+	own.push_back(15.3); real.push_back(15.3);
+	own.push_back(72.25); real.push_back(72.25);
 
-// 	own.sort();
-// 	real.sort();
+	own.sort();
+	real.sort();
 	
-// 	own.unique();
-// 	real.unique();
-	
-// 	own.unique(same_integral_part);
-// 	real.unique(same_integral_part);
-	
-// 	ft::list<double>::iterator		own_it = own.begin();
-// 	std::list<double>::iterator		real_it = real.begin();
-// 	REQUIRE(own.size() == real.size());
-// 	REQUIRE(own.empty() == real.empty());
-// 	REQUIRE(own.front() == real.front());
-// 	REQUIRE(own.back() == real.back());
+	own.unique();
+	real.unique();
 
-// 	while (own_it != own.end())
-// 	{
-// 		REQUIRE(*own_it == *real_it);
-// 		++own_it;
-// 		++real_it;
-// 	}
-	
-// 	own.unique(is_near());
-// 	real.unique(is_near());
+	own.unique(same_integral_part);
+	real.unique(same_integral_part);
 
-// 	own_it = own.begin();
-// 	real_it = real.begin();
-// 	REQUIRE(own.size() == real.size());
-// 	REQUIRE(own.empty() == real.empty());
-// 	REQUIRE(own.front() == real.front());
-// 	REQUIRE(own.back() == real.back());
+	ft::list<double>::iterator		own_it = own.begin();
+	std::list<double>::iterator		real_it = real.begin();
 
-// 	while (own_it != own.end())
-// 	{
-// 		REQUIRE(*own_it == *real_it);
-// 		++own_it;
-// 		++real_it;
-// 	}
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+
+	own.unique(is_near());
+	real.unique(is_near());
+
+	own_it = own.begin();
+	real_it = real.begin();
+
+	while (real_it != real.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
 	
-// }
+	REQUIRE(own.size() == real.size());
+	REQUIRE(own.empty() == real.empty());
+	REQUIRE(own.front() == real.front());
+	REQUIRE(own.back() == real.back());
+
+	own_it = own.begin();
+	real_it = real.begin();
+	
+	while (own_it != own.end())
+	{
+		REQUIRE(*own_it == *real_it);
+		++own_it;
+		++real_it;
+	}
+	
+}
 
 TEST_CASE("list-merge version 1", "[list]")
 {

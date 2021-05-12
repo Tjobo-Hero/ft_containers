@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/21 14:07:32 by tvan-cit      ########   odam.nl         */
+/*   Updated: 2021/05/12 16:18:30 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ namespace ft
 	class list
 	{
 		public:
-			typedef T												value_type;
-			typedef Alloc											allocator_type;
-			typedef T&												reference;
-			typedef const T&										const_reference;
-			typedef T*												pointer;
-			typedef const T*										const_pointer;
-			typedef std::ptrdiff_t									difference_type;
-			typedef size_t											size_type;
-			typedef listNode<T>			 							Node;
-			typedef bidirectional_iterator< T, Node >				iterator;
-			typedef const_bidirectional_iterator< T, Node >			const_iterator;
-			typedef reverse_bidirectional_iterator< T, Node >		reverse_iterator;
-			typedef const_reverse_bidirectional_iterator< T, Node >	const_reverse_iterator;
+			typedef T															value_type;
+			typedef Alloc														allocator_type;
+			typedef T&															reference;
+			typedef const T&													const_reference;
+			typedef T*															pointer;
+			typedef const T*													const_pointer;
+			typedef std::ptrdiff_t												difference_type;
+			typedef size_t														size_type;
+			typedef listNode<value_type>			 							Node;
+			typedef bidirectional_iterator< value_type, Node >					iterator;
+			typedef const_bidirectional_iterator< value_type, Node >			const_iterator;
+			typedef reverse_bidirectional_iterator< value_type, Node >			reverse_iterator;
+			typedef const_reverse_bidirectional_iterator< value_type, Node >	const_reverse_iterator;
 
 		private:
 
@@ -44,43 +44,6 @@ namespace ft
 			Node*		_tail;
 			Alloc		_allocator;
 			size_t		_size;
-
-			void	move(iterator _list, iterator _add)
-			{
-				Node*	add = _add.get_ptr();
-				Node*	list = _list.get_ptr();
-
-				// OUt of contianer (x)
-				add->next->prev = add->prev;
-				add->prev->next = add->next;
-				
-				
-				// IN container (*this)
-				add->prev = list->prev;
-				add->next = list;
-				list->prev->next = add;
-				list->prev = add;
-			}
-
-			void	switchplace(Node* it)
-			{
-				Node*	one = it->prev->prev;
-				Node*	two = it->prev;
-				Node*	three = it;
-				Node*	four = it->next;
-				
-				one->next = three;
-
-				
-				
-				two->next = four;
-				
-				two->prev = three;
-				three->next = two;
-			
-				three->prev = one;
-				four->prev = two;
-			}
 
 		public:
 
@@ -378,20 +341,10 @@ namespace ft
 		same type. Sizes may differ. */
 		void swap (list& x)
 		{
-			Node*	tmp_head = x._head;
-			Node*	tmp_tail = x._tail;
-			size_t	tmp_size = x._size;
-			Alloc	tmp_alloc = x._allocator;
-			
-			x._head = this->_head;
-			x._tail = this->_tail;
-			x._size = this->_size;
-			x._allocator = this->_allocator;
-			
-			this->_head = tmp_head;
-			this->_tail = tmp_tail;
-			this->_size = tmp_size;
-			this->_allocator = tmp_alloc;
+			swap(this->_head, x._head);
+			swap(this->_tail, x._tail);
+			swap(this->_size, x._size);
+			swap(this->_allocator, x._allocator);
 		}
 
 		/* RESIZE--> Resizes the container so that it 
@@ -522,10 +475,13 @@ namespace ft
 		{
 			if (this->size() <= 1)
 				return;
-			for (iterator it = this->begin(); it != this->end(); ++it)
+			iterator it = this->begin();
+			while (it != this->end())
 			{
-				if (*it == it.get_ptr()->next->data)
-					erase(it);
+				if (*it == it.get_ptr()->prev->data)
+					it = erase(it);
+				else
+					++it;
 			}
 		}
 
@@ -535,11 +491,12 @@ namespace ft
 		{
 			if (this->size() <= 1)
 				return;
-			for (iterator it = this->begin(); it != this->end(); ++it)
-			{
+
+			iterator it = this->begin();
+			++it;
+			for (;it != this->end(); ++it)
 				if (binary_pred(*it, it.get_ptr()->prev->data))
 					erase(it);
-			}
 		}
 
 		/* MERGE--> Merges x into the list by transferring all of its 
@@ -668,7 +625,6 @@ namespace ft
 			tmp = this->_head;
 			this->_head = this->_tail;
 			this->_tail = tmp;
-
 		}
 
 		/* ------------ OBSERVERS ------------ */
@@ -678,25 +634,76 @@ namespace ft
 		container. */
 		Alloc get_allocator() const { return this->_allocator; }
 
-		/* PRINT--> tool created by me to print out the 
-		contents of the list. */
-		void print()
-		{
-			iterator first = this->begin();
-			while (first != this->end())
+	private:
+	
+		void	move(iterator _list, iterator _add)
 			{
-				std::cout << " " << *first;
-				++first;
+				Node*	add = _add.get_ptr();
+				Node*	list = _list.get_ptr();
+
+				// OUt of contianer (x)
+				add->next->prev = add->prev;
+				add->prev->next = add->next;
+				
+				
+				// IN container (*this)
+				add->prev = list->prev;
+				add->next = list;
+				list->prev->next = add;
+				list->prev = add;
 			}
-			std::cout << std::endl;
-		}
+
+			void	switchplace(Node* it)
+			{
+				Node*	one = it->prev->prev;
+				Node*	two = it->prev;
+				Node*	three = it;
+				Node*	four = it->next;
+				
+				one->next = three;
+
+				
+				
+				two->next = four;
+				
+				two->prev = three;
+				three->next = two;
+			
+				three->prev = one;
+				four->prev = two;
+			}
+
+			/* PRINT--> tool created by me to print out the 
+			contents of the list. */
+			void print()
+			{
+				iterator first = this->begin();
+				while (first != this->end())
+				{
+					std::cout << " " << *first;
+					++first;
+				}
+				std::cout << std::endl;
+			}
+
+			template <typename U>
+            void swap(U& a, U& b)
+            {
+                U tmp = a;
+                a = b;
+                b = tmp;
+            }
 		
 	}; // end of LIST class
 
 	/* ------------ RELATIONAL OPERATORS ------------ */
 
-	// template <class T, class Alloc>
-  	// void swap (list<T,Alloc>& x, list<T,Alloc>& y);
+	template <class T, class Alloc>
+	void swap(list<T,Alloc>& x, list<T,Alloc>& y)
+	{
+		x.swap(y);
+		return;
+	}
 
 	/* The equality comparison (operator==) is performed 
 	by first comparing sizes, and if they match, the 

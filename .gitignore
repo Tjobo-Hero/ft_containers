@@ -41,3 +41,6 @@ ft_containers.dSYM
 
 # Executable
 ft_containers
+
+# testing directories
+./play_around

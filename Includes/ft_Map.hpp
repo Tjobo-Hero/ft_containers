@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/12 13:19:14 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 16:39:37 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,10 +373,13 @@ namespace ft
 		an optimization that behaves like this member function. */
 		void swap (map& x)
 		{
-			map tmp(x);
-			
-			x = *this;
-			*this = tmp;
+			swap(this->_root, x._root);
+			swap(this->_root, x._root);
+			swap(this->_first, x._first);
+			swap(this->_last, x._last);
+			swap(this->_size, x._size);
+			swap(this->_alloc, x._alloc);
+			swap(this->_compare, x._compare);
 		}
 
 		/* CLEAR--> Removes all elements from the map 
@@ -589,34 +592,38 @@ namespace ft
 		are passed as arguments). */
 		pair<const_iterator,const_iterator>	equal_range (const key_type& key_value) const
 		{
-			const_iterator it = upper_bound(key_value);
+			const_iterator it = lower_bound(key_value);
+			const_iterator it2 = upper_bound(key_value);
+			// const_iterator it = upper_bound(key_value);
 			
-			if (it != this->begin())
-			{
-				--it;
-				if (this->_compare(it->first, key_value) || this->_compare(key_value, it->first))
-					++it;
-			}
-			const_iterator next(it);
-			if (it != this->end())
-				++next;
-			return ft::make_pair<const_iterator, const_iterator(it, next);
+			// if (it != this->begin())
+			// {
+			// 	--it;
+			// 	if (this->_compare(it->first, key_value) || this->_compare(key_value, it->first))
+			// 		++it;
+			// }
+			// const_iterator next(it);
+			// if (it != this->end())
+			// 	++next;
+			return ft::make_pair<const_iterator, const_iterator>(it, it2);
 		}
 		
-		pair<iterator,iterator>				equal_range (const key_type& k)
+		pair<iterator,iterator>				equal_range (const key_type& key_value)
 		{
-			iterator it = upper_bound(key_value);
+			iterator it = lower_bound(key_value);
+			iterator it2 = upper_bound(key_value);
 			
-			if (it != this->begin())
-			{
-				--it;
-				if (this->_compare(it->first, key_value) || this->_compare(key_value, it->first))
-					++it;
-			}
-			iterator next(it);
-			if (it != this->end())
-				++next;
-			return ft::make_pair<iterator, iterator(it, next);
+			
+			// if (it != this->begin())
+			// {
+			// 	--it;
+			// 	if (this->_compare(it->first, key_value) || this->_compare(key_value, it->first))
+			// 		++it;
+			// }
+			// iterator next(it);
+			// if (it != this->end())
+			// 	++next;
+			return ft::make_pair<iterator, iterator>(it, it2);
 		}
 		
 		/* ------------ ALLOCATOR ------------ */
@@ -627,46 +634,19 @@ namespace ft
 			return this->_alloc;
 		}
 
-		
-		/*
-		*	FUNCTION: getRoot returns root
-		*/
-		Node*	getRoot()
-		{
-			return this->_root;
-		}
-
-		void print2DUtil(Node *root, int space) 
-		{ 
-			// Base case 
-			if (root == NULL || !root) 
-				return; 
-			if (root != NULL && root != this->_first && root != this->_last)
-			{
-				// Increase distance between levels 
-				space += COUNT;			
-				// Process right child first 
-				print2DUtil(root->right, space);			
-				// Print current node after space 
-				// count 
-				std::cout << std::endl; 
-				for (int i = COUNT; i < space; i++) 
-					std::cout<<" "; 
-				std::cout << root->data.first <<"\n";			
-				// Process left child 
-				print2DUtil(root->left, space); 
-			}
-		}
-		
-		void print_tree(Node* root)
-		{
-			// std::cout << "-----------------------------------" << std::endl;
-			print2DUtil(root, 0);
-			std::cout << "-----------------------------------" << std::endl;
-		}
-		
 		/* ------------ PRIVATE MEMBER FUNCTIONS ------------ */
 		private:
+		
+		/*
+		*	FUNCTION: swap, swaps two variables. 
+		*/
+		template < typename U >
+		void	swap(U& a, U& b)
+		{
+			U tmp = a;
+			a = b;
+			b = tmp;
+		}
 		
 		/*
 		*	FUNCTION: initialize_firstandlast will set the pointers from _root
@@ -1188,74 +1168,43 @@ namespace ft
 			return true;
 		}
 
-		void	print_node(std::string root_path)
+		/*
+		*	FUNCTION: getRoot returns root
+		*/
+		Node*	getRoot()
 		{
-			Node* tmp = _root;
-			std::cout << ".";
-			for (int i = 0; root_path[i]; ++i)
-			{
-				if (root_path[i] == 'L')
-				{
-					if (tmp->left == NULL || tmp->left == this->_first)
-						return ;
-					tmp = tmp->left;
-				}
-				if (root_path[i] == 'R')
-				{
-					if (tmp->right == NULL || tmp->right == this->_last)
-						return ;
-					tmp = tmp->right;
-				}
-			}
-			if (tmp->data.first)
-				std::cout << tmp->data.first << std::endl;
+			return this->_root;
 		}
 
-		void	print_Tree() 
-		{
-			std::string root_path;
-			int layer = 0;
-			root_path = "";
-			int starting_tabs = 16;
-			int starting_gap = 16;
-			while (layer < 5)
+		void print2DUtil(Node *root, int space) 
+		{ 
+			// Base case 
+			if (root == NULL || !root) 
+				return; 
+			if (root != NULL && root != this->_first && root != this->_last)
 			{
-                root_path.clear();
-                int tmp_tabs = starting_tabs;
-                int tmp_gap = starting_gap;
-                for (int tmp_layer = layer; tmp_layer; --tmp_layer)
-                {
-                    root_path.append("L");
-                    tmp_gap = tmp_gap / 2;
-                    tmp_tabs -= tmp_gap;
-                }
-                while (root_path.find('L') != std::string::npos){
-                    if (root_path.find('R') == std::string::npos)
-                        for (; tmp_tabs; --tmp_tabs)
-                            std::cout << "   ";
-                    else
-                        for (int tmp_gap2 = tmp_gap * 2; tmp_gap2; --tmp_gap2)
-                            std::cout << "   ";
-                    print_node(root_path);
-                    size_t L_found = root_path.find_last_of('L');
-                    root_path[L_found] = 'R';
-                    ++L_found;
-                    for (;L_found != root_path.size(); ++L_found){
-                        root_path[L_found] = 'L';
-                    }
-                }
-                if (root_path.find('R') == std::string::npos)
-                    for (; tmp_tabs; --tmp_tabs)
-                        std::cout << "   ";
-                else
-                    for (int tmp_gap2 = tmp_gap * 2; tmp_gap2; --tmp_gap2)
-                        std::cout << "   ";
-               	print_node(root_path);
-                std::cout << std::endl << std::endl << std::endl;
-                layer++;
-            }
-        }
+				// Increase distance between levels 
+				space += COUNT;			
+				// Process right child first 
+				print2DUtil(root->right, space);			
+				// Print current node after space 
+				// count 
+				std::cout << std::endl; 
+				for (int i = COUNT; i < space; i++) 
+					std::cout<<" "; 
+				std::cout << root->data.first <<"\n";			
+				// Process left child 
+				print2DUtil(root->left, space); 
+			}
+		}
 		
+		void print_tree(Node* root)
+		{
+			// std::cout << "-----------------------------------" << std::endl;
+			print2DUtil(root, 0);
+			std::cout << "-----------------------------------" << std::endl;
+		}
+
 	}; // end of MAP class
 
 } // end of namespace ft

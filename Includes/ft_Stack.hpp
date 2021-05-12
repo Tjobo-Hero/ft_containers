@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/19 15:14:08 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/23 10:43:50 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/12 16:23:35 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ namespace ft
 	class stack
 	{
 		public:
+
 			typedef T				value_type;
 			typedef size_t			size_type;
 			typedef Container		container_type;
