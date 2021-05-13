@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/25 12:11:16 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/13 10:52:49 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/13 11:03:41 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ namespace ft
 			T*		_ptr;
 
 		public:
-		
+
 		/* ------------MEMBER FUNCTIONS------------ */
 		/* CONSTRUCTOR */
 		random_access_iterator() : _ptr(NULL) { return; }
 		explicit random_access_iterator(T* it) : _ptr(it) { return; }
 		random_access_iterator(const random_access_iterator& src) { *this = src; return; }
-		
+
 		/* DESTRUCTOR--> Vector Destructor */ 
 		~random_access_iterator() { return; }
-		
+
 		/* OPERATOR= FUNCTION --> Assign content */ 
 		random_access_iterator&		operator=(const random_access_iterator &obj)
 		{
@@ -52,7 +52,7 @@ namespace ft
 				this->_ptr = obj._ptr;
 			return *this;
 		}
-		
+
 		/* OPERATOR[] FUNCTION --> Returns reference of pointer to the n'th object */ 
 		T&							operator[](const std::ptrdiff_t& n) { return _ptr[n]; }
 		
@@ -81,7 +81,7 @@ namespace ft
 			--(*this);
 			return tmp;
 		}
-		
+
 		/* OPERATOR+ FUNCTION --> pointer + diff */ 
 		random_access_iterator		operator+(const std::ptrdiff_t& n) { return random_access_iterator<T>(_ptr + n); }
 		std::ptrdiff_t				operator+(const random_access_iterator& obj) { return _ptr + obj._ptr; }
@@ -97,7 +97,6 @@ namespace ft
 		random_access_iterator		operator-=(const std::ptrdiff_t& n) { _ptr -= n; return *this; }
 
 		/* ------------ RELATIONAL OPERATORS------------ */
-	
 		bool		operator<(const random_access_iterator &rhs) const { return (this->_ptr < rhs._ptr); }
 		bool		operator<=(const random_access_iterator &rhs) const { return !(this->_ptr < rhs._ptr); }
 		bool		operator>(const random_access_iterator &rhs) { return (this->_ptr > rhs._ptr); }
