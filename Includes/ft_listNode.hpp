@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_listNode.hpp                                    :+:    :+:            */
+/*   ft_ListNode.hpp                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 10:48:34 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/04/09 14:03:14 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/13 10:58:33 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ namespace ft
 		explicit listNode() : prev(NULL), next(NULL), data() { return; }
 		explicit listNode(const T &data) : prev(NULL), next(NULL), data(data) { return; }
 		~listNode() { return; }
-		
+
 		listNode(const listNode &src)
 		{
 			*this = src;
 			return;
 		}
-		
+
 		listNode&	operator=(const listNode &obj)
 		{
 			if (this != obj)
@@ -48,8 +48,9 @@ namespace ft
 		listNode*	getPrevious() { return this->prev; }
 		listNode*	getNext() { return this->next; }
 		T&			getData() { return this->data; }
-		
+
 	};
-	
+
 } // end of namespace ft
+
 #endif

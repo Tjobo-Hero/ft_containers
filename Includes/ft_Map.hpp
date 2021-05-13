@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/12 16:39:37 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/13 11:02:11 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ namespace ft
 			initialize_firstandlast();
 			insert(x.begin(), x.end());
 		}
-		
+
 		/* MAP DESTRUCTOR--> Destroys the container object. */
 		~map()
 		{
@@ -129,7 +129,7 @@ namespace ft
 			}
 			return *this;
 		}
-		
+
 		/* ------------ ITERATORS ------------ */
 		/* BEGIN--> Returns an iterator referring to the first 
 		element in the map container.
@@ -236,7 +236,6 @@ namespace ft
 				this->_size += 1;
 			}
 			return searchNode(this->_root, key_value)->data.second;
-				
 		}
 
 		/* ------------ MODIFIERS ------------ */
@@ -276,7 +275,7 @@ namespace ft
 		{
 			Node*	return_node;
 			// If position key is higher than val, we need to decrease position 
-            // until we find the closest highest key from val in the tree
+			// until we find the closest highest key from val in the tree
 			if (position->first > val.first)
 			{
 				iterator prev(position);
@@ -288,7 +287,7 @@ namespace ft
 				}
 			}
 			// If position key is lower than val, we need to increase position 
-            // until we find the closest lowest key from val in the tree
+			// until we find the closest lowest key from val in the tree
 			else if (position->first < val.first)
 			{
 				iterator next(position);
@@ -323,7 +322,7 @@ namespace ft
 
 		This effectively reduces the container size by 
 		the number of elements removed, which are destroyed. */
-		
+
 		/* Version 1 */
 		void erase (iterator position)
 		{
@@ -453,7 +452,7 @@ namespace ft
 			else
 				return this->end();
 		}
-		
+
 		const_iterator find (const key_type& key_value) const
 		{
 			Node*	return_node = searchNode(this->_root, key_value);
@@ -571,7 +570,7 @@ namespace ft
 			}
 			return it;
 		}
-		
+
 		/* EQUAL_RANGE--> Returns the bounds of a range 
 		that includes all the elements in the container 
 		which have a key equivalent to k.
@@ -594,38 +593,16 @@ namespace ft
 		{
 			const_iterator it = lower_bound(key_value);
 			const_iterator it2 = upper_bound(key_value);
-			// const_iterator it = upper_bound(key_value);
-			
-			// if (it != this->begin())
-			// {
-			// 	--it;
-			// 	if (this->_compare(it->first, key_value) || this->_compare(key_value, it->first))
-			// 		++it;
-			// }
-			// const_iterator next(it);
-			// if (it != this->end())
-			// 	++next;
 			return ft::make_pair<const_iterator, const_iterator>(it, it2);
 		}
-		
+
 		pair<iterator,iterator>				equal_range (const key_type& key_value)
 		{
 			iterator it = lower_bound(key_value);
 			iterator it2 = upper_bound(key_value);
-			
-			
-			// if (it != this->begin())
-			// {
-			// 	--it;
-			// 	if (this->_compare(it->first, key_value) || this->_compare(key_value, it->first))
-			// 		++it;
-			// }
-			// iterator next(it);
-			// if (it != this->end())
-			// 	++next;
 			return ft::make_pair<iterator, iterator>(it, it2);
 		}
-		
+
 		/* ------------ ALLOCATOR ------------ */
 		/* GET_ALLOCATOR--> Returns a copy of 
 		the allocator object associated with the map. */
@@ -636,7 +613,7 @@ namespace ft
 
 		/* ------------ PRIVATE MEMBER FUNCTIONS ------------ */
 		private:
-		
+
 		/*
 		*	FUNCTION: swap, swaps two variables. 
 		*/
@@ -647,7 +624,7 @@ namespace ft
 			a = b;
 			b = tmp;
 		}
-		
+
 		/*
 		*	FUNCTION: initialize_firstandlast will set the pointers from _root
 		*	to _first and _last and will set the pointers from _first and _last
@@ -665,7 +642,7 @@ namespace ft
 		*	FUNCTION: searchNode searches the key_value in the three and returns it
 		*	if it will find the key.
 		*/
-		Node*					searchNode(Node* root, key_type key_value) const
+		Node*	searchNode(Node* root, key_type key_value) const
 		{
 			// Statement if we've reached a max or min node or a leaf node
 			if (root == NULL || root == this->_first || root == this->_last) // hier stond root == this->_lastElement
@@ -674,8 +651,6 @@ namespace ft
 			// Statement if the key_value are equal the key_value already exist in the tree
 			if (root->data.first == key_value) 
 				return root;
-			// if (value_compare(root->data.first, key_value) == true && value_compare(key_value, root->data.first) == true)
-			// 	return root;
 
 			// Recursive loop that will go trough the whole tree
 			if (root->data.first > key_value && root->left && root->left != this->_first)
@@ -686,7 +661,7 @@ namespace ft
 		
 		}
 
-		int					calheight(Node *root, int height)
+		int	calheight(Node *root, int height)
 		{
 			// Reached NULL
 			if (root == NULL || root == this->_last || root == this->_first) // hier stond root == this->_lastElement
@@ -704,13 +679,13 @@ namespace ft
 		/*
 		*	FUNCTION: balanceSubtrees Compares the heights of the left and right subtrees
 		*/
-		int		balanceSubtrees(Node* node)
+		int	balanceSubtrees(Node* node)
 		{
 			if (node == NULL)
 				return 0;
 			return calheight(node->left, 1) - calheight(node->right, 1);
 		}
-		
+
 		/*
 		*	FUNCTION: leftRotation Rotates the subtree to the left. It will move node Y up and X
 		*	down as shown below:
@@ -802,7 +777,7 @@ namespace ft
 		void	rightRotation(Node* X)
 		{
 			Node*	Y = X->left;
-			
+
 			// Left X son becomes right Y son
 			X->left = Y->right;
 
@@ -823,7 +798,7 @@ namespace ft
 				X->parent->left = Y;
 			else if (X->parent)
 				X->parent->right = Y;
-			
+
 			// Parent of X is now Y
 			X->parent = Y;
 
@@ -831,14 +806,14 @@ namespace ft
 			if (Y->parent == NULL)
 				this->_root = Y;
 		}
-		
+
 		/*
 		*	FUNCTION: balance_tree Starts from a node in the Tree. And will check
 		*	for this node and all the parent's node until the root if their balance (so the height)
 		*	is correct. If not a rotation (left or right) around the node will take place and will put
 		*	the Tree back in balance.
 		*/
-		void					balance_tree(Node *node)
+		void	balance_tree(Node *node)
 		{
 			while(node)
 			{
@@ -871,7 +846,7 @@ namespace ft
 		*	FUNCTION: insertNode inserts a Node in the tree. After that
 		*	balances the tree if necessary.
 		*/
-		Node*					insertNode(Node* move, const value_type &val)
+		Node*	insertNode(Node* move, const value_type &val)
 		{
 			// Statement for the first node of the tree
 			if (size() == 0)
@@ -879,28 +854,24 @@ namespace ft
 				delete this->_root;
 				this->_root = new Node(val);
 				initialize_firstandlast();
-				// _root->left = this->_lastElement;
-				// _root->right = this->_lastElement;
-				// this->_lastElement->left = this->_root;
-				// this->_lastElement->right = this->_root;
 				return this->_root;
 			}
-			
+
 			// Statement to check if the key already exists
 			if (move->data.first == val.first)
-					return 0;					// does this generate a good iterator in insert? And necessary because we check befor in insert 
-												// function with searchNode
+				return 0;
+
 			// Recursive loop that finds the position of the key_value in the tree
 			// either as a new leaf node or lastElement
 			if (move->data.first > val.first && move->left && move->left != this->_first)
 				return insertNode(move->left, val);
 			else if (move->data.first < val.first && move->right && move->right != this->_last)
 				return insertNode(move->right, val);
-			
+
 			// When we arrive here the move pointer is at the position where we have to insert
 			// the new node
 			Node* new_node = new Node(val);
-			
+
 			// Check if the place where we insert is a leaf node
 			// Left leaf node
 			if (move->data.first > new_node->data.first && !move->left)
@@ -936,12 +907,12 @@ namespace ft
 			balance_tree(new_node);
 			return new_node;
 		}
-		
+
 		/*
 		*	FUNCTION: getMinNode returns node on the far most left side of the tree
 		*	the lowest Key_value in the tree
 		*/
-		Node*		getMinNode(Node* root) const
+		Node*	getMinNode(Node* root) const
 		{
 			if (root->left && root->left != this->_first)
 				getMinNode(root->left);
@@ -952,7 +923,7 @@ namespace ft
 		*	FUNCTION: getMinNode returns node on the far most right side of the tree
 		*	the highest Key_value in the tree
 		*/
-		Node*		getMaxNode(Node* root) const
+		Node*	getMaxNode(Node* root) const
 		{
 			if (root->right && root->right != this->_last)
 				getMaxNode(root->right);
@@ -974,11 +945,11 @@ namespace ft
 
 			// The Node to delete, looking from deletePosition until we match a key_value;
 			Node* delNode = searchNode(deletePosition, key_value);
-			
+
 			// If no Node with the key_value is found there is nothing to delete
 			if (delNode == NULL)
 				return false;
-			
+
 			// The case were ROOT has to be deleted
 			if (delNode->parent == NULL)
 			{
@@ -1197,7 +1168,7 @@ namespace ft
 				print2DUtil(root->left, space); 
 			}
 		}
-		
+
 		void print_tree(Node* root)
 		{
 			// std::cout << "-----------------------------------" << std::endl;

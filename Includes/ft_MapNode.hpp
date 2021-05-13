@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 08:46:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/10 12:12:54 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/13 10:51:18 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ namespace ft
 			mapNode*		right;
 			mapNode*		parent;
 			T				data;
-		
+
 		explicit mapNode() : left(NULL), right(NULL), parent(NULL), data() { return; }
 		explicit mapNode(const T &data) : left(NULL), right(NULL), parent(NULL), data(data) { return; }
 		~mapNode() { return; }
 		mapNode(const mapNode &src) : left(src.left), right(src.right), parent(src.parent), data(src.data) { return *this; }
-		
+
 		mapNode&		operator=(const mapNode &obj)
 		{
 			if (this != &obj)
@@ -49,31 +49,22 @@ namespace ft
 			if (next->right)
 			{
 				next = next->right;
-				// std::cout << "Data: " << next->data.first << std::endl;
-				// if (next->data.first == 6)
-				// {
-					// std::cout << "LE " << next->right->data.first << std::endl;
-				// }
 				while (next->left)
-				{
 					next = next->left;
-					// std::cout << "TEST3" << std::endl;
-				}
 				return next;	
 			}
 			while (tmp && next == tmp->right)
 			{
 				tmp = tmp->parent;
 				next = next->parent;
-				// std::cout << "TEST5" << std::endl;
 			}
-			if (!tmp) {
-                while (next->left != NULL)
-                    next = next->left;
-                tmp = next->left;
-            }
-			// std::cout << "TEST" << std::endl;
-			return tmp; // what if !tmp in which case does this exist
+			if (!tmp) 
+			{
+				while (next->left != NULL)
+					next = next->left;
+				tmp = next->left;
+			}
+			return tmp;
 		}
 		mapNode*		getPrevious()
 		{
@@ -82,38 +73,28 @@ namespace ft
 			if (next->left)
 			{
 				next = next->left;
-				// std::cout << "Data: " << next->data.first << std::endl;
-				// if (next->data.first == 6)
-				// {
-					// std::cout << "LE " << next->right->data.first << std::endl;
-				// }
 				while (next->right)
-				{
 					next = next->right;
-					// std::cout << "TEST3" << std::endl;
-				}
 				return next;	
 			}
 			while (tmp && next == tmp->left)
 			{
 				tmp = tmp->parent;
 				next = next->parent;
-				// std::cout << "TEST5" << std::endl;
 			}
 			if (!tmp) {
-                while (next->right != NULL)
-                    next = next->right;
-                tmp = next->right;
-            }
-			// std::cout << "TEST" << std::endl;
-			return tmp; // what if !tmp in which case does this exist
+				while (next->right != NULL)
+					next = next->right;
+				tmp = next->right;
+			}
+			return tmp;
 		}
 		mapNode&	getNode()
 		{
 			return *this;
 		}
-		// maybe getters
-
 	}; // end op MAPNODE class
+
 } // end of namespace ft
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/09 09:33:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/12 16:18:30 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/13 10:47:17 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -491,7 +491,6 @@ namespace ft
 		{
 			if (this->size() <= 1)
 				return;
-
 			iterator it = this->begin();
 			++it;
 			for (;it != this->end(); ++it)

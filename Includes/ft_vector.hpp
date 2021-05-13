@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/23 14:57:13 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/12 16:21:10 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/13 10:55:10 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,12 @@ namespace ft
 		const_iterator end() const { return const_iterator(&_data[_size]); }
 		
 		/* RBEGIN--> rbegin points to the element right before the one that would be pointed to by member end. */
-		reverse_iterator rbegin() { return reverse_iterator(&_data[_size - 1]); }										// Checken of het geen reference moet zijn
-		const_reverse_iterator rbegin() const {return const_reverse_iterator(&_data[_size - 1]); }						// Checken of het geen reference moet zijn
+		reverse_iterator rbegin() { return reverse_iterator(&_data[_size - 1]); }
+		const_reverse_iterator rbegin() const {return const_reverse_iterator(&_data[_size - 1]); }
 		
 		/* REND--> Returns a reverse iterator pointing to the theoretical element preceding the first element in the vector */ 
-		reverse_iterator rend() { return reverse_iterator(_data - 1); } 												// Checken of dit goed is 
-		const_reverse_iterator rend() const { return const_reverse_iterator(_data - 1); }								// Checken of dit goed is 
+		reverse_iterator rend() { return reverse_iterator(_data - 1); }
+		const_reverse_iterator rend() const { return const_reverse_iterator(_data - 1); }
 		
 		/* ------------ CAPACITY ------------ */
 		
@@ -321,7 +321,7 @@ namespace ft
 				this->push_back(*it);
 			return first;	
 		}
-		
+
 		/* SWAP--> Swap content */
 		void swap (vector& x)
 		{
@@ -330,7 +330,7 @@ namespace ft
 			swap(_size, x._size);
 			swap(_capacity, x._capacity);
 		}
-		
+
 		/* CLEAR--> Clear content */
 		void clear()
 		{
@@ -364,7 +364,7 @@ namespace ft
 				return "vector";
 			}
 		};
-		
+
 		class length_error : public std::exception
 		{
 			virtual const char*	what() const throw() 
@@ -372,7 +372,7 @@ namespace ft
 				return "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size";
 			}
 		};
-	
+
 	private:
 
 		void	reallocate(size_t NewCapacity)
@@ -438,7 +438,7 @@ namespace ft
 		}
 		return true;
 	}
-	
+
 	// a != b <<>>  !(a == b)
 	template <class T, class Alloc>
 	bool operator!= (const vector<T,Alloc>& a, const vector<T,Alloc>& b)
@@ -455,7 +455,7 @@ namespace ft
 	{
 		return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
-	
+
 	// a <= b <<>>  !(b < a)
 	template <class T, class Alloc>
 	bool operator<= (const vector<T,Alloc>& a, const vector<T,Alloc>& b)
@@ -476,7 +476,7 @@ namespace ft
 	{
 		return !(a < b);
 	}
-	
+
 } // end of namespace ft
 
 #endif

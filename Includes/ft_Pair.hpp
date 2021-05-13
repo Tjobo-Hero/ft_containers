@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:35:23 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/04 16:37:56 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/13 10:52:03 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,22 @@ namespace ft
 	}
 
 	template <class T1, class T2>
-	bool operator<= (const pair<T1, T2>& lhs, const pair<T1,T2>& rhs) { return !(rhs < lhs); }
+	bool operator<= (const pair<T1, T2>& lhs, const pair<T1,T2>& rhs) 
+	{ 
+		return !(rhs < lhs); 
+	}
 
 	template <class T1, class T2>
-	bool operator>  (const pair<T1, T2>& lhs, const pair<T1,T2>& rhs) { return (rhs < lhs); }
+	bool operator>  (const pair<T1, T2>& lhs, const pair<T1,T2>& rhs) 
+	{ 
+		return (rhs < lhs); 
+	}
 
 	template <class T1, class T2>
-	bool operator>= (const pair<T1, T2>& lhs, const pair<T1,T2>& rhs) { return !(lhs < rhs); }
+	bool operator>= (const pair<T1, T2>& lhs, const pair<T1,T2>& rhs) 
+	{ 
+		return !(lhs < rhs); 
+	}
 
 } // end of namespac ft
 

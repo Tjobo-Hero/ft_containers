@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/19 15:14:08 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/12 16:23:35 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/13 10:56:18 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ namespace ft
 			typedef T				value_type;
 			typedef size_t			size_type;
 			typedef Container		container_type;
-		
+
 		private:
-			
+
 			Container	_container;
 
 		public:
@@ -90,20 +90,22 @@ namespace ft
 		
 		template <class value_type2, class ctnr2>
 		friend bool operator<(const stack<value_type2, ctnr2>& lhs, const stack<value_type2, ctnr2>& rhs);
-	
+
 	}; // end of STACK class
+
 	/* ------------ NON-MEMBER FUNCTION OVERLOADS ------------ */
 	template <class value_type, class ctnr>
 	bool operator==(const stack<value_type, ctnr>& lhs, const stack<value_type, ctnr>& rhs)
 	{
 		return (lhs._container == rhs._container);
 	}
-	
+
 	template <class value_type, class ctnr>
 	bool operator<(const stack<value_type, ctnr>& lhs, const stack<value_type, ctnr>& rhs)
 	{
 		return (lhs._container < rhs._container);
 	}
+
 	template <class value_type, class ctnr>
 	bool operator!=(const stack<value_type, ctnr>& lhs, const stack<value_type, ctnr>& rhs)
 	{
@@ -115,18 +117,19 @@ namespace ft
 	{
 		return !(rhs < lhs);
 	}
-	
+
 	template <class value_type, class ctnr>
 	bool operator>(const stack<value_type, ctnr>& lhs, const stack<value_type, ctnr>& rhs)
 	{
 		return (rhs < lhs);
 	}
-	
+
 	template <class value_type, class ctnr>
 	bool operator>=(const stack<value_type, ctnr>& lhs, const stack<value_type, ctnr>& rhs)
 	{
 		return !(lhs < rhs);
 	}
+
 } // end of namespace ft
 
 #endif
