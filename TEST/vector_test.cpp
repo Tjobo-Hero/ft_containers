@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/29 13:05:30 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/12 16:22:47 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/14 12:39:00 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ TEST_CASE("vector-iterator instanciation", "[vector]")
 	}
 	own.pop_back();
 	real.pop_back();
+
 	ft::vector<int> 	own3(own.begin() + 1, own.end());
 	std::vector<int>	real3(real.begin() + 1, real.end());
+	
 	REQUIRE(own3.size() == real3.size());
 	REQUIRE(own3.capacity() == real3.capacity());
 	REQUIRE(own3[0] == real3[0]);
@@ -471,10 +473,10 @@ TEST_CASE("vector-assign function with n and val", "[vector]")
 
 TEST_CASE("vector-push_back function", "[vector]")
 {
-	int sum = 10;
 	ft::vector<int>		own;
 	std::vector<int>	real;
 	
+	int sum = 10;
 	for(int i = 0; i < 4; ++i)
 	{	
 		own.push_back(sum);

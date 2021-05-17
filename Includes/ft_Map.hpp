@@ -6,7 +6,7 @@
 /*   By: tvan-cit <tvan-cit@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/21 14:06:12 by tvan-cit      #+#    #+#                 */
-/*   Updated: 2021/05/13 11:02:11 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/17 13:22:02 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -645,7 +645,7 @@ namespace ft
 		Node*	searchNode(Node* root, key_type key_value) const
 		{
 			// Statement if we've reached a max or min node or a leaf node
-			if (root == NULL || root == this->_first || root == this->_last) // hier stond root == this->_lastElement
+			if (root == NULL || root == this->_first || root == this->_last)
 				return 0;
 
 			// Statement if the key_value are equal the key_value already exist in the tree
@@ -664,7 +664,7 @@ namespace ft
 		int	calheight(Node *root, int height)
 		{
 			// Reached NULL
-			if (root == NULL || root == this->_last || root == this->_first) // hier stond root == this->_lastElement
+			if (root == NULL || root == this->_last || root == this->_first)
 				return height -1;
 			
 			// Goint trough the left side of the node and after that the right side
@@ -903,8 +903,8 @@ namespace ft
 				new_node->parent = move;
 			}
 			// Balance the tree from the new_node back to the root node
-			
 			balance_tree(new_node);
+
 			return new_node;
 		}
 
@@ -965,9 +965,6 @@ namespace ft
 					
 					_alloc.destroy(&delNode->data);
 					this->_root = NULL;
-					// this->_root = this->_lastElement;
-					// this->_lastElement->left = this->_lastElement;
-					// this->_lastElement->right = this->_lastElement;
 				}
 
 				/* Statement with only one son on the left						

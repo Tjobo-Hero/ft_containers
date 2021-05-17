@@ -6,7 +6,7 @@
 /*   By: timvancitters <timvancitters@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/23 08:46:00 by timvancitte   #+#    #+#                 */
-/*   Updated: 2021/05/13 10:51:18 by timvancitte   ########   odam.nl         */
+/*   Updated: 2021/05/13 13:40:27 by timvancitte   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ namespace ft
 		{
 			return *this;
 		}
+
 	}; // end op MAPNODE class
 
 } // end of namespace ft
